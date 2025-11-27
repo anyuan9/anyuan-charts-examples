@@ -37,7 +37,7 @@ const extensions = [
   oneDark
 ];
 
-const { copy, copied, isSupported } = useClipboard();
+const { copy, isSupported } = useClipboard();
 async function handleCopy(e) {
   if (e) {
     e.stopPropagation();
@@ -64,11 +64,10 @@ onMounted(async () => {
 
   try {
     previewState.status = "loading";
-
-    // 动态加载组件
-    dynamicComponent.value = defineAsyncComponent(() =>
-      import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue`)
-    );
+    const modules = import.meta.glob("./**/index.vue");
+    const compPath = String(pathQuery.value.component).replace(/^\//, "");
+    const key = `./${compPath}/index.vue`;
+    dynamicComponent.value = defineAsyncComponent(() => modules[key] ? modules[key]() : Promise.reject(new Error("not found")));
     previewState.status = "success";
   } catch (err) {
     previewState.status = "error";
@@ -77,12 +76,14 @@ onMounted(async () => {
 
   try {
     sourceState.state = "loading";
-    // 获取源代码: 使用Vite的raw导入 (推荐)
-    const module = await import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue?raw`);
-    sourceState.code = module.default;
+    const rawModules = import.meta.glob("./**/index.vue", { as: "raw" });
+    const compPath = String(pathQuery.value.component).replace(/^\//, "");
+    const key = `./${compPath}/index.vue`;
+    const raw = rawModules[key] ? await rawModules[key]() : "";
+    sourceState.code = raw || "";
 
     sourceState.state = "success";
-  } catch (error) {
+  } catch (err) {
     sourceState.state = "error";
     sourceState.error = `源代码加载失败: ${err.message}`;
   }

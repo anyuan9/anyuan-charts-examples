@@ -1,0 +1,135 @@
+import { API_BASE_URL, CSRF_HEADER, CSRF_TOKEN } from "@@/constants";
+import axios from "axios";
+import { get, merge } from "lodash-es";
+
+/** 创建请求实例 */
+function createInstance() {
+  // 创建一个 axios 实例命名为 instance
+  const instance = axios.create();
+  // 请求拦截器
+  instance.interceptors.request.use(
+    // 发送之前
+    (config) => config,
+    // 发送失败
+    (error) => Promise.reject(error),
+  );
+  // 响应拦截器（可根据具体业务作出相应的调整）
+  instance.interceptors.response.use(
+    (response) => {
+      // 请求多语言的json文件以及导出excel文件不做处理
+      if (response.config?.url?.includes("json")) {
+        return response;
+      }
+
+      // 二进制数据则直接返回
+      const responseType = response.request?.responseType;
+      if (responseType === "blob" || responseType === "arraybuffer")
+        return response;
+
+      // 根据响应数据判断是否登录过期
+      if (response.data.errorCode === "pleaseRefreshByHeader") {
+        let refreshUrl = response.headers["refresh-url"].split("?")[0];
+        refreshUrl = `${refreshUrl}?service=${location.protocol}//${location.host}${location.pathname}${encodeURIComponent(location.search)}`;
+        location.href = refreshUrl;
+      }
+
+      // 对错误进行统一处理
+      const code = response.data.code;
+      // 如果没有 code, 代表这不是项目后端开发的 api
+      if (code === undefined) {
+        ElMessage.error("非本系统的接口");
+        return Promise.reject(new Error("非本系统的接口"));
+      }
+
+      switch (code) {
+        case "0":
+        case 0:
+          // 没有业务错误，0或'0' 表示成功，其他表示失败
+          return response.data;
+        default:
+          // 不是正确的 code
+          ElMessage.error(response.data.message || "Error");
+          return Promise.reject(response);
+      }
+    },
+    (error) => {
+      // status 是 HTTP 状态码
+      const status = get(error, "response.status");
+      const message = get(error, "response.data.message");
+      switch (status) {
+        case 400:
+          error.message = "请求错误";
+          break;
+        case 401:
+          // Token 过期时
+          error.message = message || "未授权";
+          break;
+        case 403:
+          error.message = message || "拒绝访问";
+          break;
+        case 404:
+          error.message = "请求地址出错";
+          break;
+        case 408:
+          error.message = "请求超时";
+          break;
+        case 500:
+          error.message = "服务器内部错误";
+          break;
+        case 501:
+          error.message = "服务未实现";
+          break;
+        case 502:
+          error.message = "网关错误";
+          break;
+        case 503:
+          error.message = "服务不可用";
+          break;
+        case 504:
+          error.message = "网关超时";
+          break;
+        case 505:
+          error.message = "HTTP 版本不受支持";
+          break;
+      }
+      if (error.message.includes("timeout")) {
+        error.message = "请求超时，请重试！";
+      }
+      ElMessage.error(error.message);
+      return Promise.reject(error);
+    },
+  );
+  return instance;
+}
+
+/** 创建请求方法 */
+function createRequest(instance) {
+  return (config) => {
+    // 默认配置
+    const defaultConfig = {
+      // 接口地址
+      baseURL: API_BASE_URL,
+      // 请求头
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json",
+        [CSRF_HEADER]: CSRF_TOKEN,
+      },
+      // 请求体
+      data: {},
+      // 请求超时
+      timeout: 30 * 1000,
+      // 跨域请求时是否携带 Cookies
+      withCredentials: true,
+    };
+    // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
+    const mergeConfig = merge(defaultConfig, config);
+    return instance(mergeConfig);
+  };
+}
+
+/** 用于请求的实例 */
+const instance = createInstance();
+
+/** 用于请求的方法 */
+export const request = createRequest(instance);

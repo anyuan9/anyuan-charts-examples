@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -28,10 +28,10 @@ function getOption(data) {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框(基础版)
     // tooltip: {
@@ -100,7 +100,7 @@ function getOption(data) {
           formatter: (params) => {
             const { axisIndex, axisDimension, value, seriesData } = params;
             return `${value}`;
-          },
+          }
         },
         // 直线指示器的样式。axisPointer.type 为 'line' 时有效
         lineStyle: {
@@ -116,18 +116,18 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(255, 255, 255, 0)", // 0% 处的颜色
+                color: "rgba(255, 255, 255, 0)" // 0% 处的颜色
               },
               {
                 offset: 0.5,
-                color: "rgba(255, 255, 255, 0.4)", // 50% 处的颜色
+                color: "rgba(255, 255, 255, 0.4)" // 50% 处的颜色
               },
               {
                 offset: 1,
-                color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
-              },
+                color: "rgba(255, 255, 255, 0)" // 100% 处的颜色
+              }
             ],
-            global: false,
+            global: false
           },
           width: 1, // 指示器线宽，默认为1。
           type: "solid",
@@ -138,7 +138,7 @@ function getOption(data) {
           // shadowColor: "#aaa",
           // shadowOffsetX: 0,
           // shadowOffsetY: 0,
-          opacity: 1, // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
+          opacity: 1 // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
         },
         // 阴影指示器的样式。axisPointer.type 为 'shadow' 时有效
         shadowStyle: {
@@ -162,18 +162,18 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(255, 255, 255, 0)", // 0% 处的颜色
+                color: "rgba(255, 255, 255, 0)" // 0% 处的颜色
               },
               {
                 offset: 0.5,
-                color: "rgba(255, 255, 255, 0.4)", // 50% 处的颜色
+                color: "rgba(255, 255, 255, 0.4)" // 50% 处的颜色
               },
               {
                 offset: 1,
-                color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
-              },
+                color: "rgba(255, 255, 255, 0)" // 100% 处的颜色
+              }
             ],
-            global: false,
+            global: false
           },
           width: 1, // 指示器线宽，默认为1。
           type: "solid",
@@ -184,9 +184,9 @@ function getOption(data) {
           // shadowColor: "#aaa",
           // shadowOffsetX: 0,
           // shadowOffsetY: 0,
-          opacity: 1, // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
+          opacity: 1 // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
         },
-        animation: true,
+        animation: true
       },
       // 提示框浮层的文本样式
       textStyle: {
@@ -205,12 +205,12 @@ function getOption(data) {
         textShadowBlur: 3, // 文字的阴影模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果。
         textShadowColor: "#aaa", // 文字的阴影颜色
         textShadowOffsetX: 0, // 文字的阴影水平方向上的偏移距离
-        textShadowOffsetY: 0, // 文字的阴影垂直方向上的偏移距离
+        textShadowOffsetY: 0 // 文字的阴影垂直方向上的偏移距离
       },
       trigger: "axis", // 触发类型，可取值：'item'：数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。'axis'：坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。'none'：不触发
       // tooltip 中数值显示部分的格式化回调函数。仅格式化数值部分（如添加单位、保留小数位等）
       valueFormatter: (value, dataIndex) => {
-        return "$" + value;
+        return `$${value}`;
       },
       // TODO 需要renderMode: 'richText',
       rich: {
@@ -218,19 +218,19 @@ function getOption(data) {
           color: "#333",
           fontSize: 16,
           fontWeight: "bold",
-          padding: [5, 0],
+          padding: [5, 0]
         },
         value: {
           color: "#ff7f50",
           fontSize: 14,
-          padding: [3, 0],
+          padding: [3, 0]
         },
         hr: {
           borderColor: "#777",
           width: "100%",
           borderWidth: 0.5,
-          height: 0,
-        },
+          height: 0
+        }
       },
       // 提示框浮层内容格式器，控制整个提示框的内容。formatter 的优先级高于valueFormatter。
       // 支持字符串模板和回调函数两种形式。
@@ -258,9 +258,9 @@ function getOption(data) {
             name,
             seriesIndex,
             seriesName,
-            color,
+            color
           } = params[0];
-          return name + "<br />" + seriesName + " : " + value;
+          return `${name}<br />${seriesName} : ${value}`;
         } else {
           const {
             axisIndex,
@@ -272,7 +272,7 @@ function getOption(data) {
             name,
             seriesIndex,
             seriesName,
-            color,
+            color
           } = params;
           return `<div style='margin-top: 8px;'>
             <span style='padding-left: 4px;'>${name}</span><br />
@@ -281,7 +281,7 @@ function getOption(data) {
             <span style='padding-left: 8px; color: ${color}'>${value}</span>
           </div>`;
         }
-      },
+      }
       // TODO 待测试
       // formatter: (params, ticket, callback) => {
       //   if (Array.isArray(params)) {
@@ -299,16 +299,16 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
       type: "category",
-      data: xAxisData || [],
+      data: xAxisData || []
     },
     // 直角坐标系的 y 轴
     yAxis: {
-      type: "value",
+      type: "value"
     },
     series: [
       {
@@ -317,23 +317,23 @@ function getOption(data) {
         tooltip: {
           // tooltip 中数值显示部分的格式化回调函数
           valueFormatter: (value, dataIndex) => {
-            return value + " °C";
-          },
+            return `${value} °C`;
+          }
         },
         name: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [],
+        data: (seriesData?.length && seriesData[0].data) || []
       },
       {
         type: "line",
         smooth: true, // 是否平滑曲线
         // 线条样式
         lineStyle: {
-          width: 2,
+          width: 2
         },
         name: (seriesData?.length && seriesData[1].name) || "",
-        data: (seriesData?.length && seriesData[1].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[1].data) || []
+      }
+    ]
   };
 }
 
@@ -346,23 +346,21 @@ async function getData() {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据1",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
+              Math.floor(Math.random() * 500 + 100))
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 500 + 100))
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -377,9 +375,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

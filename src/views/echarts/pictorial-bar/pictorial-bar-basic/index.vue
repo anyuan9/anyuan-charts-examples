@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,16 +10,16 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
-  const { title = "", xAxisData, seriesData=[] } = data;
+  const { title = "", xAxisData, seriesData = [] } = data;
   const max = seriesData.reduce((acc, cur) => {
     return Math.max(acc, Math.max(...cur.data));
-  }, 0)
+  }, 0);
 
   return {
     // 背景颜色，默认无背景
@@ -36,19 +36,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框
     tooltip: {
@@ -58,12 +58,12 @@ function getOption(data) {
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: "#ffffff",
+        color: "#ffffff"
       },
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -71,7 +71,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: [
@@ -82,8 +82,8 @@ function getOption(data) {
         axisLine: {
           show: true,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.2)",
-          },
+            color: "rgba(255, 255, 255, 0.2)"
+          }
         },
         // 坐标轴的刻度
         axisTick: {
@@ -96,8 +96,8 @@ function getOption(data) {
             fontSize: 12,
             fontWeight: 400,
             color: "#ffffff",
-            opacity: 0.4,
-          },
+            opacity: 0.4
+          }
         },
         // 坐标轴的刻度标签
         axisLabel: {
@@ -107,17 +107,17 @@ function getOption(data) {
           fontSize: 12,
           fontWeight: 400,
           color: "#ffffff",
-          opacity: 0.4,
+          opacity: 0.4
         },
         // 坐标轴的分隔线
         splitLine: {
           show: false,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.1)",
-          },
+            color: "rgba(255, 255, 255, 0.1)"
+          }
         },
-        data: xAxisData || [],
-      },
+        data: xAxisData || []
+      }
     ],
     // 直角坐标系的 y 轴
     yAxis: {
@@ -126,29 +126,29 @@ function getOption(data) {
       axisLine: {
         show: false,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)",
-        },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
       },
       // 坐标轴的刻度
       axisTick: {
         show: true,
         lineStyle: {
           color: "rgba(255, 255, 255, 0.6)",
-          width: 2,
-        },
+          width: 2
+        }
       },
       // 坐标轴的刻度标签
       axisLabel: {
         show: true,
-        color: "rgba(255, 255, 255, 0.4)",
+        color: "rgba(255, 255, 255, 0.4)"
       },
       // 坐标轴的分隔线
       splitLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.1)"
+        }
+      }
     },
     series: [
       {
@@ -161,7 +161,7 @@ function getOption(data) {
         symbolRepeat: true, // true，指定图形元素是否重复，重复的次数依据 data 计算得到。此时label将放置在图形上方
         // symbolRepeat: 'fixed', // 'fixed'，指定图形元素是否重复，重复的次数依据 symbolBoundingData 计算得到。此时label将放置在最顶端
         itemStyle: {
-          color: chartColor[0],
+          color: chartColor[0]
         },
         label: {
           show: true,
@@ -172,9 +172,9 @@ function getOption(data) {
           backgroundColor: chartColor[0],
           borderColor: chartColor[0],
           color: "rgba(255, 255, 255, 0.8)",
-          fontSize: 12,
+          fontSize: 12
         },
-        data: seriesData?.length ? seriesData[0].data : [],
+        data: seriesData?.length ? seriesData[0].data : []
       },
       {
         // 底部背景
@@ -186,14 +186,14 @@ function getOption(data) {
         symbolSize: [16, 2],
         symbolRepeat: true,
         itemStyle: {
-          color: chartColor[0] + "4d",
+          color: `${chartColor[0]}4d`
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: xAxisData.map((item) => max),
-      },
-    ],
+        data: xAxisData.map(item => max)
+      }
+    ]
   };
 }
 
@@ -206,17 +206,16 @@ async function getData() {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 500 + 100))
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -231,9 +230,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

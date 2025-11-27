@@ -1,45 +1,49 @@
+<script setup>
+const props = defineProps({
+  title: {
+    type: String,
+    default: "暂无数据"
+  },
+  description: {
+    type: String,
+    default: ""
+  },
+  size: {
+    type: String,
+    default: "md",
+    validator(value) {
+      return ["xs", "sm", "md", "lg"].includes(value);
+    }
+  },
+  direction: {
+    type: String,
+    default: "column",
+    validator(value) {
+      return ["row", "column"].includes(value);
+    }
+  }
+});
+</script>
+
 <template>
   <div class="empty-dark" :class="`empty-dark--${size}`">
     <div class="empty-dark__content" :class="{ 'empty-dark__content--row': direction === 'row' }">
       <div class="empty-dark__content__icon">
         <slot name="img">
-          <img src="./empty_dark.svg" alt="empty-dark" />
+          <img src="./empty_dark.svg" alt="empty-dark">
         </slot>
       </div>
       <div class="empty-dark__content__text">
-        <p v-if="title" class="empty-dark__title">{{ title }}</p>
-        <p v-if="description" class="empty-dark__description">{{ description }}</p>
+        <p v-if="title" class="empty-dark__title">
+          {{ title }}
+        </p>
+        <p v-if="description" class="empty-dark__description">
+          {{ description }}
+        </p>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-const props = defineProps({
-  title: {
-    type: String,
-    default: '暂无数据',
-  },
-  description: {
-    type: String,
-    default: '',
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['xs', 'sm', 'md', 'lg'].includes(value)
-    },
-  },
-  direction: {
-    type: String,
-    default: 'column',
-    validator(value) {
-      return ['row', 'column'].includes(value)
-    },
-  },
-})
-</script>
 
 <style lang="scss" scoped>
 .empty-dark {

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -23,12 +23,12 @@ function getOption(data) {
   const upperLimit = {
     name: "上限",
     value: 450,
-    color: chartColor[2],
+    color: chartColor[2]
   };
   const lowerLimit = {
     name: "下限",
     value: 200,
-    color: chartColor[3],
+    color: chartColor[3]
   };
 
   return {
@@ -42,10 +42,10 @@ function getOption(data) {
         text: title || "",
         textStyle: {
           color: "rgba(255, 255, 255, 0.85)",
-          fontSize: 20,
+          fontSize: 20
         },
         top: "5%",
-        left: "2%",
+        left: "2%"
       },
       // 左侧标题
       {
@@ -54,8 +54,8 @@ function getOption(data) {
         top: 10,
         textStyle: {
           // fontSize: '20',
-          color: chartColor[0],
-        },
+          color: chartColor[0]
+        }
       },
       // 右侧标题
       {
@@ -65,9 +65,9 @@ function getOption(data) {
         subtextStyle: {
           fontStyle: "bold",
           fontSize: "20",
-          color: chartColor[1],
-        },
-      },
+          color: chartColor[1]
+        }
+      }
     ],
     // 提示框
     tooltip: {
@@ -78,7 +78,7 @@ function getOption(data) {
       padding: [12, 20],
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       axisPointer: {
         lineStyle: {
@@ -95,20 +95,20 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(255, 255, 255, 0)", // 0% 处的颜色
+                color: "rgba(255, 255, 255, 0)" // 0% 处的颜色
               },
               {
                 offset: 0.5,
-                color: "rgba(255, 255, 255, 1)", // 50% 处的颜色
+                color: "rgba(255, 255, 255, 1)" // 50% 处的颜色
               },
               {
                 offset: 1,
-                color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
-              },
+                color: "rgba(255, 255, 255, 0)" // 100% 处的颜色
+              }
             ],
-            global: false,
-          },
-        },
+            global: false
+          }
+        }
       },
       formatter: (params) => {
         // const { axisIndex, axisValue, color, data, dataIndex, name, seriesIndex, seriesName, value } = params[0]
@@ -117,7 +117,7 @@ function getOption(data) {
         } else if (params[0].dataIndex >= halfLen) {
           return `${params[1].axisValue}: ${params[1].value}`;
         }
-      },
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -125,18 +125,18 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: [
       {
         type: "category",
-        data: xAxisData || [],
-      },
+        data: xAxisData || []
+      }
     ],
     // 直角坐标系的 y 轴
     yAxis: {
-      type: "value",
+      type: "value"
     },
     // 视觉映射，用于设置视觉元素（如颜色、大小）与数据的关系
     visualMap: {
@@ -149,10 +149,10 @@ function getOption(data) {
         {
           gte: lowerLimit.value,
           lte: upperLimit.value,
-          color: "rgba(132,92,255,1)",
+          color: "rgba(132,92,255,1)"
         },
-        { gte: upperLimit.value, color: upperLimit.color },
-      ],
+        { gte: upperLimit.value, color: upperLimit.color }
+      ]
     },
     series: [
       {
@@ -164,7 +164,7 @@ function getOption(data) {
         showSymbol: false,
         // 折线拐点标志的样式
         itemStyle: {
-          color: chartColor[0],
+          color: chartColor[0]
         },
         // 线条样式
         // lineStyle: {
@@ -185,36 +185,36 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColor[0] + "80", // 0% 处的颜色
+                color: `${chartColor[0]}80` // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColor[0] + "00", // 100% 处的颜色
-              },
+                color: `${chartColor[0]}00` // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
-          shadowColor: chartColor[0] + "80", // 阴影颜色
-          shadowBlur: 20, // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+          shadowColor: `${chartColor[0]}80`, // 阴影颜色
+          shadowBlur: 20 // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
         },
         // 图表标域
         markArea: {
           itemStyle: {
-            color: chartColor[0] + "1a",
+            color: `${chartColor[0]}1a`
           },
           data: [
             [
               {
-                xAxis: (xAxisData.length && xAxisData[0]) || "",
+                xAxis: (xAxisData.length && xAxisData[0]) || ""
               },
               {
-                xAxis: (xAxisData.length && xAxisData[halfLen]) || "",
-              },
-            ],
-          ],
+                xAxis: (xAxisData.length && xAxisData[halfLen]) || ""
+              }
+            ]
+          ]
         },
         name: (seriesData.length && seriesData[0].name) || "",
-        data: (seriesData.length && seriesData[0].data) || [],
+        data: (seriesData.length && seriesData[0].data) || []
       },
       {
         type: "line",
@@ -225,7 +225,7 @@ function getOption(data) {
         showSymbol: false,
         // 折线拐点标志的样式
         itemStyle: {
-          color: chartColor[1],
+          color: chartColor[1]
         },
         // 线条样式
         // lineStyle: {
@@ -246,39 +246,39 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColor[1] + "80", // 0% 处的颜色
+                color: `${chartColor[1]}80` // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColor[1] + "00", // 100% 处的颜色
-              },
+                color: `${chartColor[1]}00` // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
-          shadowColor: chartColor[1] + "80", // 阴影颜色
-          shadowBlur: 20, // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+          shadowColor: `${chartColor[1]}80`, // 阴影颜色
+          shadowBlur: 20 // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
         },
         // 图表标域
         markArea: {
           itemStyle: {
-            color: chartColor[1] + "1a",
+            color: `${chartColor[1]}1a`
           },
           data: [
             [
               {
-                xAxis: (xAxisData.length && xAxisData[halfLen]) || "",
+                xAxis: (xAxisData.length && xAxisData[halfLen]) || ""
               },
               {
                 xAxis:
-                  (xAxisData.length && xAxisData[xAxisData.length - 1]) || "",
-              },
-            ],
-          ],
+                  (xAxisData.length && xAxisData[xAxisData.length - 1]) || ""
+              }
+            ]
+          ]
         },
         name: (seriesData.length && seriesData[1].name) || "",
-        data: (seriesData.length && seriesData[1].data) || [],
-      },
-    ],
+        data: (seriesData.length && seriesData[1].data) || []
+      }
+    ]
   };
 }
 
@@ -291,7 +291,7 @@ async function getData() {
         title: "标域",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
@@ -300,7 +300,7 @@ async function getData() {
               if (i < 12) return Math.floor(Math.random() * 500 + 100); // 折线图的前一半数据
               if (i === 12) return 320; // 中间数字需要相同，保持连贯性
               return null;
-            }),
+            })
           },
           {
             name: "夜晚",
@@ -308,10 +308,10 @@ async function getData() {
               if (i > 12) return Math.floor(Math.random() * 500 + 100); // 折线图的后一半数据
               if (i === 12) return 320; // 中间数字需要相同，保持连贯性
               return null;
-            }),
-          },
-        ],
-      },
+            })
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -326,9 +326,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 import { treeData } from "./data";
 
 const chartRef = ref(null);
@@ -11,9 +11,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -34,14 +34,14 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 提示框
     tooltip: {
-      trigger: 'item',
-      triggerOn: 'mousemove'
+      trigger: "item",
+      triggerOn: "mousemove"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -49,32 +49,32 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'tree',
-        top: '10%',
-        left: '12%',
-        bottom: '10%',
-        right: '12%',
-        layout: 'radial',
-        symbol: 'emptyCircle',
+        type: "tree",
+        top: "10%",
+        left: "12%",
+        bottom: "10%",
+        right: "12%",
+        layout: "radial",
+        symbol: "emptyCircle",
         symbolSize: 7,
         initialTreeDepth: -1,
         animationDuration: 550,
         animationDurationUpdate: 750,
         itemStyle: {
           color: chartColor[0],
-          borderColor: chartColor[0],
+          borderColor: chartColor[0]
         },
         emphasis: {
-          focus: 'descendant'
+          focus: "descendant"
         },
         name: seriesData.name || "",
-        data: seriesData.data ? [seriesData.data] : [],
-      },
-    ],
+        data: seriesData.data ? [seriesData.data] : []
+      }
+    ]
   };
 }
 
@@ -87,9 +87,9 @@ async function getData() {
         title: "测试数据",
         seriesData: {
           name: "测试数据1",
-          data: treeData,
-        },
-      },
+          data: treeData
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -104,9 +104,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

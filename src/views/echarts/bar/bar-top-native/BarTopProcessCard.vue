@@ -3,24 +3,28 @@ const props = defineProps({
   chartData: {
     type: Object,
     default: () => {
-      return { name: '', value: 0, percent: 0 }
-    },
-  },
-})
+      return { name: "", value: 0, percent: 0 };
+    }
+  }
+});
 </script>
 
 <template>
   <div class="hik-chart-card">
-    <div class="card-name ellipsis">{{ chartData.name }}</div>
+    <div class="card-name ellipsis">
+      {{ chartData.name }}
+    </div>
     <div class="card-content-outer">
       <div class="card-content">
         <div class="card-bar">
-          <div class="card-bar-outer" :style="{ width: chartData.percent + '%' }">
-            <div class="card-line"></div>
-            <div class="card-bar-inner"></div>
+          <div class="card-bar-outer" :style="{ width: `${chartData.percent}%` }">
+            <div class="card-line" />
+            <div class="card-bar-inner" />
           </div>
         </div>
-        <div class="card-value">{{ chartData.value }}</div>
+        <div class="card-value">
+          {{ chartData.value }}
+        </div>
       </div>
     </div>
   </div>
@@ -45,7 +49,7 @@ const props = defineProps({
   background-size: 100% 100%;
   .card-name {
     width: 100px;
-    height:  36px;
+    height: 36px;
     padding: 0 6px;
     color: #ffffff;
     font-size: 16px;
@@ -56,7 +60,7 @@ const props = defineProps({
   }
   .card-content-outer {
     flex: 1;
-    height:  100%;
+    height: 100%;
     margin-left: 6px;
     padding: 0 6px;
     background: repeating-linear-gradient(30deg, #06498e, #06498e 0.3125rem, #03397d 0, #03397d 0.375rem);
@@ -87,7 +91,7 @@ const props = defineProps({
     background-size: 10px 100%;
     .card-bar-outer {
       position: relative;
-      height:  100%;
+      height: 100%;
       background-image: linear-gradient(90deg, rgba(0, 130, 255, 1) 0%, rgba(50, 246, 255, 1) 100%);
       .card-line {
         position: absolute;
@@ -105,7 +109,7 @@ const props = defineProps({
       .card-bar-inner {
         position: relative;
         width: 100%;
-        height:  100%;
+        height: 100%;
         background-image: linear-gradient(
           90deg,
           transparent 35%,
@@ -128,7 +132,7 @@ const props = defineProps({
         border-top: 1px solid #ffffff;
         border-right: 1px solid #ffffff;
         border-bottom: 1px solid #ffffff;
-        content: '';
+        content: "";
       }
     }
   }
@@ -138,7 +142,7 @@ const props = defineProps({
     padding-left: 6px;
     color: #ffffff;
     font-size: 16px;
-    font-family: 'DINAlternate-Bold';
+    font-family: "DINAlternate-Bold";
     text-align: right;
   }
 

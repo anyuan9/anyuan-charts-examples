@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -34,9 +34,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     title: {
       text: title || "",
@@ -46,8 +46,8 @@ function getOption(data) {
       textStyle: {
         align: "center",
         color: "#ffffff",
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     },
     // 简单的图例(series内容需要配置name属性)
     // legend: {
@@ -65,8 +65,8 @@ function getOption(data) {
     // },
     // 自定义图例
     legend: seriesData.map((item, index) => ({
-      top: `${65 + parseInt(index / 3) * 10}%`, // 一行放三个图例
-      left: `${5 + (index % 3) * parseInt(90 / 3)}%`,
+      top: `${65 + Number.parseInt(index / 3) * 10}%`, // 一行放三个图例
+      left: `${5 + (index % 3) * Number.parseInt(90 / 3)}%`,
       icon: "none",
       itemWidth: 0,
       itemGap: 20, // 图例项之间的间隔，单位px，默认10，可取值：5、[5, 10]、[5, 10, 5, 10]
@@ -83,41 +83,41 @@ function getOption(data) {
             align: "center",
             lineHeight: 12,
             backgroundColor: chartColor[index],
-            borderRadius: 6,
+            borderRadius: 6
           },
           name: {
             width: 80,
             padding: 5,
             fontSize: 16,
-            align: "left",
+            align: "left"
           },
           value: {
             width: 30,
-            align: "center",
+            align: "center"
           },
           percent: {
             width: 40,
             align: "center",
-            color: "rgba(255, 255, 255, 0.85)",
+            color: "rgba(255, 255, 255, 0.85)"
           },
           divide: {
             padding: 5,
-            align: "center",
-          },
-        },
+            align: "center"
+          }
+        }
       },
       formatter: (name) => {
         const value = item.value;
         const percent = ((value / total) * 100).toFixed(2);
         return `{icon|} {name|${name}} {value|${value}} {divide||} {percent|${percent}%}`;
       },
-      data: [item.name],
+      data: [item.name]
     })),
     tooltip: {
       show: false,
       trigger: "axis",
       textStyle: {
-        color: "#ffffff",
+        color: "#ffffff"
       },
       padding: [8, 12],
       backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -125,8 +125,8 @@ function getOption(data) {
       borderWidth: 1,
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
       // formatter: "{b} <br> {c}"
     },
     // 直角坐标系内绘图网格
@@ -135,43 +135,43 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     xAxis: {
       type: "value",
       axisTick: {
-        show: false,
+        show: false
       },
       axisLine: {
-        show: false,
+        show: false
       },
       axisLabel: {
-        show: false,
+        show: false
       },
       splitLine: {
-        show: false,
-      },
+        show: false
+      }
     },
     yAxis: {
       type: "category",
       data: [""],
       axisTick: {
-        show: false,
+        show: false
       },
       axisLine: {
-        show: false,
+        show: false
       },
       axisLabel: {
-        show: false,
-      },
+        show: false
+      }
     },
     series:
-      (seriesData.length &&
-        seriesData.map((item, index) => {
+      (seriesData.length
+        && seriesData.map((item, index) => {
           const paddingLeft = index === seriesData.length - 1 ? 16 : 0;
           const paddingRight = index === 0 ? 16 : 0;
-          const labelAlign =
-            index === 0
+          const labelAlign
+            = index === 0
               ? "right"
               : index === seriesData.length - 1
                 ? "left"
@@ -182,7 +182,7 @@ function getOption(data) {
             stack: "柱状图占比",
             itemStyle: {
               color: chartColor[index],
-              borderRadius: [16, paddingLeft, 16, paddingRight],
+              borderRadius: [16, paddingLeft, 16, paddingRight]
             },
             label: {
               show: true,
@@ -201,18 +201,18 @@ function getOption(data) {
               formatter: (params) => {
                 if (!params.value) return "";
                 return (
-                  params.name +
-                  "  " +
-                  ((params.value * 100) / (total || 1)).toFixed(1) +
-                  "%"
+                  `${params.name
+                  }  ${
+                    ((params.value * 100) / (total || 1)).toFixed(1)
+                  }%`
                 );
-              },
+              }
             },
             name: item.name || "",
-            data: seriesData.length ? [item] : [0],
+            data: seriesData.length ? [item] : [0]
           };
-        })) ||
-      [],
+        }))
+        || []
   };
 }
 
@@ -226,16 +226,16 @@ async function getData() {
         seriesData: [
           {
             name: "测试数据",
-            value: Math.floor(Math.random() * 200 + 50),
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
             name: "测试数据2",
-            value: Math.floor(Math.random() * 200 + 50),
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
             name: "测试数据3",
-            value: Math.floor(Math.random() * 200 + 50),
-          },
+            value: Math.floor(Math.random() * 200 + 50)
+          }
           // {
           //   name: '测试数据4',
           //   value: Math.floor(Math.random() * 200 + 50),
@@ -248,8 +248,8 @@ async function getData() {
           //   name: '测试数据6',
           //   value: Math.floor(Math.random() * 200 + 50),
           // },
-        ],
-      },
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -264,9 +264,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
-import { bgImg } from './data.js'
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
+import { bgImg } from "./data.js";
 
 const chartRef = ref(null);
 const { getInstance, setOption, registerMap, showLoading, resize } = useECharts(chartRef, {
@@ -11,25 +11,24 @@ const { getInstance, setOption, registerMap, showLoading, resize } = useECharts(
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
-
-var geoMapName = 'geoMap' + Math.round(Math.random() * 1E10);
+const geoMapName = `geoMap${Math.round(Math.random() * 1e10)}`;
 const maxWidth = 1200;
 const maxHeight = 800;
-var fullImage = new Image();
+const fullImage = new Image();
 // fullImage.src = bgImg; // 方式1：直接使用图片
 
 // 方式2：使用canvas加载图片
 function getFullImage() {
   const echartsInstance = getInstance();
 
-  var img = new Image();
-  var canvas = document.createElement('canvas');
-  var ctx = canvas.getContext('2d');
+  const img = new Image();
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
   canvas.width = echartsInstance.getWidth() * window.devicePixelRatio;
   canvas.height = echartsInstance.getHeight() * window.devicePixelRatio;
 
@@ -42,22 +41,22 @@ function getFullImage() {
     // setTimeout(() => {
     //   echartsInstance.resize();
     // }, 100)
-  }
+  };
   img.src = bgImg;
 }
 
 function registerCanvasMap() {
-  //地图注册
-  var features = {
-    "type": "FeatureCollection",
-    "features": [{
-      "type": "Feature",
-      "properties": {
-        "name": geoMapName
+  // 地图注册
+  const features = {
+    type: "FeatureCollection",
+    features: [{
+      type: "Feature",
+      properties: {
+        name: geoMapName
       },
-      "geometry": {
-        "type": "MultiPolygon",
-        "coordinates": [
+      geometry: {
+        type: "MultiPolygon",
+        coordinates: [
           [
             [
               [0, 0],
@@ -91,14 +90,14 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     geo: {
       map: geoMapName,
       aspectScale: 1, // 宽高比
-      layoutCenter: ['50%', '50%'], // 位置
+      layoutCenter: ["50%", "50%"], // 位置
       layoutSize: Math.max(maxWidth, maxHeight), // 大小
       silent: true, // 图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
       roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启
@@ -106,11 +105,11 @@ function getOption(data) {
         borderWidth: 0,
         // 纹理填充
         color: {
-          type: 'pattern',
+          type: "pattern",
           image: fullImage, // 关键代码，支持为 HTMLImageElement, HTMLCanvasElement，不支持路径字符串
-          repeat: 'no-repeat' // 是否平铺, 可以是 'repeat-x', 'repeat-y', 'no-repeat'
+          repeat: "no-repeat" // 是否平铺, 可以是 'repeat-x', 'repeat-y', 'no-repeat'
         }
-      },
+      }
     },
     visualMap: {
       show: true,
@@ -121,20 +120,26 @@ function getOption(data) {
       hoverLink: false,
       inRange: {
         color: [
-          '#4BFE00', '#98FE00', '#D7FE00', '#FBFE00',
-          '#FBE200', '#F79300', '#F65400', '#F50D00'
+          "#4BFE00",
+          "#98FE00",
+          "#D7FE00",
+          "#FBFE00",
+          "#FBE200",
+          "#F79300",
+          "#F65400",
+          "#F50D00"
         ]
       }
     },
     series: [
       {
-        type: 'heatmap',
-        coordinateSystem: 'geo',
+        type: "heatmap",
+        coordinateSystem: "geo",
         pointSize: 15,
         blurSize: 15,
         data: seriesData.data || []
-      },
-    ],
+      }
+    ]
   };
 }
 
@@ -147,9 +152,9 @@ async function getData() {
         title: "测试数据",
         seriesData: {
           name: "测试数据1",
-          data: Array.from({ length: 200 }, () => [Math.random() * maxWidth * 0.5, Math.random() * maxHeight * 0.5, Math.random() * 100]),
-        },
-      },
+          data: Array.from({ length: 200 }, () => [Math.random() * maxWidth * 0.5, Math.random() * maxHeight * 0.5, Math.random() * 100])
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -164,9 +169,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }
@@ -175,15 +180,15 @@ onMounted(() => {
   nextTick(() => {
     showLoading();
     getFullImage();
-    registerCanvasMap()
+    registerCanvasMap();
     getData();
   });
 });
 </script>
 
 <template>
-  <div class="chart-container"  >
-    <div ref="chartRef" id="myChart" :style="{ width: maxWidth + 'px', height: maxHeight + 'px' }" />
+  <div class="chart-container">
+    <div ref="chartRef" id="myChart" :style="{ width: `${maxWidth}px`, height: `${maxHeight}px` }" />
   </div>
 </template>
 

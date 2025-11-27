@@ -1,8 +1,8 @@
 <script setup>
+import { useECharts } from "@anyuan/utils";
 import axios from "axios";
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { registerMap, setOption, showLoading } = useECharts(chartRef, {
@@ -11,9 +11,9 @@ const { registerMap, setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -29,10 +29,10 @@ function getOption(data) {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -40,7 +40,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 地理坐标系
     geo: {
@@ -57,7 +57,7 @@ function getOption(data) {
       zoom: 1.05, // 当前视角的缩放比例
       scaleLimit: {
         min: 1, // 缩放的最小值
-        max: 3, // 缩放的最大值
+        max: 3 // 缩放的最大值
       },
       // 自定义地区的名称映射
       // nameMap : { 'China' : '中国' },
@@ -68,20 +68,20 @@ function getOption(data) {
       zlevel: 0, // zlevel用于 Canvas 分层，不同zlevel值的图形会放置在不同的 Canvas 中。zlevel 大的 Canvas 会放在 zlevel 小的 Canvas 的上面。默认：0
       z: 0, // z值用于控制图形的前后顺序，z值小的图形会被z值大的图形覆盖。z相比zlevel优先级更低，而且不会创建新的 Canvas。默认：0
       label: {
-        show: false,
+        show: false
       },
       itemStyle: {
         areaColor: "#023677",
-        borderColor: "#1180c7",
+        borderColor: "#1180c7"
       },
       // 高亮状态下的多边形和标签样式
       emphasis: {
         label: {
-          show: false,
+          show: false
         },
         itemStyle: {
-          areaColor: "#4499d0",
-        },
+          areaColor: "#4499d0"
+        }
       },
       // 选中状态下的多边形和标签样式。
       select: {},
@@ -93,10 +93,10 @@ function getOption(data) {
           name: "广东",
           itemStyle: {
             areaColor: "red",
-            color: "red",
-          },
-        },
-      ],
+            color: "red"
+          }
+        }
+      ]
     },
     visualMap: {
       show: true,
@@ -107,13 +107,13 @@ function getOption(data) {
       calculable: true,
       seriesIndex: [1],
       inRange: {
-        color: ["#04387b", "#467bc0"], // 蓝绿
-      },
+        color: ["#04387b", "#467bc0"] // 蓝绿
+      }
     },
     series: [
       {
         type: "map",
-        roam: false, //是否开启鼠标缩放和平移漫游
+        roam: false, // 是否开启鼠标缩放和平移漫游
         aspectScale: 1, // 地图的长宽比，如果设置了projection则无效。
         zoom: 1.05, // 当前视角的缩放比例
         selectedMode: false, // 选中模式，表示是否支持多个选中。(关闭后，可避免在点击区域块后，再点击其他区域块时，区域块显示为黄色的问题)
@@ -121,25 +121,25 @@ function getOption(data) {
         itemStyle: {
           areaColor: "#031525",
           borderColor: "#3B5077",
-          borderWidth: 1,
+          borderWidth: 1
         },
-        //区域名样式
+        // 区域名样式
         label: {
           show: true,
           fontSize: 10,
-          color: "rgba(255,255,255,.5)",
+          color: "rgba(255,255,255,.5)"
         },
         emphasis: {
           itemStyle: {
-            areaColor: "#0f2c70",
+            areaColor: "#0f2c70"
           },
           label: {
-            color: "rgba(255,255,255,1)",
-          },
+            color: "rgba(255,255,255,1)"
+          }
         },
         map: mapName,
         // 这是要显示的数据
-        data: (seriesData?.length && seriesData[0].data) || [],
+        data: (seriesData?.length && seriesData[0].data) || []
       },
       {
         type: "scatter",
@@ -150,18 +150,18 @@ function getOption(data) {
         label: {
           show: true,
           formatter: "{b}",
-          position: "right",
+          position: "right"
         },
         itemStyle: {
-          color: "#fff",
+          color: "#fff"
         },
         emphasis: {
           label: {
-            show: true,
-          },
+            show: true
+          }
         },
         name: (seriesData?.length && seriesData[1].name) || "",
-        data: (seriesData?.length && seriesData[1].data) || [],
+        data: (seriesData?.length && seriesData[1].data) || []
       },
       {
         type: "effectScatter",
@@ -172,25 +172,25 @@ function getOption(data) {
         },
         showEffectOn: "render",
         rippleEffect: {
-          brushType: "stroke",
+          brushType: "stroke"
         },
         emphasis: {
-          scale: true,
+          scale: true
         },
         label: {
           show: false,
           formatter: "{b}",
-          position: "left",
+          position: "left"
         },
         itemStyle: {
           color: "yellow",
           shadowBlur: 10,
-          shadowColor: "yellow",
+          shadowColor: "yellow"
         },
         name: (seriesData?.length && seriesData[2].name) || "",
-        data: (seriesData?.length && seriesData[2].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[2].data) || []
+      }
+    ]
   };
 }
 
@@ -199,7 +199,7 @@ async function getData() {
     const mapName = "china"; // 地图名称
     // 将下载后的json文件放置/public目录下
     const res1 = await axios.get(
-      `${import.meta.env.BASE_URL}static/mapjson/${mapName}.json`,
+      `${import.meta.env.BASE_URL}static/mapjson/${mapName}.json`
     );
     // 使用数据注册地图
     registerMap(mapName, res1.data);
@@ -212,7 +212,7 @@ async function getData() {
       if (typeof name === "string" && geoCoordNames.includes(name)) {
         acc = {
           ...acc,
-          [name]: center || [],
+          [name]: center || []
         };
       }
       return acc;
@@ -252,13 +252,13 @@ async function getData() {
       { name: "海南省", value: 14 },
       { name: "台湾省", value: 23 },
       { name: "香港特别行政区", value: 22 },
-      { name: "澳门特别行政区", value: 11 },
+      { name: "澳门特别行政区", value: 11 }
     ];
     const convertData = (data) => {
       return data.map((item) => {
         return {
           name: item.name,
-          value: geoCoordMap[item.name].concat(item.value),
+          value: geoCoordMap[item.name].concat(item.value)
         };
       });
     };
@@ -271,20 +271,20 @@ async function getData() {
         seriesData: [
           {
             name: "地图数据",
-            data: mapData,
+            data: mapData
           },
           {
             name: "散点数据",
-            data: convertData(mapData),
+            data: convertData(mapData)
           },
           {
             name: "散点Top5",
             data: convertData(
-              mapData.sort((a, b) => b.value - a.value).slice(0, 5),
-            ),
-          },
-        ],
-      },
+              mapData.sort((a, b) => b.value - a.value).slice(0, 5)
+            )
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -299,9 +299,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

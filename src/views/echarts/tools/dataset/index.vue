@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -33,22 +33,22 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     xAxis: {
       // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
-      type: 'category',
+      type: "category"
     },
     yAxis: {},
     dataset: {
       source: [
-        ['product', '2015', '2016', '2017'],
-        ['Matcha Latte', 43.3, 85.8, 93.7],
-        ['Milk Tea', 83.1, 73.4, 55.1],
-        ['Cheese Cocoa', 86.4, 65.2, 82.5],
-        ['Walnut Brownie', 72.4, 53.9, 39.1]
+        ["product", "2015", "2016", "2017"],
+        ["Matcha Latte", 43.3, 85.8, 93.7],
+        ["Milk Tea", 83.1, 73.4, 55.1],
+        ["Cheese Cocoa", 86.4, 65.2, 82.5],
+        ["Walnut Brownie", 72.4, 53.9, 39.1]
       ]
     },
     // dataset: {
@@ -64,10 +64,10 @@ function getOption(data) {
     // },
     series: [
       // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
-      { type: 'bar', seriesLayoutBy: 'column' }, // seriesLayoutBy: 配置dataset是列（column）还是行（row）映射为图形系列（series），默认是按照列（column）来映射。
-      { type: 'bar', seriesLayoutBy: 'column' },
-      { type: 'bar', seriesLayoutBy: 'column' }
-    ],
+      { type: "bar", seriesLayoutBy: "column" }, // seriesLayoutBy: 配置dataset是列（column）还是行（row）映射为图形系列（series），默认是按照列（column）来映射。
+      { type: "bar", seriesLayoutBy: "column" },
+      { type: "bar", seriesLayoutBy: "column" }
+    ]
   };
 }
 
@@ -79,7 +79,7 @@ async function getData() {
       data: {
         title: "测试数据",
         seriesData: []
-      },
+      }
     };
 
     const option = getOption(res.data);
@@ -94,9 +94,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

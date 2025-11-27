@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -10,15 +10,15 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 // 纹理
 const imageTexture = new Image();
-imageTexture.src =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAKElEQVQ4jWP8//8/AwXgPxMluhkYGBhGDRg1YNQAKhnAwsDAQFF+BgBtSwUd6uvSywAAAABJRU5ErkJggg==";
+imageTexture.src
+  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAKElEQVQ4jWP8//8/AwXgPxMluhkYGBhGDRg1YNQAKhnAwsDAQFF+BgBtSwUd6uvSywAAAABJRU5ErkJggg==";
 
 function getOption(data) {
   const { title = "", xAxisData, seriesData } = data;
@@ -38,9 +38,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     title: {
       text: title || "",
@@ -50,8 +50,8 @@ function getOption(data) {
       textStyle: {
         align: "center",
         color: "#fff",
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -64,8 +64,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     tooltip: {
       trigger: "axis",
@@ -74,12 +74,12 @@ function getOption(data) {
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: "#ffffff",
+        color: "#ffffff"
       },
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -87,7 +87,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     xAxis: [
       {
@@ -99,8 +99,8 @@ function getOption(data) {
           symbolSize: [10, 15],
           symbolOffset: [0, 0],
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.2)",
-          },
+            color: "rgba(255, 255, 255, 0.2)"
+          }
         },
         // 坐标轴的刻度
         axisTick: {
@@ -112,8 +112,8 @@ function getOption(data) {
           lineStyle: {
             fontSize: 12,
             fontWeight: 400,
-            color: "rgba(255, 255, 255, 0.4)",
-          },
+            color: "rgba(255, 255, 255, 0.4)"
+          }
         },
         // 坐标轴的刻度标签
         axisLabel: {
@@ -127,23 +127,23 @@ function getOption(data) {
             let nameArr = [];
             if (len > 5) {
               // 根据情况控制长度
-              name = name.slice(0, 5) + "...";
+              name = `${name.slice(0, 5)}...`;
               nameArr = name.split("");
             } else {
               nameArr = name.split("");
             }
             return nameArr.join("\n"); // x轴文字垂直排列
-          },
+          }
         },
         // 坐标轴的分隔线
         splitLine: {
           show: false,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.1)",
-          },
+            color: "rgba(255, 255, 255, 0.1)"
+          }
         },
-        data: xAxisData || [],
-      },
+        data: xAxisData || []
+      }
     ],
     yAxis: [
       {
@@ -153,30 +153,30 @@ function getOption(data) {
         axisLine: {
           show: true,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.2)",
-          },
+            color: "rgba(255, 255, 255, 0.2)"
+          }
         },
         // 坐标轴的刻度
         axisTick: {
           show: true,
           lineStyle: {
             fontSize: 12,
-            color: "rgba(255, 255, 255, 0.4)",
-          },
+            color: "rgba(255, 255, 255, 0.4)"
+          }
         },
         // 坐标轴的刻度标签
         axisLabel: {
           show: true,
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.4)"
         },
         // 坐标轴的分隔线
         splitLine: {
           show: false,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.1)",
-          },
-        },
-      },
+            color: "rgba(255, 255, 255, 0.1)"
+          }
+        }
+      }
     ],
     series: [
       {
@@ -185,7 +185,7 @@ function getOption(data) {
         barMaxWidth: 100,
         showBackground: true,
         backgroundStyle: {
-          color: `${chartColor[0]}4d`, // 背景颜色
+          color: `${chartColor[0]}4d` // 背景颜色
         },
         itemStyle: {
           color: {
@@ -197,26 +197,26 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
-          borderRadius: [0, 0, 0, 0],
+          borderRadius: [0, 0, 0, 0]
         },
         label: {
           show: true,
           position: "top",
           color: "rgba(255, 255, 255, 0.8)",
           fontWeight: 700,
-          fontSize: 14,
+          fontSize: 14
         },
         name: seriesData?.length ? seriesData[0].name : "",
-        data: seriesData?.length ? seriesData[0].data : [],
+        data: seriesData?.length ? seriesData[0].data : []
       },
       // 纹理
       {
@@ -227,17 +227,17 @@ function getOption(data) {
         itemStyle: {
           color: {
             image: imageTexture,
-            repeat: "repeat",
+            repeat: "repeat"
           },
-          opacity: 0.05,
+          opacity: 0.05
         },
         tooltip: {
-          show: false,
+          show: false
         },
         z: 0,
-        data: seriesData?.length ? seriesData[1].data : [],
-      },
-    ],
+        data: seriesData?.length ? seriesData[1].data : []
+      }
+    ]
   };
 }
 
@@ -251,24 +251,23 @@ async function getData() {
           "柱状图纹理背景。用backgroundStyle设置背景颜色，再叠加一个背景是纹理图片的柱状图",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据",
             data: Array.from({ length: 24 }, () =>
-              Math.floor(Math.random() * 200 + 50),
-            ),
+              Math.floor(Math.random() * 200 + 50))
           },
           {
             name: "测试数据2",
-            data: Array.from({ length: 24 }, () => 250), // 纹理数据，取最大值
-          },
-        ],
-      },
+            data: Array.from({ length: 24 }, () => 250) // 纹理数据，取最大值
+          }
+        ]
+      }
     };
 
-	res.data.xAxisData.forEach(item => item.replace(/[^a-zA-Z0-9\:\u4e00-\u9fa5]/g, '')) // 只能是字母、数字、汉字、英文冒号
+    res.data.xAxisData.forEach(item => item.replace(/[^a-z0-9:\u4E00-\u9FA5]/gi, "")); // 只能是字母、数字、汉字、英文冒号
     const option = getOption(res.data);
     setOption(option);
   } catch (err) {
@@ -281,9 +280,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

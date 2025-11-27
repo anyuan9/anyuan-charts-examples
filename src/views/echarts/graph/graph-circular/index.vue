@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 // 图表数据
@@ -36,8 +36,8 @@ function getOption(data) {
     item.symbolSize = item.value;
     item.label = {
       show: item.value > 10
-    }
-  })
+    };
+  });
 
   return {
     // 背景颜色，默认无背景
@@ -54,61 +54,61 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 图例(series内容需要配置name属性)
     legend: {
-      top: '2%',
-      right: '5%',
-      icon: 'rect', // 图例项的图形，可取值'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none', 'image://url'形式的图片链接, 'path://'形式的矢量路径
+      top: "2%",
+      right: "5%",
+      icon: "rect", // 图例项的图形，可取值'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none', 'image://url'形式的图片链接, 'path://'形式的矢量路径
       itemWidth: 12, // 图例标记的图形宽度，默认25
       itemHeight: 12, // 图例标记的图形高度，默认14
       itemGap: 15, // 图例项之间的间隔，单位px，默认10，可取值：5、[5, 10]、[5, 10, 5, 10]
       // 图例文字的样式
       textStyle: {
-        color: 'rgba(255, 255, 255, 0.85)',
-        fontSize: 14,
+        color: "rgba(255, 255, 255, 0.85)",
+        fontSize: 14
       },
-      data: categories.map(item => item.name),
+      data: categories.map(item => item.name)
     },
     animationDurationUpdate: 1500,
-    animationEasingUpdate: 'quinticInOut',
+    animationEasingUpdate: "quinticInOut",
     series: [
       {
-        type: 'graph',
-        layout: 'circular', // 图的布局。可选：'none' 不采用任何布局；'circular' 采用环形布局；'force' 采用力引导布局
+        type: "graph",
+        layout: "circular", // 图的布局。可选：'none' 不采用任何布局；'circular' 采用环形布局；'force' 采用力引导布局
         roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启
-        symbol: 'circle', // 节点标记类型
+        symbol: "circle", // 节点标记类型
         symbolSize: 20, // 节点标记的大小
-        edgeSymbol: ['', 'arrow'], // 边两端的标记类型，可以是一个数组分别指定两端，也可以是单个统一指定。默认不显示标记，常见的可以设置为箭头，如下：['circle', 'arrow']
+        edgeSymbol: ["", "arrow"], // 边两端的标记类型，可以是一个数组分别指定两端，也可以是单个统一指定。默认不显示标记，常见的可以设置为箭头，如下：['circle', 'arrow']
         edgeSymbolSize: [2, 5], // 边两端的标记大小
         // 关系边的公用线条样式
         lineStyle: {
-          color: 'source',
+          color: "source",
           width: 2,
           opacity: 0.7,
-          curveness: 0.3, // 边的曲率，支持从 0 到 1 的值，值越大曲度越大
+          curveness: 0.3 // 边的曲率，支持从 0 到 1 的值，值越大曲度越大
         },
         // 图形上的文本标签
         label: {
           show: true, // 是否显示标签
-          position: 'right', // 标签的位置。默认为'inside'
-          color: 'rgba(255, 255, 255, 0.8)',
+          position: "right", // 标签的位置。默认为'inside'
+          color: "rgba(255, 255, 255, 0.8)",
           fontSize: 14,
-          formatter: '{b}'
+          formatter: "{b}"
         },
         // 环形布局相关配置
         circular: {
-          rotateLabel: true, // 是否旋转标签，默认false
+          rotateLabel: true // 是否旋转标签，默认false
         },
-        categories: categories, // 节点分类的类目
+        categories, // 节点分类的类目
         data: seriesData, // 关系图的节点数据
-        links: linksData, // 节点间的关系数据
-      },
-    ],
-  }
+        links: linksData // 节点间的关系数据
+      }
+    ]
+  };
 }
 
 function getSeriesData(categories) {
@@ -121,7 +121,7 @@ function getSeriesData(categories) {
       seriesData.push({
         name: `数据${i}-${j}`,
         category: i, // 数据项所在类目的 index
-        value: Math.random() * 27 + 3,
+        value: Math.random() * 27 + 3
       });
     }
   }
@@ -137,7 +137,7 @@ function getLinksData(seriesData) {
       const targetIndex = Math.floor(Math.random() * (length - i) + i);
       linksData.push({
         source: seriesData[j].name,
-        target: seriesData[targetIndex].name,
+        target: seriesData[targetIndex].name
       });
     }
   }
@@ -149,27 +149,27 @@ async function getData() {
     // const res = await axios.get("/api/getChartData");
     const categories = [
       {
-        name: '类目1',
+        name: "类目1"
       },
       {
-        name: '类目2',
+        name: "类目2"
       },
       {
-        name: '类目3',
+        name: "类目3"
       },
       {
-        name: '类目4',
+        name: "类目4"
       },
       {
-        name: '类目5',
+        name: "类目5"
       },
       {
-        name: '类目6',
+        name: "类目6"
       },
       {
-        name: '类目7',
-      },
-    ]
+        name: "类目7"
+      }
+    ];
     const seriesData = getSeriesData(categories);
     // const seriesData = [
     //   {
@@ -193,10 +193,10 @@ async function getData() {
       code: "0",
       data: {
         title: "知识图谱",
-        categories: categories,
-        seriesData: seriesData,
-        linksData: linksData
-      },
+        categories,
+        seriesData,
+        linksData
+      }
     };
 
     const option = getOption(res.data);
@@ -211,9 +211,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -9,9 +9,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 const iconList = {
@@ -19,7 +19,7 @@ const iconList = {
   b: "https://www.makeapie.cn/asset/get/s/data-1559121263841-UC5w7mTJ9.png",
   c: "https://www.makeapie.cn/asset/get/s/data-1559121259198-sxyPSimU9.png",
   d: "https://www.makeapie.cn/asset/get/s/data-1559121254241-xj5JAIBzC.png",
-  e: "https://www.makeapie.cn/asset/get/s/data-1559121249274-QxHDAdQGy.png",
+  e: "https://www.makeapie.cn/asset/get/s/data-1559121249274-QxHDAdQGy.png"
 };
 
 function getOption(data) {
@@ -36,25 +36,25 @@ function getOption(data) {
     // 标题
     title: [
       {
-        text: "{name|" + title + "}\n{val|" + subtitle + "}",
+        text: `{name|${title}}\n{val|${subtitle}}`,
         top: "center",
         left: "30%",
-        textAlign: 'center',
+        textAlign: "center",
         textStyle: {
           rich: {
             name: {
               fontSize: 14,
               fontWeight: "normal",
               color: "rgba(255, 255, 255, 0.8)",
-              padding: [10, 0],
+              padding: [10, 0]
             },
             val: {
               fontSize: 32,
               fontWeight: "bold",
-              color: "rgba(255, 255, 255, 0.65)",
-            },
-          },
-        },
+              color: "rgba(255, 255, 255, 0.65)"
+            }
+          }
+        }
       },
       {
         text: unit,
@@ -63,9 +63,9 @@ function getOption(data) {
         textStyle: {
           fontSize: 14,
           color: "rgba(255, 255, 255, 0.65)",
-          fontWeight: 400,
-        },
-      },
+          fontWeight: 400
+        }
+      }
     ],
     // 图例
     legend: {
@@ -87,7 +87,7 @@ function getOption(data) {
         // 文字块背景色。可以使用颜色值，例如：'#123234'。也可以直接使用图片，例如：backgroundColor: { image: 'xxx/xxx.png'}
         backgroundColor: {
           image:
-            "https://www.makeapie.cn/asset/get/s/data-1545016257824-mxLqGjr4z.png",
+            "https://www.makeapie.cn/asset/get/s/data-1545016257824-mxLqGjr4z.png"
         },
         rich: {
           name: {
@@ -96,75 +96,75 @@ function getOption(data) {
             color: "rgba(255, 255, 255, 0.65)",
             fontSize: 12,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 400,
+            fontWeight: 400
           },
           value: {
             color: "rgba(255, 255, 255, 0.8)",
             fontSize: 14,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 400,
+            fontWeight: 400
           },
           rate: {
             color: "#fd5656",
             fontSize: 14,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 600,
+            fontWeight: 600
           },
           a: {
             width: 18,
             height: 18,
             lineHeight: 50,
             backgroundColor: {
-              image: iconList.a,
+              image: iconList.a
             },
-            align: "left",
+            align: "left"
           },
           b: {
             width: 18,
             height: 18,
             lineHeight: 50,
             backgroundColor: {
-              image: iconList.b,
+              image: iconList.b
             },
-            align: "left",
+            align: "left"
           },
           c: {
             width: 18,
             height: 18,
             lineHeight: 50,
             backgroundColor: {
-              image: iconList.c,
+              image: iconList.c
             },
-            align: "left",
+            align: "left"
           },
           d: {
             width: 18,
             height: 18,
             lineHeight: 50,
             backgroundColor: {
-              image: iconList.d,
+              image: iconList.d
             },
-            align: "left",
+            align: "left"
           },
           e: {
             width: 18,
             height: 18,
             lineHeight: 50,
             backgroundColor: {
-              image: iconList.e,
+              image: iconList.e
             },
-            align: "left",
-          },
-        },
+            align: "left"
+          }
+        }
       },
       // 格式化图例文本，支持字符串模板和回调函数两种形式
       // 使用字符串模板，模板变量为图例名称 {name}
       // formatter: 'Legend {name}',
       // 使用回调函数
-      formatter: function (name) {
-        let res = seriesData.find((v) => v.name === name);
+      formatter(name) {
+        const res = seriesData.find(v => v.name === name);
         return `{name|${res.name} }{value|${res.value} }  {${res.imageName}|} {rate|${res.rate} %}`;
-      },
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -172,7 +172,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
@@ -182,27 +182,27 @@ function getOption(data) {
         label: {
           formatter: (params) => {
             return (
-              "{value|" +
-              params.value +
-              "}" +
-              "\n" +
-              "{value|" +
-              params.percent +
-              "%}"
+              `{value|${
+                params.value
+              }}`
+              + `\n`
+              + `{value|${
+                params.percent
+              }%}`
             );
           },
           rich: {
             value: {
               fontSize: 12,
               fontweight: 400,
-              color: "rgba(255, 255, 255, 0.65)",
-            },
-          },
+              color: "rgba(255, 255, 255, 0.65)"
+            }
+          }
         },
         name: title,
-        data: seriesData || [],
-      },
-    ],
+        data: seriesData || []
+      }
+    ]
   };
 }
 
@@ -219,30 +219,30 @@ async function getData() {
           {
             name: "测试数据1",
             value: Math.floor(Math.random() * 500 + 100),
-            imageName: "a", // 补充的属性，用于定义图例图片
+            imageName: "a" // 补充的属性，用于定义图例图片
           },
           {
             name: "测试数据2",
             value: Math.floor(Math.random() * 500 + 100),
-            imageName: "b",
+            imageName: "b"
           },
           {
             name: "测试数据3",
             value: Math.floor(Math.random() * 500 + 100),
-            imageName: "c",
+            imageName: "c"
           },
           {
             name: "测试数据4",
             value: Math.floor(Math.random() * 500 + 100),
-            imageName: "d",
+            imageName: "d"
           },
           {
             name: "测试数据5",
             value: Math.floor(Math.random() * 500 + 100),
-            imageName: "e",
-          },
-        ],
-      },
+            imageName: "e"
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -257,9 +257,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

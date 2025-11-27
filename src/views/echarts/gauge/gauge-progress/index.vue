@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -9,9 +9,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -33,30 +33,30 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
-      text: '{a|' + valInt + '}{b|.' + valDecimal + '}\n{c|' + title + '}',
-      x: 'center',
-      y: 'center',
+      text: `{a|${valInt}}{b|.${valDecimal}}\n{c|${title}}`,
+      x: "center",
+      y: "center",
       textStyle: {
         rich: {
           a: {
             fontSize: 32,
-            color: '#fff',
-            fontWeight: '600',
+            color: "#fff",
+            fontWeight: "600"
           },
           b: {
             fontSize: 16,
-            color: '#fff',
+            color: "#fff",
             padding: [0, 0, 14, 0]
           },
           c: {
             fontSize: 16,
-            color: '#fff',
+            color: "#fff",
             padding: [5, 0]
           }
         }
@@ -68,34 +68,34 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       // 内部圆
       {
-        type: 'pie',
-        radius: [0, '30%'],
+        type: "pie",
+        radius: [0, "30%"],
         clockwise: false,
         itemStyle: {
           shadowBlur: 20,
-          shadowColor: '#000',
+          shadowColor: "#000",
           color: {
-            type: 'radial',
+            type: "radial",
             x: 0.4,
             y: 0.3,
             r: 1,
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
         label: {
           show: false
@@ -107,11 +107,11 @@ function getOption(data) {
       },
       // 空心链圆环
       {
-        type: 'pie',
-        radius: ['44%', '45%'],
+        type: "pie",
+        radius: ["44%", "45%"],
         clockwise: false,
         itemStyle: {
-          color: chartColor[0],
+          color: chartColor[0]
         },
         label: {
           show: false
@@ -123,8 +123,8 @@ function getOption(data) {
       },
       // 仪表盘
       {
-        type: 'gauge',
-        radius: '60%',
+        type: "gauge",
+        radius: "60%",
         splitNumber: 30,
         startAngle: 90,
         endAngle: 90 - 0.0001,
@@ -134,9 +134,9 @@ function getOption(data) {
           show: true,
           lineStyle: {
             color: [
-              [0, '#2CFAFC'],
+              [0, "#2CFAFC"],
               [seriesData[0].value / 100, chartColor[0]],
-              [1, '#0f232e']
+              [1, "#0f232e"]
             ],
             width: 20
           }
@@ -153,9 +153,9 @@ function getOption(data) {
           length: 100,
           lineStyle: {
             shadowBlur: 10,
-            shadowColor: 'rgba(0, 255, 255, 1)',
-            shadowOffsetY: '0',
-            color: '#020f18',
+            shadowColor: "rgba(0, 255, 255, 1)",
+            shadowOffsetY: "0",
+            color: "#020f18",
             width: 2
           }
         },
@@ -166,18 +166,18 @@ function getOption(data) {
         // 仪表盘详情，用于显示数据
         detail: {
           offsetCenter: [0, -20],
-          formatter: ' '
-        },
+          formatter: " "
+        }
       },
       // 圆环背景1
       {
-        type: 'pie',
-        radius: ['64%', '65.5%'],
+        type: "pie",
+        radius: ["64%", "65.5%"],
         clockwise: false,
         itemStyle: {
           shadowBlur: 20,
           shadowColor: chartColor[0],
-          color: chartColor[0] + '1a'
+          color: `${chartColor[0]}1a`
         },
         label: {
           show: false
@@ -189,13 +189,13 @@ function getOption(data) {
       },
       // 圆环背景2
       {
-        type: 'pie',
-        radius: ['68%', '69.5%'],
+        type: "pie",
+        radius: ["68%", "69.5%"],
         clockwise: false,
         itemStyle: {
           shadowBlur: 20,
           shadowColor: chartColor[0],
-          color: chartColor[0] + '1a',
+          color: `${chartColor[0]}1a`
         },
         label: {
           show: false
@@ -204,36 +204,34 @@ function getOption(data) {
           scale: false
         },
         data: [100]
-      },
-    ],
+      }
+    ]
   };
 }
 function _dashed() {
-  let dataArr = [];
-  for (var i = 0; i < 100; i++) {
+  const dataArr = [];
+  for (let i = 0; i < 100; i++) {
     if (i % 2 === 0) {
       dataArr.push({
         name: (i + 1).toString(),
         value: 20,
         itemStyle: {
-          color: chartColor[0] + '3d',
+          color: `${chartColor[0]}3d`
         }
-      })
+      });
     } else {
       dataArr.push({
         name: (i + 1).toString(),
         value: 20,
         itemStyle: {
-          color: 'rgb(0,0,0,0)',
+          color: "rgb(0,0,0,0)",
           borderWidth: 1,
-          borderColor: chartColor[0],
+          borderColor: chartColor[0]
         }
-      })
+      });
     }
-
   }
-  return dataArr
-
+  return dataArr;
 }
 
 async function getData() {
@@ -245,11 +243,11 @@ async function getData() {
         title: "测试数据",
         seriesData: [
           {
-            name: '测试数据',
-            value: Math.random() * 90 + 10,
-          },
-        ],
-      },
+            name: "测试数据",
+            value: Math.random() * 90 + 10
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -264,9 +262,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

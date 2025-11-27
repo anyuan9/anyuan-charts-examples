@@ -1,29 +1,35 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const dataList = ref(Array.from({ length: 10 }, (_, index) => ({
-  name: '测试数据' + index,
-  count: Math.floor(Math.random() * 200 + 50),
-})))
-const sum = dataList.value.reduce((prev, curr) => prev + curr.count, 0)
-dataList.value.forEach(item => (item.ratio = (item.count * 100) / sum))
+  name: `测试数据${index}`,
+  count: Math.floor(Math.random() * 200 + 50)
+})));
+const sum = dataList.value.reduce((prev, curr) => prev + curr.count, 0);
+dataList.value.forEach(item => (item.ratio = (item.count * 100) / sum));
 </script>
 
 <template>
   <div class="rank-wrap">
     <div class="data-list">
-      <div v-for="(item, index) in dataList" :key="index" class="list-item" :class="{ 'top': index < 3 }">
-        <div class="item-index">{{ index + 1 }}</div>
-        <div class="item-name ellipsis">{{ item.name }}</div>
+      <div v-for="(item, index) in dataList" :key="index" class="list-item" :class="{ top: index < 3 }">
+        <div class="item-index">
+          {{ index + 1 }}
+        </div>
+        <div class="item-name ellipsis">
+          {{ item.name }}
+        </div>
         <div class="item-bar">
           <div class="bar-left" :style="{ width: `${item.ratio}%` }">
-            <div class="bar-inner"></div>
+            <div class="bar-inner" />
           </div>
           <div class="bar-right">
-            <div class="bar-line"></div>
+            <div class="bar-line" />
           </div>
         </div>
-        <div class="item-value ellipsis">{{ item.count }}</div>
+        <div class="item-value ellipsis">
+          {{ item.count }}
+        </div>
       </div>
     </div>
   </div>
@@ -33,7 +39,7 @@ dataList.value.forEach(item => (item.ratio = (item.count * 100) / sum))
 $item-content-height: 32px;
 $item-bar-height: 12px;
 $item-color-top: #f37153;
-$item-color-nor: #48A4FF;
+$item-color-nor: #48a4ff;
 
 .rank-wrap {
   width: 100%;
@@ -87,7 +93,7 @@ $item-color-nor: #48A4FF;
         background: $item-color-nor;
 
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           left: -4px;
           top: -2px;
@@ -131,7 +137,7 @@ $item-color-nor: #48A4FF;
           }
 
           .bar-inner::before {
-            content: '';
+            content: "";
             position: absolute;
             top: -1px;
             right: 0;
@@ -141,7 +147,7 @@ $item-color-nor: #48A4FF;
           }
 
           .bar-inner::after {
-            content: '';
+            content: "";
             position: absolute;
             right: -2px;
             width: 1px;
@@ -165,7 +171,7 @@ $item-color-nor: #48A4FF;
           }
 
           &:after {
-            content: '';
+            content: "";
             position: absolute;
             top: -1px;
             bottom: -1px;
@@ -188,7 +194,7 @@ $item-color-nor: #48A4FF;
       }
     }
 
-    .list-item+.list-item {
+    .list-item + .list-item {
       margin-top: 12px;
     }
 

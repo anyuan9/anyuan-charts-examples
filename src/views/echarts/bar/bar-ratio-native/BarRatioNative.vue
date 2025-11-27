@@ -1,52 +1,52 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
+import { computed, defineProps, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const props = defineProps({
   chartData: {
     type: Array,
-    default: () => [], // [{name, value, ratio, colors, valueColor}]
+    default: () => [] // [{name, value, ratio, colors, valueColor}]
   },
   // 是否显示总数
   showTotal: {
     type: Boolean,
-    default: true,
+    default: true
   },
   // 是否显示每一项的名字和值（对于只有两项数据时，有用）
   showList: {
     type: Boolean,
-    default: true,
+    default: true
   },
   // 是否显示百分比
   showRatio: {
     type: Boolean,
-    default: true,
+    default: true
   },
   // 是否显示图例
   showLegend: {
     type: Boolean,
-    default: true,
+    default: true
   },
   // 是否自动轮播tooltip
   autoTooltipLoop: {
     type: Boolean,
-    default: true,
+    default: true
   },
   legendIcon: {
     type: String,
-    default: 'rect', // circle, rect
-  },
-})
+    default: "rect" // circle, rect
+  }
+});
 
 const totalData = computed(() => {
-  const total = props.chartData?.reduce((prev, curr) => prev + curr.value, 0)
+  const total = props.chartData?.reduce((prev, curr) => prev + curr.value, 0);
   return {
-    name: '总数',
-    value: total || 0,
-  }
-})
+    name: "总数",
+    value: total || 0
+  };
+});
 const seriesData = computed(() => {
-  const total = props.chartData?.reduce((prev, curr) => prev + curr.value, 0)
+  const total = props.chartData?.reduce((prev, curr) => prev + curr.value, 0);
 
   return props.chartData.map((item, index) => {
     return {
@@ -55,36 +55,36 @@ const seriesData = computed(() => {
       ratio: item.ratio ?? `${((item.value / (total || 1)) * 100).toFixed(1)}%`,
       colors: item.colors || chartColors[index % chartColors.length],
       valueColor: item.valueColor || chartColor[index % chartColors.length]
-    }
-  })
-})
+    };
+  });
+});
 
 watch(
   () => props.chartData,
-  newVal => {
+  (newVal) => {
     nextTick(() => {
-      props.autoTooltipLoop && handleInterval()
-    })
+      props.autoTooltipLoop && handleInterval();
+    });
   },
-  { deep: true, immediate: true },
-)
+  { deep: true, immediate: true }
+);
 
-const activeIndex = ref(-1)
-let timer = null
+const activeIndex = ref(-1);
+let timer = null;
 function handleInterval() {
-  activeIndex.value = 0
-  timer && clearInterval(timer)
+  activeIndex.value = 0;
+  timer && clearInterval(timer);
   if (props.chartData.length) {
     timer = setInterval(() => {
-      if (activeIndex.value === props.chartData.length - 1) activeIndex.value = 0
-      else activeIndex.value++
-    }, 1500)
+      if (activeIndex.value === props.chartData.length - 1) activeIndex.value = 0;
+      else activeIndex.value++;
+    }, 1500);
   }
 }
 
 onBeforeUnmount(() => {
-  timer && clearInterval(timer)
-})
+  timer && clearInterval(timer);
+});
 </script>
 
 <template>
@@ -104,12 +104,14 @@ onBeforeUnmount(() => {
       </div>
       <!-- 百分比条 -->
       <div class="row row-percent">
-        <span v-for="(item, index) in seriesData" :key="index" class="row-item percent"
+        <span
+          v-for="(item, index) in seriesData" :key="index" class="row-item percent"
           :class="{ active: activeIndex === index }" :style="{
             width: item.ratio,
             backgroundImage: item.colors?.length > 1 ? `linear-gradient(270deg, ${item.colors[1]} 0%, ${item.colors[0]} 100%)` : '',
             boxShadow: item.colors?.length ? `0px 0px 6px 0px ${item.colors[0]}` : '',
-          }"></span>
+          }"
+        />
       </div>
       <!-- 百分比数字 -->
       <div v-if="showRatio" class="row row-ratio">
@@ -121,18 +123,24 @@ onBeforeUnmount(() => {
 
     <!-- 图例 -->
     <section v-if="showLegend" class="legend-content">
-      <div v-for="(item, index) in seriesData" :key="index" class="legend-item"
-        :class="{ active: activeIndex === index }">
-        <div class="icon" :class="[legendIcon]" :style="{
-          'background-image':
-            legendIcon === 'rect' && item.colors?.length > 1
-              ? `linear-gradient(90deg, ${item.colors[0]} 0%, ${item.colors[1]} 100%)`
-              : '',
-        }"></div>
-        <div class="label">{{ item.name }}</div>
+      <div
+        v-for="(item, index) in seriesData" :key="index" class="legend-item"
+        :class="{ active: activeIndex === index }"
+      >
+        <div
+          class="icon" :class="[legendIcon]" :style="{
+            'background-image':
+              legendIcon === 'rect' && item.colors?.length > 1
+                ? `linear-gradient(90deg, ${item.colors[0]} 0%, ${item.colors[1]} 100%)`
+                : '',
+          }"
+        />
+        <div class="label">
+          {{ item.name }}
+        </div>
         <div class="num-content">
-          <span class="num"  :style="`color: ${item.valueColor};`">{{ item.value }}</span>
-          <span class="divide"></span>
+          <span class="num" :style="`color: ${item.valueColor};`">{{ item.value }}</span>
+          <span class="divide" />
           <span class="ratio">{{ item.ratio }}</span>
         </div>
       </div>
@@ -175,7 +183,7 @@ onBeforeUnmount(() => {
         text-align: right;
       }
 
-      .row-item+.row-item {
+      .row-item + .row-item {
         margin-left: 2px;
       }
     }
@@ -306,10 +314,12 @@ onBeforeUnmount(() => {
           height: 16px;
           margin: 0 8px;
           // background-color: rgba(255, 255, 255, 0.5);
-          background-image: linear-gradient(180deg,
-              rgba(76, 160, 255, 0.2) 0%,
-              rgb(49 124 255) 50%,
-              rgba(76, 160, 255, 0.2) 100%);
+          background-image: linear-gradient(
+            180deg,
+            rgba(76, 160, 255, 0.2) 0%,
+            rgb(49 124 255) 50%,
+            rgba(76, 160, 255, 0.2) 100%
+          );
         }
 
         .ratio {

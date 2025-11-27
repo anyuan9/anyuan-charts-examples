@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -33,9 +33,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     title: {
       text: title || "",
@@ -45,8 +45,8 @@ function getOption(data) {
       textStyle: {
         align: "center",
         color: "#fff",
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -59,8 +59,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     tooltip: {
       trigger: "axis",
@@ -69,12 +69,12 @@ function getOption(data) {
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -82,7 +82,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     xAxis: [
       {
@@ -92,8 +92,8 @@ function getOption(data) {
         axisLine: {
           show: true,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.2)",
-          },
+            color: "rgba(255, 255, 255, 0.2)"
+          }
         },
         // 坐标轴的刻度
         axisTick: {
@@ -105,8 +105,8 @@ function getOption(data) {
           lineStyle: {
             fontSize: 12,
             fontWeight: 400,
-            color: "rgba(255, 255, 255, 0.4)",
-          },
+            color: "rgba(255, 255, 255, 0.4)"
+          }
         },
         // 坐标轴的刻度标签
         axisLabel: {
@@ -114,17 +114,17 @@ function getOption(data) {
           inside: false, // 刻度标签是否朝内，默认false(朝外)
           fontSize: 12,
           fontWeight: 400,
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.4)"
         },
         // 坐标轴的分隔线
         splitLine: {
           show: false,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.1)",
-          },
+            color: "rgba(255, 255, 255, 0.1)"
+          }
         },
-        data: xAxisData || [],
-      },
+        data: xAxisData || []
+      }
     ],
     yAxis: [
       {
@@ -133,31 +133,31 @@ function getOption(data) {
         axisLine: {
           show: true,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.2)",
-          },
+            color: "rgba(255, 255, 255, 0.2)"
+          }
         },
         // 坐标轴的刻度
         axisTick: {
-          show: false,
+          show: false
         },
         // 坐标轴的刻度标签
         axisLabel: {
           show: true,
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.4)"
         },
         // 坐标轴的分隔线
         splitLine: {
           show: false,
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.1)",
-          },
-        },
-      },
+            color: "rgba(255, 255, 255, 0.1)"
+          }
+        }
+      }
     ],
     // 全局动画配置
     animation: true,
-    animationEasing: 'elasticOut',
-    animationDelayUpdate: function (idx) {
+    animationEasing: "elasticOut",
+    animationDelayUpdate(idx) {
       return idx * 5;
     },
     series: [
@@ -175,18 +175,18 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0],
+                color: chartColors[0][0]
               },
               {
                 offset: 1,
-                color: chartColors[0][1],
-              },
+                color: chartColors[0][1]
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
           borderRadius: [30, 30, 30, 30],
           shadowColor: chartColors[0][0],
-          shadowBlur: 4,
+          shadowBlur: 4
         },
         label: {
           show: true,
@@ -202,20 +202,20 @@ function getOption(data) {
             icon: {
               color: chartColors[0][0],
               align: "center",
-              padding: [0, 4, 0, 0],
+              padding: [0, 4, 0, 0]
             },
             value: {
               color: "#fff",
-              align: "center",
+              align: "center"
             },
             line: {
               width: 1,
               height: 30,
               borderWidth: 1,
               borderColor: chartColors[0][0],
-              align: "center",
-            },
-          },
+              align: "center"
+            }
+          }
         },
         // 设置动画延迟
         animationDelay: (idx) => {
@@ -223,7 +223,7 @@ function getOption(data) {
           return idx * 20;
         },
         name: seriesData?.length ? seriesData[0].name : "",
-        data: seriesData?.length ? seriesData[0].data : [],
+        data: seriesData?.length ? seriesData[0].data : []
       },
       {
         type: "bar",
@@ -239,22 +239,22 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[1][0],
+                color: chartColors[1][0]
               },
               {
                 offset: 1,
-                color: chartColors[1][1],
-              },
+                color: chartColors[1][1]
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
-          borderRadius: 11,
+          borderRadius: 11
         },
         animationDelay: (idx) => {
           return idx * 20 + 100;
         },
         name: seriesData?.length ? seriesData[1].name : "",
-        data: seriesData?.length ? seriesData[1].data : [],
+        data: seriesData?.length ? seriesData[1].data : []
       },
       {
         type: "bar",
@@ -270,16 +270,16 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[2][0],
+                color: chartColors[2][0]
               },
               {
                 offset: 1,
-                color: chartColors[2][0],
-              },
+                color: chartColors[2][0]
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
-          borderRadius: 11,
+          borderRadius: 11
         },
         label: {
           show: true,
@@ -287,15 +287,15 @@ function getOption(data) {
           padding: 10,
           color: chartColors[2][0],
           fontSize: 14,
-          formatter: "{c}",
+          formatter: "{c}"
         },
         animationDelay: (idx) => {
           return idx * 20 + 200;
         },
         name: seriesData?.length ? seriesData[2].name : "",
-        data: seriesData?.length ? seriesData[2].data : [],
-      },
-    ],
+        data: seriesData?.length ? seriesData[2].data : []
+      }
+    ]
   };
 }
 
@@ -308,29 +308,26 @@ async function getData() {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 6 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据",
             data: Array.from({ length: 6 }, () =>
-              Math.floor(Math.random() * 200 + 50),
-            ),
+              Math.floor(Math.random() * 200 + 50))
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 6 }, () =>
-              Math.floor(Math.random() * 200 + 50),
-            ),
+              Math.floor(Math.random() * 200 + 50))
           },
           {
             name: "测试数据3",
             data: Array.from({ length: 6 }, () =>
-              Math.floor(Math.random() * 200 + 50),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 200 + 50))
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -345,9 +342,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

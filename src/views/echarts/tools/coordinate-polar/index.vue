@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -28,20 +28,20 @@ function getOption(data) {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 32,
+        fontSize: 32
       },
       subtext: subtitle || "", // 副标题文本，支持使用 \n 换行。
       subtextStyle: {
         color: "rgba(255, 255, 255, 0.6)",
-        fontSize: 20,
+        fontSize: 20
       },
       itemGap: 20,
       top: "45%",
-      left: "center",
+      left: "center"
     },
     // 提示框
     tooltip: {
-      trigger: "axis",
+      trigger: "axis"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -49,7 +49,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
     polar: {
@@ -59,8 +59,8 @@ function getOption(data) {
       z: 0, // z值用于控制图形的前后顺序，z值小的图形会被z值大的图形覆盖。z相比zlevel优先级更低，而且不会创建新的 Canvas。默认：0
       // 坐标轴 tooltip 设置
       tooltip: {
-        show: true, // 是否显示提示框组件，默认为true
-      },
+        show: true // 是否显示提示框组件，默认为true
+      }
     },
     // 极坐标系的径向轴
     radiusAxis: {
@@ -92,12 +92,12 @@ function getOption(data) {
       nameTextStyle: {
         color: "rgba(255, 255, 255, 0.6)",
         fontSize: 14,
-        padding: 0,
+        padding: 0
       },
       // 坐标轴名字的截断
       nameTruncate: {
         width: 80, // 截断文本的最大长度，超过此长度会被截断。
-        ellipsis: "...", // 截断后文字末尾显示的内容。
+        ellipsis: "..." // 截断后文字末尾显示的内容。
       },
 
       // 坐标轴的轴线
@@ -115,8 +115,8 @@ function getOption(data) {
           cap: "round", // 坐标轴刻度线端点的形状，默认为'butt'，可选：'butt': 线段末端以方形结束、'round: 线段末端以圆形结束'、'square': 线段末端以方形结束
           join: "bevel", // 用于设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起，默认为'bevel'，可选：'miter'、'round'、'bevel'
           miterLimit: 10, // 最大斜接长度，当 setLineJoin 为 'miter' 时有效，超过该值时，连接效果变为 'bevel'
-          opacity: 1, // 坐标轴刻度线的透明度，默认为1
-        },
+          opacity: 1 // 坐标轴刻度线的透明度，默认为1
+        }
       },
       // 坐标轴的刻度
       axisTick: {
@@ -127,8 +127,8 @@ function getOption(data) {
         alignWithLabel: false, // 类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。默认 false
         // 所有属性{ color , width , type , dashOffset , cap , join , miterLimit , shadowBlur , shadowColor , shadowOffsetX , shadowOffsetY , opacity }
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)", // 坐标轴刻度线的颜色，默认取 axisTick.lineStyle.color
-        },
+          color: "rgba(255, 255, 255, 0.2)" // 坐标轴刻度线的颜色，默认取 axisTick.lineStyle.color
+        }
       },
       // 坐标轴次刻度
       minorTick: {
@@ -137,9 +137,9 @@ function getOption(data) {
         length: 3, // 次刻度线长
         // 所有属性{ color , width , type , dashOffset , cap , join , miterLimit , shadowBlur , shadowColor , shadowOffsetX , shadowOffsetY , opacity }
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)", // 次刻度线颜色，默认取 axisTick.lineStyle.color
+          color: "rgba(255, 255, 255, 0.2)" // 次刻度线颜色，默认取 axisTick.lineStyle.color
           // ... 其他和 axisTick.lineStyle 相同的配置项
-        },
+        }
       },
       // 坐标轴的刻度标签
       axisLabel: {
@@ -175,9 +175,9 @@ function getOption(data) {
         // 使用字符串模板，模板变量为刻度默认标签 {value}
         // formatter: '{value} kg',
         // 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
-        formatter: function (value, index) {
-          return value + "kg";
-        },
+        formatter(value, index) {
+          return `${value}kg`;
+        }
       },
       // 坐标轴的分隔线
       splitLine: {
@@ -187,16 +187,16 @@ function getOption(data) {
         interval: 0, // 分隔线的间隔，默认为'auto'自动判断。如果为 0，则强制设置为不间隔。如果设置为 1，表示『隔一个标签显示一个标签』。可以用数值表示间隔的数据，也可以通过回调函数控制。
         // 所有属性{ color , width , type , dashOffset , cap , join , miterLimit , shadowBlur , shadowColor , shadowOffsetX , shadowOffsetY , opacity }
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
+          color: "rgba(255, 255, 255, 0.1)"
+        }
       },
       // 次分隔线。次分割线会对齐次刻度线 minorTick
       minorSplitLine: {
         show: false, // 是否显示次分隔线。默认 false
         // 所有属性{ color , width , type , dashOffset , cap , join , miterLimit , shadowBlur , shadowColor , shadowOffsetX , shadowOffsetY , opacity }
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)", // 分隔线颜色，默认取 splitLine.lineStyle.color
-        },
+          color: "rgba(255, 255, 255, 0.1)" // 分隔线颜色，默认取 splitLine.lineStyle.color
+        }
       },
       // 分隔区域
       splitArea: {
@@ -204,8 +204,8 @@ function getOption(data) {
         interval: "auto", // 分隔区域的间隔，默认为'auto'自动判断。如果为 0，则强制设置为不间隔。如果设置为 1，表示『隔一个标签显示一个标签』。可以用数值表示间隔的数据，也可以通过回调函数控制。
         // 所有属性{ color , shadowBlur , shadowColor , shadowOffsetX , shadowOffsetY , opacity }
         areaStyle: {
-          color: ["rgba(250,250,250,0.3)", "rgba(200,200,200,0.3)"],
-        },
+          color: ["rgba(250,250,250,0.3)", "rgba(200,200,200,0.3)"]
+        }
       },
       // 坐标轴指示器
       axisPointer: {
@@ -245,7 +245,7 @@ function getOption(data) {
           formatter: (params) => {
             const { axisIndex, axisDimension, value, seriesData } = params;
             return `${value}`;
-          },
+          }
         },
         // 直线指示器的样式。axisPointer.type 为 'line' 时有效
         lineStyle: {
@@ -261,18 +261,18 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(255, 255, 255, 0)", // 0% 处的颜色
+                color: "rgba(255, 255, 255, 0)" // 0% 处的颜色
               },
               {
                 offset: 0.5,
-                color: "rgba(255, 255, 255, 0.4)", // 50% 处的颜色
+                color: "rgba(255, 255, 255, 0.4)" // 50% 处的颜色
               },
               {
                 offset: 1,
-                color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
-              },
+                color: "rgba(255, 255, 255, 0)" // 100% 处的颜色
+              }
             ],
-            global: false,
+            global: false
           },
           width: 1, // 指示器线宽，默认为1。
           type: "solid",
@@ -283,7 +283,7 @@ function getOption(data) {
           // shadowColor: "#aaa",
           // shadowOffsetX: 0,
           // shadowOffsetY: 0,
-          opacity: 1, // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
+          opacity: 1 // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形
         },
         // 阴影指示器的样式。axisPointer.type 为 'shadow' 时有效
         shadowStyle: {
@@ -292,12 +292,12 @@ function getOption(data) {
           // shadowColor: "#aaa",
           // shadowOffsetX: 0,
           // shadowOffsetY: 0
-        },
+        }
       },
       // 坐标轴 tooltip 设置，注意需设置 triggerEvent 为 true 并启用全局 option.tooltip 组件。
       tooltip: {
-        show: false, // 是否显示提示框组件，默认为false
-      },
+        show: false // 是否显示提示框组件，默认为false
+      }
     },
     // 极坐标系的角度轴
     angleAxis: {
@@ -321,7 +321,7 @@ function getOption(data) {
       silent: false, // 坐标轴是否是静态无法交互。
       triggerEvent: false, // 坐标轴的标签是否响应和触发鼠标事件，默认为 false。
       zlevel: 0, // zlevel用于 Canvas 分层，不同zlevel值的图形会放置在不同的 Canvas 中。zlevel 大的 Canvas 会放在 zlevel 小的 Canvas 的上面。默认：0
-      z: 0, // z值用于控制图形的前后顺序，z值小的图形会被z值大的图形覆盖。z相比zlevel优先级更低，而且不会创建新的 Canvas。默认：0
+      z: 0 // z值用于控制图形的前后顺序，z值小的图形会被z值大的图形覆盖。z相比zlevel优先级更低，而且不会创建新的 Canvas。默认：0
     },
     series: [
       {
@@ -334,7 +334,7 @@ function getOption(data) {
         backgroundStyle: {
           color: "#EFF2F5",
           borderColor: "#EFF2F5",
-          borderWidth: 3,
+          borderWidth: 3
         },
         itemStyle: {
           opacity: 1,
@@ -347,14 +347,14 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "#5CBEFF", // 0% 处的颜色
+                color: "#5CBEFF" // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: "#518FEF", // 100% 处的颜色
-              },
+                color: "#518FEF" // 100% 处的颜色
+              }
             ],
-            global: false,
+            global: false
           },
           borderColor: {
             type: "linear",
@@ -365,19 +365,19 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "#5CBEFF", // 0% 处的颜色
+                color: "#5CBEFF" // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: "#518FEF", // 100% 处的颜色
-              },
+                color: "#518FEF" // 100% 处的颜色
+              }
             ],
-            global: false,
+            global: false
           },
-          borderWidth: 3,
+          borderWidth: 3
         },
         stack: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [0],
+        data: (seriesData?.length && seriesData[0].data) || [0]
       },
       // 顶部圆环装饰
       {
@@ -390,15 +390,15 @@ function getOption(data) {
           color: "#EFF2F5",
           shadowColor: "rgba(0, 0, 0, 0.2)",
           shadowBlur: 10,
-          shadowOffsetY: 2,
+          shadowOffsetY: 2
         },
         itemStyle: {
           color: "#90BDFF",
           borderColor: "rgba(81,143,239, 1)",
-          borderWidth: 3,
+          borderWidth: 3
         },
         stack: (seriesData?.length && seriesData[0].name) || "",
-        data: [0.01],
+        data: [0.01]
       },
       // 外部圆环装饰
       {
@@ -410,28 +410,28 @@ function getOption(data) {
         endAngle: "-359.99",
         splitNumber: "200",
         pointer: {
-          show: false,
+          show: false
         },
         title: {
-          show: false,
+          show: false
         },
         detail: {
-          show: false,
+          show: false
         },
         data: [
           {
             value: 95,
-            name: "",
-          },
+            name: ""
+          }
         ],
         axisLine: {
           lineStyle: {
             width: 20,
-            opacity: 0,
-          },
+            opacity: 0
+          }
         },
         axisTick: {
-          show: false,
+          show: false
         },
         splitLine: {
           show: true,
@@ -446,28 +446,28 @@ function getOption(data) {
               colorStops: [
                 {
                   offset: 0,
-                  color: "#111",
+                  color: "#111"
                 },
                 {
                   offset: 0.5,
-                  color: "rgba(255, 255, 255, 0.8)",
+                  color: "rgba(255, 255, 255, 0.8)"
                 },
                 {
                   offset: 1,
-                  color: "#111",
-                },
+                  color: "#111"
+                }
               ],
-              global: false, // 缺省为 false
+              global: false // 缺省为 false
             },
             width: 1,
-            type: "solid",
-          },
+            type: "solid"
+          }
         },
         axisLabel: {
-          show: false,
-        },
-      },
-    ],
+          show: false
+        }
+      }
+    ]
   };
 }
 
@@ -483,10 +483,10 @@ async function getData() {
         seriesData: [
           {
             name: "测试数据1",
-            data: [63.2], // [Math.floor(Math.random() * 80)]
-          },
-        ],
-      },
+            data: [63.2] // [Math.floor(Math.random() * 80)]
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -501,9 +501,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }
@@ -534,4 +534,3 @@ onMounted(() => {
   height: 680px;
 }
 </style>
-

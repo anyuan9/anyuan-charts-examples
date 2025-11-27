@@ -1,72 +1,78 @@
+<script setup>
+import { ref, watch } from "vue";
+import EmptyDark from "@/components/EmptyDark/index.vue";
+
+const props = defineProps({
+  chartData: {
+    type: Array,
+    default: () => [] // [{icon, name, value}]
+  },
+  gridColumn: {
+    type: Number,
+    default: 1
+  },
+  cardDirection: {
+    type: String,
+    default: "horizontal" // horizontal, vertical
+  }
+});
+
+// 图表数据
+const chartData = ref([]);
+watch(
+  () => props.chartData,
+  (val) => {
+    try {
+      chartData.value = val || [];
+
+      const sum = chartData.value.reduce((prev, curr) => prev + curr.value, 0);
+      chartData.value.forEach(item => (item.percent = (item.value * 100) / (sum || 1)));
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  { deep: true, immediate: true }
+);
+</script>
+
 <template>
   <div class="bar-top-wrap">
     <div v-if="!chartData || !chartData.length" class="chart-list">
-      <empty-dark size="sm" />
+      <EmptyDark size="sm" />
     </div>
     <div v-else class="chart-list" :style="{ gridTemplateColumns: `repeat(${gridColumn}, 1fr)` }">
       <div v-for="(item, index) in chartData" :key="index" class="chart-card" :class="[cardDirection]">
         <div class="card-left">
           <div class="card-index">
-            <div class="card-index-inner">{{ index + 1 }}</div>
+            <div class="card-index-inner">
+              {{ index + 1 }}
+            </div>
           </div>
           <div v-if="item.icon" class="card-icon">
-            <img :src="item.icon" alt="" />
+            <img :src="item.icon" alt="">
           </div>
-          <div class="card-name ellipsis">{{ item.name }}</div>
+          <div class="card-name ellipsis">
+            {{ item.name }}
+          </div>
         </div>
 
         <div class="card-center">
           <div class="card-content">
             <div class="card-bar">
-              <div class="card-bar-inner" :style="{ width: item.percent + '%' }"></div>
+              <div class="card-bar-inner" :style="{ width: `${item.percent}%` }" />
             </div>
           </div>
         </div>
 
         <div class="card-right">
-          <div class="card-value ellipsis">{{ item.value }}</div>
+          <div class="card-value ellipsis">
+            {{ item.value }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, watch, onMounted, nextTick } from 'vue'
-import EmptyDark from '@/components/EmptyDark/index.vue'
-
-const props = defineProps({
-  chartData: {
-    type: Array,
-    default: () => [], // [{icon, name, value}]
-  },
-  gridColumn: {
-    type: Number,
-    default: 1,
-  },
-  cardDirection: {
-    type: String,
-    default: 'horizontal', // horizontal, vertical
-  },
-})
-
-// 图表数据
-const chartData = ref([])
-watch(
-  () => props.chartData,
-  val => {
-    try {
-      chartData.value = val || []
-
-      const sum = chartData.value.reduce((prev, curr) => prev + curr.value, 0)
-      chartData.value.forEach(item => (item.percent = (item.value * 100) / (sum || 1)))
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  { deep: true, immediate: true },
-)
-</script>
 
 <style lang="scss" scoped>
 .bar-top-wrap {
@@ -114,7 +120,7 @@ watch(
 .chart-card {
   display: grid;
   grid-template-columns: 160px minmax(120px, 1fr) 60px;
-  grid-template-areas: 'a b c';
+  grid-template-areas: "a b c";
   place-self: center;
   gap: 4px;
   width: 100%;
@@ -124,8 +130,8 @@ watch(
   &.vertical {
     grid-template-columns: minmax(120px, 1fr) 60px;
     grid-template-areas:
-      'a c'
-      'b b';
+      "a c"
+      "b b";
   }
 
   .card-left,
@@ -206,7 +212,7 @@ watch(
     }
 
     .card-bar-inner::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -2px;
       right: -2px;

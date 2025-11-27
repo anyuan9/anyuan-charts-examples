@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -31,9 +31,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 直角坐标系内绘图网格
     grid: [
@@ -44,7 +44,7 @@ function getOption(data) {
         top: "10%",
         bottom: "20",
         width: "33%",
-        containLabel: true,
+        containLabel: true
       },
       // 中间
       {
@@ -52,7 +52,7 @@ function getOption(data) {
         left: "51%",
         top: "10%",
         bottom: "20",
-        width: "0%",
+        width: "0%"
       },
       // 右边
       {
@@ -61,8 +61,8 @@ function getOption(data) {
         top: "10%",
         bottom: "20",
         width: "33%",
-        containLabel: true,
-      },
+        containLabel: true
+      }
     ],
     // 标题
     title: {
@@ -73,8 +73,8 @@ function getOption(data) {
       textStyle: {
         align: "center",
         color: "#ffffff",
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -87,8 +87,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
@@ -98,49 +98,49 @@ function getOption(data) {
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: "#ffffff",
+        color: "#ffffff"
       },
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
     },
     xAxis: [
       {
         type: "value",
         inverse: true,
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
         splitLine: {
-          show: false,
-        },
+          show: false
+        }
       },
       {
         gridIndex: 1,
-        show: false,
+        show: false
       },
       {
         gridIndex: 2,
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
         splitLine: {
-          show: false,
-        },
-      },
+          show: false
+        }
+      }
     ],
     yAxis: [
       {
@@ -148,15 +148,15 @@ function getOption(data) {
         inverse: true,
         position: "right",
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
-        data: yAxisData || [],
+        data: yAxisData || []
       },
       {
         gridIndex: 1,
@@ -164,18 +164,18 @@ function getOption(data) {
         inverse: true,
         position: "center",
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
           show: true,
           align: "center",
           color: "rgba(255, 255, 255, 0.8)",
-          fontSize: 14,
+          fontSize: 14
         },
-        data: yAxisData || [],
+        data: yAxisData || []
       },
       {
         gridIndex: 2,
@@ -183,16 +183,16 @@ function getOption(data) {
         inverse: true,
         position: "left",
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
-        data: yAxisData || [],
-      },
+        data: yAxisData || []
+      }
     ],
     series: [
       {
@@ -212,23 +212,23 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
         label: {
           show: true,
           position: "left",
-          color: chartColors[0][0],
+          color: chartColors[0][0]
         },
         name: seriesData?.length ? seriesData[0].name : "",
-        data: seriesData?.length ? seriesData[0].data : [],
+        data: seriesData?.length ? seriesData[0].data : []
       },
       {
         type: "bar",
@@ -247,25 +247,25 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[1][0], // 0% 处的颜色
+                color: chartColors[1][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[1][0], // 100% 处的颜色
-              },
+                color: chartColors[1][0] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
         label: {
           show: true,
           position: "right",
-          color: chartColors[1][0],
+          color: chartColors[1][0]
         },
         name: seriesData?.length ? seriesData[1].name : "",
-        data: seriesData?.length ? seriesData[1].data : [],
-      },
-    ],
+        data: seriesData?.length ? seriesData[1].data : []
+      }
+    ]
   };
 }
 
@@ -278,23 +278,21 @@ async function getData() {
         title: "测试数据",
         yAxisData: Array.from(
           { length: 12 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据1",
             data: Array.from({ length: 12 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
+              Math.floor(Math.random() * 500 + 100))
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 12 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 500 + 100))
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -309,9 +307,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -20,10 +20,10 @@ export default antfu(
       // 代码块内加空格，如 `function foo() {}`
       blockSpacing: true,
       // 优先使用箭头函数
-      preferArrowFunctions: true,
+      preferArrowFunctions: true
     },
     // 忽略文件
-    ignores: [],
+    ignores: []
   },
   {
     // 对所有文件都生效的规则
@@ -43,7 +43,7 @@ export default antfu(
       "no-debugger": "off",
       "symbol-description": "off",
       "antfu/if-newline": "off",
-      "unused-imports/no-unused-vars": "off",
-    },
+      "unused-imports/no-unused-vars": "off"
+    }
   }
 );

@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
-import 'echarts-liquidfill';
+import "echarts-liquidfill";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -11,15 +11,15 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
   const { title = "", seriesData } = data;
   const pieVal = Math.floor(200 * seriesData.value);
-  const pieData = [pieVal, 2, 200 - pieVal]
+  const pieData = [pieVal, 2, 200 - pieVal];
 
   return {
     // 背景颜色，默认无背景
@@ -36,55 +36,56 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: [
       {
         text: `{a|${(seriesData.value * 100).toFixed(1)}%}`,
         subtext: title || "",
-        top: 'center',
-        left: 'center',
+        top: "center",
+        left: "center",
         itemGap: 8,
         subtextStyle: {
-          color: 'rgba(255,255,255,0.8)',
+          color: "rgba(255,255,255,0.8)",
           fontSize: 22,
           fontWeight: 400,
-          top: 'center'
+          top: "center"
         },
         textStyle: {
           rich: {
             a: {
-              color: '#fff',
+              color: "#fff",
               fontSize: 42,
-              fontWeight: 'normal',
-              fontFamily: 'DIN-Medium',
-              textShadow: [0, 0, 4, 'rgba(38,52,58,0.50)']
-            },
+              fontWeight: "normal",
+              fontFamily: "DIN-Medium",
+              textShadow: [0, 0, 4, "rgba(38,52,58,0.50)"]
+            }
           }
         }
-      }],
+      }
+    ],
     // 直角坐标系内绘图网格
     grid: {
       top: "15%", // grid 组件离容器上侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('top', 'middle', 'bottom')
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'liquidFill',
-        radius: '45%',
-        center: ['50%', '50%'],
+        type: "liquidFill",
+        radius: "45%",
+        center: ["50%", "50%"],
 
-        amplitude: '8%', // 波浪幅度
-        waveLength: '80%', // 波浪长度
-        phase: 'auto', // 波浪的相位弧度，默认自动计算
-        period: 'auto', // 波浪的周期，默认自动计算
-        direction: 'right', // 波浪方向，默认'left'。可选值： 'left' | 'right'
+        amplitude: "8%", // 波浪幅度
+        waveLength: "80%", // 波浪长度
+        phase: "auto", // 波浪的相位弧度，默认自动计算
+        period: "auto", // 波浪的周期，默认自动计算
+        direction: "right", // 波浪方向，默认'left'。可选值： 'left' | 'right'
         // shape: 'diamond', // 水波形状，默认为圆形。可选值：'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow';
         // shape: 'container', // 装满容器的形状
         // 以'path://'开头的SVG路径，自定义水波形状
@@ -94,7 +95,7 @@ function getOption(data) {
         // color:['#294D99', '#156ACF', '#1598ED', '#45BDFF'], // 每个波浪不同颜色，颜色数组长度为对应的波浪个数
         color: [
           {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 0,
@@ -102,46 +103,46 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0],
+                color: chartColors[0][0]
               },
               {
                 offset: 1,
-                color: chartColors[0][1],
-              },
+                color: chartColors[0][1]
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         ],
 
         waveAnimation: true, // 是否显示水波动画效果
-        animationEasing: 'linear',
-        animationEasingUpdate: 'linear',
+        animationEasing: "linear",
+        animationEasingUpdate: "linear",
         animationDuration: 2000, // 动画时间，单位ms
         animationDurationUpdate: 1000, // 动画更新时间，单位ms
 
         itemStyle: {
           opacity: 0.95,
           shadowBlur: 50,
-          shadowColor: 'rgba(0, 0, 0, 0.4)'
+          shadowColor: "rgba(0, 0, 0, 0.4)"
         },
 
         label: {
           show: false,
-          color: '#294D99',
-          insideColor: '#fff',
+          color: "#294D99",
+          insideColor: "#fff",
           fontSize: 50,
-          fontWeight: 'bold',
+          fontWeight: "bold",
 
-          align: 'center',
-          baseline: 'middle',
-          position: 'inside'
+          align: "center",
+          baseline: "middle",
+          position: "inside"
         },
 
         // 内部背景
         backgroundStyle: {
-          color: '#E3F7FF',
+          color: "#E3F7FF",
           // borderColor: '#FFBF11',
-          borderWidth: 1,
+          borderWidth: 1
         },
 
         // 外边框
@@ -149,11 +150,11 @@ function getOption(data) {
           show: true,
           borderDistance: 10,
           itemStyle: {
-            color: 'none',
-            borderColor: '#294D99',
+            color: "none",
+            borderColor: "#294D99",
             borderWidth: 8,
             shadowBlur: 20,
-            shadowColor: 'rgba(0, 0, 0, 0.25)'
+            shadowColor: "rgba(0, 0, 0, 0.25)"
           }
         },
 
@@ -163,9 +164,9 @@ function getOption(data) {
           }
         },
         name: seriesData.name,
-        data: Array.from({ length: 3 }, () => seriesData.value), // data个数代表波浪数，数字表示波浪高度
+        data: Array.from({ length: 3 }, () => seriesData.value) // data个数代表波浪数，数字表示波浪高度
       }
-    ],
+    ]
   };
 }
 
@@ -178,9 +179,9 @@ async function getData() {
         title: "测试数据",
         seriesData: {
           name: "测试数据1",
-          value: Math.floor(Math.random() * 100) / 100, // 随机生成0~1之间的数
-        },
-      },
+          value: Math.floor(Math.random() * 100) / 100 // 随机生成0~1之间的数
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -195,9 +196,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 // import * as echarts from "echarts"
 
 const chartRef = ref(null);
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -36,14 +36,14 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: [
       {
-        text: "{name|" + title + "}\n{val|" + subtitle + "}",
+        text: `{name|${title}}\n{val|${subtitle}}`,
         top: "center",
         left: "30%",
         textAlign: "center",
@@ -53,15 +53,15 @@ function getOption(data) {
               fontSize: 14,
               fontWeight: "normal",
               color: "rgba(255, 255, 255, 0.8)",
-              padding: [10, 0],
+              padding: [10, 0]
             },
             val: {
               fontSize: 32,
               fontWeight: "bold",
-              color: "rgba(255, 255, 255, 0.65)",
-            },
-          },
-        },
+              color: "rgba(255, 255, 255, 0.65)"
+            }
+          }
+        }
       },
       {
         text: unit,
@@ -70,9 +70,9 @@ function getOption(data) {
         textStyle: {
           fontSize: 14,
           color: "rgba(255, 255, 255, 0.65)",
-          fontWeight: 400,
-        },
-      },
+          fontWeight: 400
+        }
+      }
     ],
     // 图例
     legend: {
@@ -93,12 +93,12 @@ function getOption(data) {
       // 图例标记的图形样式
       itemStyle: {
         borderWidth: 0, // 图例标记的图形边框宽度，默认0
-        borderColor: "#000", // 图例标记的图形边框颜色，默认'#000'
+        borderColor: "#000" // 图例标记的图形边框颜色，默认'#000'
       },
       // 图例图形中线的样式，用于诸如折线图图例横线的样式设置
       lineStyle: {
         width: 2, // 图例图形为线时的线宽，默认2
-        color: "#000", // 图例图形为线时的颜色，默认'#000'
+        color: "#000" // 图例图形为线时的颜色，默认'#000'
       },
       selectedMode: true, // 图例选择的模式，可选值：true单选、false多选、'single'单选、'multiple'多选，默认true
       // selected: {}, // 图例选中状态表，可配置图例选中状态，例如 {'系列1': true, '系列2': false} 表示选中'系列1'，不选中'系列2'
@@ -124,7 +124,7 @@ function getOption(data) {
       pageIconInactiveColor: "#aaa", // 图例控制按钮的禁用颜色，默认'#aaa'
       pageIconSize: 12, // 图例控制按钮的大小，默认15
       pageTextStyle: {
-        color: "#2f4554", // 图例翻页信息文字的颜色，默认'#2f4554'
+        color: "#2f4554" // 图例翻页信息文字的颜色，默认'#2f4554'
       },
       selector: true, // 图例组件中的选择器按钮，目前包括“全选”和“反选”两种功能。默认false不显示
       selectorPosition: "end", // 选择器按钮的位置，可选值：'start'起始位置、'end'结束位置，默认'end'
@@ -135,7 +135,7 @@ function getOption(data) {
         distance: 5, // 选择器标签与选择器按钮的间隔，默认5
         color: "#666", // 选择器标签文字的颜色，默认'#666'
         fontSize: 12, // 选择器标签文字的字体大小，默认12
-        fontWeight: "normal", // 选择器标签文字的字体粗细，默认'normal'
+        fontWeight: "normal" // 选择器标签文字的字体粗细，默认'normal'
       },
       // 图例的公用文本样式
       textStyle: {
@@ -151,21 +151,21 @@ function getOption(data) {
             color: "rgba(255, 255, 255, 0.65)",
             fontSize: 12,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 400,
+            fontWeight: 400
           },
           value: {
             color: "rgba(255, 255, 255, 0.8)",
             fontSize: 14,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 400,
+            fontWeight: 400
           },
           rate: {
             color: "#fd5656",
             fontSize: 14,
             fontFamily: "PingFangSC-Medium, PingFang SC",
-            fontWeight: 600,
-          },
-        },
+            fontWeight: 600
+          }
+        }
       },
       // 格式化图例文本，支持字符串模板和回调函数两种形式
       // 方案一：使用字符串模板，模板变量为图例名称 {name}
@@ -180,9 +180,9 @@ function getOption(data) {
       //   return echarts.format.truncateText(name, 60, "14px Microsoft Yahei", "…")
       // },
       formatter: (name) => {
-        let res = seriesData.find((v) => v.name === name);
+        const res = seriesData.find(v => v.name === name);
         return `{name|${res.name} }{value|${res.value} } {rate|${res.rate} %}`;
-      },
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -190,7 +190,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
@@ -200,27 +200,27 @@ function getOption(data) {
         label: {
           formatter: (params) => {
             return (
-              "{value|" +
-              params.value +
-              "}" +
-              "\n" +
-              "{value|" +
-              params.percent +
-              "%}"
+              `{value|${
+                params.value
+              }}`
+              + `\n`
+              + `{value|${
+                params.percent
+              }%}`
             );
           },
           rich: {
             value: {
               fontSize: 12,
               fontweight: 400,
-              color: "rgba(255, 255, 255, 0.65)",
-            },
-          },
+              color: "rgba(255, 255, 255, 0.65)"
+            }
+          }
         },
         name: title,
-        data: seriesData || [],
-      },
-    ],
+        data: seriesData || []
+      }
+    ]
   };
 }
 
@@ -236,78 +236,78 @@ async function getData() {
         seriesData: [
           {
             name: "测试数据1",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据2",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据3",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据4",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据5",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据6",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据7",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据8",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据9",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据10",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据11",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据12",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据13",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据14",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据15",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据16",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据17",
-            value: Math.floor(Math.random() * 500 + 100),
+            value: Math.floor(Math.random() * 500 + 100)
           },
           {
             name: "测试数据18",
-            value: Math.floor(Math.random() * 500 + 100),
-          },
-        ],
-      },
+            value: Math.floor(Math.random() * 500 + 100)
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -322,9 +322,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -10,19 +10,19 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
   const { title = "", seriesData } = data;
-  const total = seriesData?.reduce((sum, item) => sum + item.value, 0) || 0
-  const yAxisData = seriesData.map(item => item.name)
+  const total = seriesData?.reduce((sum, item) => sum + item.value, 0) || 0;
+  const yAxisData = seriesData.map(item => item.name);
   const boundingData = seriesData.map(item => ({
     name: item.name,
-    value: total,
-  }))
+    value: total
+  }));
 
   return {
     // 背景颜色，默认无背景
@@ -39,19 +39,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -64,8 +64,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
@@ -75,12 +75,12 @@ function getOption(data) {
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       axisPointer: {
         // 坐标轴指示器，坐标轴触发有效
-        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      },
+        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -88,62 +88,62 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
       // 坐标轴的分隔线
       splitLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的轴线
       axisLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度
       axisTick: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度标签
       axisLabel: {
-        show: false,
-      },
+        show: false
+      }
     },
     // 直角坐标系的 y 轴
     yAxis: {
-      type: 'category',
+      type: "category",
       // 坐标轴的分隔线
       splitLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的轴线
       axisLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度
       axisTick: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度标签
       axisLabel: {
         show: true,
-        color: 'rgba(255, 255, 255, 0.8)',
+        color: "rgba(255, 255, 255, 0.8)"
       },
       inverse: true, // 重要属性，倒序
-      data: yAxisData || [],
+      data: yAxisData || []
     },
     series: [
       {
         // 内部柱状图，渐变的柱状图，作为象形柱状图的背景底色（如果不实现渐变背景，可去除此bar）
-        type: 'bar',
+        type: "bar",
         barWidth: 18,
         silent: true,
         legendHoverLink: false,
-        animationEasing: 'elasticOut',
+        animationEasing: "elasticOut",
         z: 1,
         itemStyle: {
           color: {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
@@ -151,135 +151,135 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
-        data: seriesData || [],
+        data: seriesData || []
       },
       {
         // 内部象形柱状图，用作内部的分隔
-        type: 'pictorialBar',
-        symbol: 'rect',
+        type: "pictorialBar",
+        symbol: "rect",
         symbolClip: true,
         symbolMargin: 2,
         symbolSize: [2, 20],
-        symbolOffset: ['50%', -1], // 图形相对于原本位置的偏移，水平方向偏移1是为了避免遮挡外框的左边框。垂直方向偏移-1是为了位置居中一点
-        symbolRepeat: 'fixed', // 'fixed'，指定图形元素是否重复，重复的次数依据 symbolBoundingData 计算得到。此时label将放置在最顶端
-        symbolPosition: 'start',
+        symbolOffset: ["50%", -1], // 图形相对于原本位置的偏移，水平方向偏移1是为了避免遮挡外框的左边框。垂直方向偏移-1是为了位置居中一点
+        symbolRepeat: "fixed", // 'fixed'，指定图形元素是否重复，重复的次数依据 symbolBoundingData 计算得到。此时label将放置在最顶端
+        symbolPosition: "start",
         // symbolRotate: "-25",
         symbolBoundingData: total,
-        animationEasing: 'elasticOut',
+        animationEasing: "elasticOut",
         z: 2,
         itemStyle: {
-          color: 'rgba(8, 25, 66, 1)', // 分隔线颜色，与背景颜色一致
+          color: "rgba(8, 25, 66, 1)" // 分隔线颜色，与背景颜色一致
         },
         label: {
           show: true,
-          position: 'right',
+          position: "right",
           distance: 0, // 向右偏移位置
           rich: {
             a: {
-              color: 'red',
+              color: "red"
             },
             b: {
-              color: 'yellow',
+              color: "yellow"
             },
             c: {
-              color: 'green',
+              color: "green"
             },
             d: {
-              color: '#ffffff',
-            },
-          },
-          formatter: params => {
-            const { value, dataIndex } = params
-            let text
-            let radio = ((value / total) * 100).toFixed(1) + '%'
-            if (params.dataIndex == 0) {
-              text = '{a|  ' + radio + '}{d|  ' + value + '}'
-            } else if (params.dataIndex == 1) {
-              text = '{b|  ' + radio + '}{d|  ' + value + '}'
-            } else if (params.dataIndex == 2) {
-              text = '{c|  ' + radio + '}{d|  ' + value + '}'
-            } else {
-              text = '{d|  ' + radio + '}{d|  ' + value + '}'
+              color: "#ffffff"
             }
-            return text
           },
+          formatter: (params) => {
+            const { value, dataIndex } = params;
+            let text;
+            const radio = `${((value / total) * 100).toFixed(1)}%`;
+            if (params.dataIndex == 0) {
+              text = `{a|  ${radio}}{d|  ${value}}`;
+            } else if (params.dataIndex == 1) {
+              text = `{b|  ${radio}}{d|  ${value}}`;
+            } else if (params.dataIndex == 2) {
+              text = `{c|  ${radio}}{d|  ${value}}`;
+            } else {
+              text = `{d|  ${radio}}{d|  ${value}}`;
+            }
+            return text;
+          }
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: seriesData || [],
+        data: seriesData || []
       },
       {
         // 内部象形柱状图，顶部符号
-        type: 'pictorialBar',
-        symbol: 'rect',
+        type: "pictorialBar",
+        symbol: "rect",
         symbolSize: [2, 20],
-        symbolOffset: ['50%', -1],
-        symbolPosition: 'end',
+        symbolOffset: ["50%", -1],
+        symbolPosition: "end",
         // symbolRotate: "-25",
         itemStyle: {
-          color: 'rgba(255, 255, 255, 1)',
+          color: "rgba(255, 255, 255, 1)"
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: seriesData || [],
+        data: seriesData || []
       },
       {
         // 内部象形柱状图，用作内部的背景
-        type: 'pictorialBar',
-        symbol: 'rect',
+        type: "pictorialBar",
+        symbol: "rect",
         symbolClip: true,
         symbolMargin: 2,
         symbolSize: [2, 16],
-        symbolOffset: ['50%', -1],
-        symbolRepeat: 'fixed',
-        symbolPosition: 'start',
+        symbolOffset: ["50%", -1],
+        symbolRepeat: "fixed",
+        symbolPosition: "start",
         // symbolRotate: "-25",
         symbolBoundingData: total,
-        animationEasing: 'elasticOut',
+        animationEasing: "elasticOut",
         z: 10,
         itemStyle: {
-          color: chartColors[0][0] + '4d',
+          color: `${chartColors[0][0]}4d`
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: boundingData || [],
+        data: boundingData || []
       },
       {
         // 外边框
-        type: 'bar',
-        barGap: '-120%',
+        type: "bar",
+        barGap: "-120%",
         barWidth: 25,
         z: 0,
         itemStyle: {
-          color: 'transparent', // 填充色
+          color: "transparent", // 填充色
           borderColor: chartColors[0][0], // 边框色
           borderWidth: 1, // 边框宽度
           // borderRadius: 0, //圆角半径
           label: {
             // 标签显示位置
             show: false,
-            position: 'top', // insideTop 或者横向的 insideLeft
-          },
+            position: "top" // insideTop 或者横向的 insideLeft
+          }
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: Array.from({ length: seriesData?.length }, () => total),
-      },
-    ],
+        data: Array.from({ length: seriesData?.length }, () => total)
+      }
+    ]
   };
 }
 
@@ -292,27 +292,27 @@ async function getData() {
         title: "测试数据",
         seriesData: [
           {
-            name: '测试数据',
-            value: Math.floor(Math.random() * 200 + 50),
+            name: "测试数据",
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
-            name: '测试数据2',
-            value: Math.floor(Math.random() * 200 + 50),
+            name: "测试数据2",
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
-            name: '测试数据3',
-            value: Math.floor(Math.random() * 200 + 50),
+            name: "测试数据3",
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
-            name: '测试数据4',
-            value: Math.floor(Math.random() * 200 + 50),
+            name: "测试数据4",
+            value: Math.floor(Math.random() * 200 + 50)
           },
           {
-            name: '测试数据5',
-            value: Math.floor(Math.random() * 200 + 50),
-          },
-        ],
-      },
+            name: "测试数据5",
+            value: Math.floor(Math.random() * 200 + 50)
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -327,9 +327,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

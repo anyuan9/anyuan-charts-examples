@@ -1,9 +1,9 @@
+import ElementPlus from "element-plus";
 // core
 import { createApp } from "vue";
-import { store } from "@/store";
 import { router } from "@/router";
+import { store } from "@/store";
 import App from "./App.vue";
-import ElementPlus from "element-plus";
 import "default-passive-events"; // 解决非被动事件监听警告，提升滚动性能。解决 [Violation] Added non-passive event listener to a scroll-blocking ‘wheel‘ event 警告
 
 // css

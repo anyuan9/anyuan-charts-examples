@@ -4,15 +4,17 @@ import { dynamicRoutes } from "@/router";
 
 // 添加组件名称（必须与keep-alive的include匹配）
 defineOptions({
-  name: 'echarts-examples'
+  name: "EchartsExamples"
 });
 
-const chartGroups =
-  dynamicRoutes?.find((item) => item.name === "echarts")?.children || [];
+const chartGroups
+  = dynamicRoutes?.find(item => item.name === "echarts")?.children || [];
+
+const previews = import.meta.glob("./**/preview.png", { eager: true, import: "default" });
 
 function getImageUrl(path, childPath) {
-  path = `./${path}/${childPath}/preview.png`;
-  return new URL(path, import.meta.url).href;
+  const key = `./${path}/${childPath}/preview.png`;
+  return previews[key];
 }
 
 const router = useRouter();
@@ -20,11 +22,11 @@ function goToChart(item, _item) {
   const path = `/echarts/${item.path}/${_item.path}`;
   router.push({
     // path: path,
-    path: 'code-viewer',
+    path: "code-viewer",
     query: {
       component: path, // 相对于src的路径
-      name: _item?.name || '',
-      title: _item?.meta?.title || '',
+      name: _item?.name || "",
+      title: _item?.meta?.title || ""
     }
   });
 }
@@ -32,14 +34,14 @@ function goToChart(item, _item) {
 
 <template>
   <div class="example-panel">
-    <el-row v-for="(item, index) in chartGroups" :key="item.name" class="example-group">
+    <el-row v-for="(item) in chartGroups" :key="item.name" class="example-group">
       <el-col :span="24" class="example-header">
         <span>{{ item.meta?.title }}</span>
-        <span v-if="item.children?.length">（{{item.children?.length}}）</span>
+        <span v-if="item.children?.length">（{{ item.children?.length }}）</span>
       </el-col>
       <el-col v-for="_item in item.children" :key="_item.name" :span="4" class="example-list">
         <div class="example-list-item" @click="goToChart(item, _item)">
-          <img :src="getImageUrl(item.path, _item.path)" alt="" class="example-link" />
+          <img :src="getImageUrl(item.path, _item.path)" alt="" class="example-link">
           <span class="example-title">{{ _item.meta?.title }}</span>
           <span class="example-subtitle">{{ _item.name }}</span>
         </div>
@@ -63,7 +65,8 @@ function goToChart(item, _item) {
     font-size: 20px;
   }
 
-  .example-list {}
+  .example-list {
+  }
 }
 
 .example-list-item {

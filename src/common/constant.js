@@ -10,7 +10,7 @@
 export const API_BASE_URL = {
   staging: "",
   production: "",
-  development: `${import.meta.env.VITE_API_PREFIX}`,
+  development: `${import.meta.env.VITE_API_PREFIX}`
 }[import.meta.env.MODE];
 
 // 获取 csrf 配置
@@ -20,10 +20,10 @@ let CSRF_HEADER = "X-CSRF-TOKEN";
 let CSRF_TOKEN = "";
 if (import.meta.env.VITE_CSRF_ENABLE === "enable" && !import.meta.env.DEV) {
   if (document.querySelector("meta[name=_csrf]")) {
-    CSRF_TOKEN =
-      document.querySelector("meta[name=_csrf]")?.getAttribute("content") || "";
-    CSRF_HEADER =
-      document
+    CSRF_TOKEN
+      = document.querySelector("meta[name=_csrf]")?.getAttribute("content") || "";
+    CSRF_HEADER
+      = document
         .querySelector("meta[name=_csrf_header]")
         ?.getAttribute("content") || "X-CSRF-TOKEN";
   }

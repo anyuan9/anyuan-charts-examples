@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 import { lunarDate } from "./constant";
 
 const chartRef = ref(null);
@@ -11,9 +11,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -29,10 +29,10 @@ function getOption(data) {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框
     tooltip: {},
@@ -42,7 +42,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 视觉映射
     visualMap: {
@@ -54,13 +54,13 @@ function getOption(data) {
       max: 300,
       inRange: {
         color: ["#e0ffff", "#006edd"],
-        opacity: 0.3,
+        opacity: 0.3
       },
       controller: {
         inRange: {
-          opacity: 0.5,
-        },
-      },
+          opacity: 0.5
+        }
+      }
     },
     // 日历坐标系
     calendar: [
@@ -107,13 +107,13 @@ function getOption(data) {
           // 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
           formatter: ({ nameMap, start, end }) => {
             return `${start}-${end}`;
-          },
+          }
         },
         // 设置日历坐标中 月份轴的样式
         monthLabel: {
           show: true, // 是否显示月标签，默认true
           position: "start", // 月份的位置 在开头还是结尾。可选：'start','end'
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.4)"
         },
         // 设置日历坐标中 日标签的样式
         dayLabel: {
@@ -121,7 +121,7 @@ function getOption(data) {
           firstDay: 1, // 日历坐标中一周的第一天是哪一天，默认0，可选：0-6，分别表示周日-周六
           nameMap: "ZH", // 星期显示的效果，默认为'en'。可设置中英文(ZH / EN)以及自定义
           position: "start", // 月份的位置 在开头还是结尾。可选：'start','end'
-          color: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.4)"
         },
         // 设置日历格的样式
         itemStyle: {
@@ -133,7 +133,7 @@ function getOption(data) {
           borderCap: "butt", // 坐标轴刻度线端点的形状，默认为'butt'，可选：'butt': 线段末端以方形结束、'round: 线段末端以圆形结束'、'square': 线段末端以方形结束
           borderJoin: "bevel", // 用于设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起，默认为'bevel'，可选：'miter'、'round'、'bevel'
           borderMiterLimit: 10, // 最大斜接长度，当 setLineJoin 为 'miter' 时有效，超过该值时，连接效果变为 'bevel'
-          opacity: 1, // 日历坐标的透明度，默认1
+          opacity: 1 // 日历坐标的透明度，默认1
         },
         // 设置日历坐标分隔线的样式
         splitLine: {
@@ -147,13 +147,13 @@ function getOption(data) {
             cap: "round", // 坐标轴刻度线端点的形状，默认为'butt'，可选：'butt': 线段末端以方形结束、'round: 线段末端以圆形结束'、'square': 线段末端以方形结束
             join: "bevel", // 用于设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起，默认为'bevel'，可选：'miter'、'round'、'bevel'
             miterLimit: 10, // 最大斜接长度，当 setLineJoin 为 'miter' 时有效，超过该值时，连接效果变为 'bevel'
-            opacity: 1, // 坐标轴刻度线的透明度，默认为1
-          },
+            opacity: 1 // 坐标轴刻度线的透明度，默认为1
+          }
         },
-        range: "2017-03", // 必填，日历坐标的范围，支持多种格式：年：2017，月：'2017-06'，日：'2017-07-15'，范围：['2017-01-01'-'2017-12-31']
+        range: "2017-03" // 必填，日历坐标的范围，支持多种格式：年：2017，月：'2017-06'，日：'2017-07-15'，范围：['2017-01-01'-'2017-12-31']
         // 注意 此写法会识别为['2017-01-01', '2017-02-01']
         // range: ['2017-01', '2017-02'] // 此写法会识别为['2017-01-01', '2017-02-28']
-      },
+      }
     ],
     series: [
       {
@@ -164,23 +164,23 @@ function getOption(data) {
           color: "#000",
           formatter: (params) => {
             return (
-              new Date(params.value[0]).getDate() +
-              "\n\n" +
-              params.value[2] +
-              "\n\n"
+              `${new Date(params.value[0]).getDate()
+              }\n\n${
+                params.value[2]
+              }\n\n`
             );
-          },
+          }
         },
         name: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [],
+        data: (seriesData?.length && seriesData[0].data) || []
       },
       {
         type: "heatmap",
         coordinateSystem: "calendar", // 设置日历坐标系
         name: (seriesData?.length && seriesData[1].name) || "",
-        data: (seriesData?.length && seriesData[1].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[1].data) || []
+      }
+    ]
   };
 }
 
@@ -194,14 +194,14 @@ async function getData() {
         seriesData: [
           {
             name: "日历数据",
-            data: lunarDate.map((item) => [item[0], 1, item[1], item[2]]),
+            data: lunarDate.map(item => [item[0], 1, item[1], item[2]])
           },
           {
             name: "热力数据",
-            data: lunarDate.map((item) => [item[0], Math.random() * 300]),
-          },
-        ],
-      },
+            data: lunarDate.map(item => [item[0], Math.random() * 300])
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -216,9 +216,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

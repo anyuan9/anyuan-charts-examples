@@ -7,7 +7,7 @@ export const chartColor = [
   "#ff5b00",
   "#eb3600",
   "#845cff"
-]
+];
 
 // 颜色，可用作渐进色，建议使用十六进制颜色，方便拼接透明色
 export const chartColors = [
@@ -18,4 +18,4 @@ export const chartColors = [
   ["#ffa800", "#ff5b00"], // 橙色
   ["#ff6e92", "#eb3600"], // 红色
   ["#ca7bf4", "#845cff"] // 紫色
-]
+];

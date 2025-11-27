@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -9,32 +9,32 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getPieData(length = 10, radius = 20, opacity = 1) {
-  let dataArr = []
+  const dataArr = [];
   for (let i = 0; i < 100; i++) {
     dataArr.push({
       name: (i + 1).toString(),
       value: i % length === 0 ? radius : 100,
       itemStyle: {
-        color: 'rgba(0,255,255,1)',
+        color: "rgba(0,255,255,1)",
         opacity: i % length === 0 ? opacity : 0,
         borderWidth: 0,
-        borderColor: 'rgba(0,0,0,0)',
-      },
-    })
+        borderColor: "rgba(0,0,0,0)"
+      }
+    });
   }
-  return dataArr
+  return dataArr;
 }
 
 function getOption(data) {
   const { title, subtext, total, seriesData } = data;
   const ratio = seriesData[0].ratio;
-  const ratioText = (ratio * 100).toFixed(1) + '%'
+  const ratioText = `${(ratio * 100).toFixed(1)}%`;
 
   return {
     // 背景颜色，默认无背景
@@ -44,47 +44,47 @@ function getOption(data) {
     // 标题
     title: [
       {
-        text: '{a|' + ratioText + '}',
-        subtext: subtext,
-        x: 'center',
-        y: '40%',
+        text: `{a|${ratioText}}`,
+        subtext,
+        x: "center",
+        y: "40%",
         textStyle: {
           rich: {
             a: {
               fontSize: 36,
-              color: 'rgba(255, 255, 255, 1)',
-            },
-          },
+              color: "rgba(255, 255, 255, 1)"
+            }
+          }
         },
         subtextStyle: {
           fontSize: 20,
-          color: 'rgba(255, 255, 255, 0.85)',
-        },
+          color: "rgba(255, 255, 255, 0.85)"
+        }
       },
       {
-        text: 'DESIGN ELEMENTS',
-        left: '50%',
-        top: '58%',
-        textAlign: 'center',
+        text: "DESIGN ELEMENTS",
+        left: "50%",
+        top: "58%",
+        textAlign: "center",
         textStyle: {
-          fontSize: '16',
-          fontWeight: '400',
-          textAlign: 'center',
-          color: 'rgba(255, 255, 255, 0.3)',
-        },
+          fontSize: "16",
+          fontWeight: "400",
+          textAlign: "center",
+          color: "rgba(255, 255, 255, 0.3)"
+        }
       },
       {
-        text: 'DONUT CHART',
-        left: '50%',
-        top: '64%',
-        textAlign: 'center',
+        text: "DONUT CHART",
+        left: "50%",
+        top: "64%",
+        textAlign: "center",
         textStyle: {
-          fontSize: '14',
-          fontWeight: '400',
-          textAlign: 'center',
-          color: 'rgba(255, 255, 255, 0.3)',
-        },
-      },
+          fontSize: "14",
+          fontWeight: "400",
+          textAlign: "center",
+          color: "rgba(255, 255, 255, 0.3)"
+        }
+      }
     ],
     // 直角坐标系内绘图网格
     grid: {
@@ -92,38 +92,38 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 极坐标系
     polar: {
-      radius: ['50%', '54%'],
-      center: ['50%', '50%'],
+      radius: ["50%", "54%"],
+      center: ["50%", "50%"]
     },
     // 极坐标系的角度轴
     angleAxis: {
       max: 100,
-      show: false,
+      show: false
     },
     // 极坐标系的径向轴
     radiusAxis: {
       show: true,
-      type: 'category',
+      type: "category",
       axisLabel: {
-        show: false,
+        show: false
       },
       axisLine: {
-        show: false,
+        show: false
       },
       axisTick: {
-        show: false,
-      },
+        show: false
+      }
     },
     series: [
       // 圆环形状的仪表盘
       {
-        type: 'gauge',
-        center: ['50%', '50%'],
-        radius: '64%',
+        type: "gauge",
+        center: ["50%", "50%"],
+        radius: "64%",
         startAngle: 90, // 起始角度
         endAngle: -270, // 结束角度
         clockwise: true, // 是否顺时针
@@ -135,8 +135,8 @@ function getOption(data) {
           roundCap: true,
           clip: false,
           itemStyle: {
-            borderWidth: 1,
-          },
+            borderWidth: 1
+          }
         },
         // 仪表盘轴线
         axisLine: {
@@ -145,17 +145,17 @@ function getOption(data) {
             width: 20,
             color: [
               [ratio, chartColor[0]], // 关键部分，根据ratio值来设置颜色，ratio的值范围0~1
-              [1, chartColor[0] + '3c'],
-            ],
-          },
+              [1, `${chartColor[0]}3c`]
+            ]
+          }
         },
         // 刻度
         axisTick: {
-          show: false,
+          show: false
         },
         // 刻度标签
         axisLabel: {
-          show: false,
+          show: false
         },
         // 分隔线
         splitLine: {
@@ -163,28 +163,28 @@ function getOption(data) {
           length: 20,
           distance: -20, // 距离轴线的距离
           lineStyle: {
-            color: 'rgba(8, 25, 66, 1)', // 与背景色一致，实现分割效果
-            width: 2,
-          },
+            color: "rgba(8, 25, 66, 1)", // 与背景色一致，实现分割效果
+            width: 2
+          }
         },
         // 指针
         pointer: {
-          show: false,
-        },
+          show: false
+        }
       },
       {
-        name: '中环',
-        type: 'bar',
+        name: "中环",
+        type: "bar",
         barWidth: 60,
         roundCap: true,
-        coordinateSystem: 'polar', // 使用极坐标系，可选：'cartesian2d'使用直角坐标系，'polar'使用极坐标系
+        coordinateSystem: "polar", // 使用极坐标系，可选：'cartesian2d'使用直角坐标系，'polar'使用极坐标系
         showBackground: true,
         backgroundStyle: {
-          color: 'rgba(255, 255, 255, 0.3)',
+          color: "rgba(255, 255, 255, 0.3)"
         },
         itemStyle: {
           color: {
-            type: 'linear',
+            type: "linear",
             x: 1,
             y: 0,
             x2: 0,
@@ -192,179 +192,179 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
-        data: [75],
+        data: [75]
       },
       {
-        name: '内环装饰',
-        type: 'pie',
-        center: ['50%', '50%'],
-        radius: ['46%', '47.5%'],
+        name: "内环装饰",
+        type: "pie",
+        center: ["50%", "50%"],
+        radius: ["46%", "47.5%"],
         clockwise: false,
         itemStyle: {
           shadowBlur: 20,
           shadowColor: chartColor[0],
-          color: chartColor[0],
+          color: chartColor[0]
         },
         label: {
-          show: false,
+          show: false
         },
         emphasis: {
-          scale: false,
+          scale: false
         },
-        data: [100],
+        data: [100]
       },
       // 以下是外部装饰
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
-        radius: ['73%', '71.5%'],
+        radius: ["73%", "71.5%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(10, 30, 1),
+        data: getPieData(10, 30, 1)
       },
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
         startAngle: -150,
-        radius: ['71%', '69.5%'],
+        radius: ["71%", "69.5%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(10, 30, 0.5),
+        data: getPieData(10, 30, 0.5)
       },
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
         startAngle: -140,
-        radius: ['74%', '72.5%'],
+        radius: ["74%", "72.5%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(10, 30, 1),
+        data: getPieData(10, 30, 1)
       },
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
-        radius: ['67%', '66%'],
+        radius: ["67%", "66%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(5, 20, 1),
+        data: getPieData(5, 20, 1)
       },
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
         startAngle: -140,
-        radius: ['67%', '66%'],
+        radius: ["67%", "66%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(5, 20, 0.3),
+        data: getPieData(5, 20, 0.3)
       },
       {
-        type: 'pie',
+        type: "pie",
         silent: true,
         startAngle: -147.5,
-        radius: ['67%', '66%'],
+        radius: ["67%", "66%"],
         zlevel: 0,
         z: 1,
         label: {
-            show: false,
+          show: false
         },
         labelLine: {
-            show: false,
+          show: false
         },
-        data: getPieData(5, 20, 0.3),
-      },
-    ],
+        data: getPieData(5, 20, 0.3)
+      }
+    ]
   };
 }
 
 const chartData = ref({
-  title: '设备总数',
-  subtext:"设备在线率",
+  title: "设备总数",
+  subtext: "设备在线率",
   total: 0,
   seriesData: [
     {
-      name: '',
+      name: "",
       value: 0,
-      color: chartColor[0],
+      color: chartColor[0]
     },
     {
-      name: '',
+      name: "",
       value: 0,
-      color: chartColor[1],
-    },
-  ],
-})
+      color: chartColor[1]
+    }
+  ]
+});
 async function getData() {
   try {
     // const res = await axios.get("/api/getChartData");
     const res = {
       code: "0",
       data: {
-        title: '设备总数',
-        subtext:"设备在线率",
+        title: "设备总数",
+        subtext: "设备在线率",
         seriesData: [
           {
-            name: '设备在线',
+            name: "设备在线",
             value: Math.floor(Math.random() * 80 + 10),
-            color: chartColor[0],
+            color: chartColor[0]
           },
           {
-            name: '设备离线',
+            name: "设备离线",
             value: Math.floor(Math.random() * 80 + 10),
-            color: chartColor[1],
-          },
-        ],
-      },
+            color: chartColor[1]
+          }
+        ]
+      }
     };
 
     const total = res.data.seriesData.reduce((sum, item) => sum + item.value, 0);
     chartData.value = {
       title: res.data.title,
       subtext: res.data.subtext,
-      total: total,
-      seriesData: res.data.seriesData.map((item) => ({
+      total,
+      seriesData: res.data.seriesData.map(item => ({
         ...item,
-        ratio: item.value / (total || 1),
-      })),
+        ratio: item.value / (total || 1)
+      }))
     };
 
     const option = getOption(chartData.value);
@@ -379,9 +379,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }
@@ -426,7 +426,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height:  480px;
+  height: 480px;
 
   .total {
     display: flex;
@@ -470,7 +470,7 @@ onMounted(() => {
       height: 10px;
       margin-top: -5px;
       background: #f7b500;
-      content: '';
+      content: "";
     }
 
     .name {

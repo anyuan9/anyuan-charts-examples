@@ -1,13 +1,13 @@
 <script setup>
-// 导入Vue相关API
-import { ref, nextTick, onMounted } from "vue";
 // 导入ECharts工具函数
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+// 导入Vue相关API
+import { nextTick, onMounted, ref } from "vue";
+// const icon_anchor = ${require('@/assets/images/anchor.png')}
+import icon_anchor from "@/assets/images/anchor.png";
+
 // 导入图表颜色配置
 import { chartColors } from "@/views/echarts/constant";
-
-// const icon_anchor = ${require('@/assets/images/anchor.png')}
-import icon_anchor from '@/assets/images/anchor.png'
 
 // 图表容器引用
 const chartRef = ref(null);
@@ -18,9 +18,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 /**
@@ -39,7 +39,7 @@ function generateData(xBase, count = 10, yRange = 100) {
 
 /**
  * 生成ECharts配置项的函数
- * @returns {Object} ECharts配置对象
+ * @returns {object} ECharts配置对象
  */
 function getOption() {
   return {
@@ -55,34 +55,34 @@ function getOption() {
       feature: {
         saveAsImage: {},
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题配置
     title: {
       text: "ECharts Symbol属性示例",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框配置
     tooltip: {
-      trigger: 'item',
+      trigger: "item",
       backgroundColor: "rgba(0, 0, 0, 0.5)",
       borderColor: "transparent",
       borderWidth: 1,
       padding: [12, 20],
-      position: 'top',
+      position: "top",
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       // 自定义提示框内容
-      formatter: function(params) {
+      formatter(params) {
         return `${params.seriesName}<br/>X: ${params.value[0].toFixed(2)}, Y: ${params.value[1]}`;
       }
     },
@@ -90,11 +90,11 @@ function getOption() {
     legend: {
       top: "15%",
       right: "5%",
-      orient: 'vertical',
+      orient: "vertical",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 12,
-      },
+        fontSize: 12
+      }
     },
     // 网格配置，为图例留出右侧空间
     grid: {
@@ -102,41 +102,41 @@ function getOption() {
       left: "5%",
       right: "30%",
       bottom: "2%",
-      containLabel: true,
+      containLabel: true
     },
     // X轴配置
     xAxis: {
-      type: 'value',
+      type: "value",
       axisLine: {
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.2)'
+          color: "rgba(255, 255, 255, 0.2)"
         }
       },
       axisLabel: {
-        color: 'rgba(255, 255, 255, 0.6)'
+        color: "rgba(255, 255, 255, 0.6)"
       },
       splitLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.1)'
+          color: "rgba(255, 255, 255, 0.1)"
         }
       }
     },
     // Y轴配置
     yAxis: {
-      type: 'value',
+      type: "value",
       axisLine: {
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.2)'
+          color: "rgba(255, 255, 255, 0.2)"
         }
       },
       axisLabel: {
-        color: 'rgba(255, 255, 255, 0.6)'
+        color: "rgba(255, 255, 255, 0.6)"
       },
       splitLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.1)'
+          color: "rgba(255, 255, 255, 0.1)"
         }
       }
     },
@@ -148,66 +148,66 @@ function getOption() {
        */
       // 圆形标记
       {
-        type: 'scatter',
-        symbol: 'circle',
+        type: "scatter",
+        symbol: "circle",
         symbolSize: 20,
-        name: 'circle (圆形)',
+        name: "circle (圆形)",
         data: generateData(10)
       },
       // 矩形标记
       {
-        type: 'scatter',
-        symbol: 'rect',
+        type: "scatter",
+        symbol: "rect",
         symbolSize: 20,
-        name: 'rect (矩形)',
+        name: "rect (矩形)",
         data: generateData(20)
       },
       // 圆角矩形标记
       {
-        type: 'scatter',
-        symbol: 'roundRect',
+        type: "scatter",
+        symbol: "roundRect",
         symbolSize: 20,
-        name: 'roundRect (圆角矩形)',
+        name: "roundRect (圆角矩形)",
         data: generateData(30)
       },
       // 三角形标记
       {
-        type: 'scatter',
-        symbol: 'triangle',
+        type: "scatter",
+        symbol: "triangle",
         symbolSize: 20,
-        name: 'triangle (三角形)',
+        name: "triangle (三角形)",
         data: generateData(40)
       },
       // 菱形标记
       {
-        type: 'scatter',
-        symbol: 'diamond',
+        type: "scatter",
+        symbol: "diamond",
         symbolSize: 20,
-        name: 'diamond (菱形)',
+        name: "diamond (菱形)",
         data: generateData(50)
       },
       // 别针标记
       {
-        type: 'scatter',
-        symbol: 'pin',
+        type: "scatter",
+        symbol: "pin",
         symbolSize: 20,
-        name: 'pin (别针)',
+        name: "pin (别针)",
         data: generateData(60)
       },
       // 箭头标记
       {
-        type: 'scatter',
-        symbol: 'arrow',
+        type: "scatter",
+        symbol: "arrow",
         symbolSize: 20,
-        name: 'arrow (箭头)',
+        name: "arrow (箭头)",
         data: generateData(70)
       },
       // 无标记（用于对比）
       {
-        type: 'scatter',
-        symbol: 'none',
+        type: "scatter",
+        symbol: "none",
         symbolSize: 20,
-        name: 'none (无标记)',
+        name: "none (无标记)",
         data: generateData(80)
       },
 
@@ -216,20 +216,20 @@ function getOption() {
        * 使用image://前缀加载外部图片
        */
       {
-        type: 'scatter',
+        type: "scatter",
         // 使用在线CDN的ECharts图标作为示例
         // 实际应用中，这里应该替换为您自己的图片URL
-        symbol: 'image://https://echarts.apache.org/zh/asset/lottie/json/images/img_1.png',
+        symbol: "image://https://echarts.apache.org/zh/asset/lottie/json/images/img_1.png",
         symbolSize: 30, // 图片标记的大小
-        name: 'image:// (图片URL)',
+        name: "image:// (图片URL)",
         data: generateData(90, 3) // 只生成3个数据点，避免过多重叠
       },
       {
-        type: 'scatter',
+        type: "scatter",
         // 使用本地图片
         symbol: `image://${icon_anchor}`,
         symbolSize: 30, // 图片标记的大小
-        name: 'image:// (图片URL)',
+        name: "image:// (图片URL)",
         data: generateData(90, 3) // 只生成3个数据点，避免过多重叠
       },
 
@@ -239,10 +239,10 @@ function getOption() {
        * 这里使用一个简单的红色半透明圆点SVG
        */
       {
-        type: 'scatter',
-        symbol: 'image://data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48cGF0aCBkPSJNMTUwIDE1MGMtNTAgMC01MCA1MC01MCAxMDBzNTAgMTAwIDUwIDEwMCA1MC01MCA1MC0xMDAgMC0xMDBzLTUwLTUwLTUwLTEwMHoiIGZpbGw9IiNlNDM5MzkvMjAiLz48L3N2Zz4=',
+        type: "scatter",
+        symbol: "image://data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48cGF0aCBkPSJNMTUwIDE1MGMtNTAgMC01MCA1MC01MCAxMDBzNTAgMTAwIDUwIDEwMCA1MC01MCA1MC0xMDAgMC0xMDBzLTUwLTUwLTUwLTEwMHoiIGZpbGw9IiNlNDM5MzkvMjAiLz48L3N2Zz4=",
         symbolSize: 30,
-        name: 'image://dataURI',
+        name: "image://dataURI",
         data: generateData(100, 5)
       },
 
@@ -253,10 +253,10 @@ function getOption() {
        * 下面的路径定义了一个带两个矩形的圆形
        */
       {
-        type: 'scatter',
-        symbol: 'path://M30.9,53.2C16.8,53.2,5.3,41.7,5.3,27.6S16.8,2,30.9,2C45,2,56.4,13.5,56.4,27.6S45,53.2,30.9,53.2z M30.9,3.5C17.6,3.5,6.8,14.4,6.8,27.6c0,13.3,10.8,24.1,24.101,24.1C44.2,51.7,55,40.9,55,27.6C54.9,14.4,44.1,3.5,30.9,3.5z M36.9,35.8c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H36c0.5,0,0.9,0.4,0.9,1V35.8z M27.8,35.8 c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H27c0.5,0,0.9,0.4,0.9,1L27.8,35.8L27.8,35.8z',
+        type: "scatter",
+        symbol: "path://M30.9,53.2C16.8,53.2,5.3,41.7,5.3,27.6S16.8,2,30.9,2C45,2,56.4,13.5,56.4,27.6S45,53.2,30.9,53.2z M30.9,3.5C17.6,3.5,6.8,14.4,6.8,27.6c0,13.3,10.8,24.1,24.101,24.1C44.2,51.7,55,40.9,55,27.6C54.9,14.4,44.1,3.5,30.9,3.5z M36.9,35.8c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H36c0.5,0,0.9,0.4,0.9,1V35.8z M27.8,35.8 c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H27c0.5,0,0.9,0.4,0.9,1L27.8,35.8L27.8,35.8z",
         symbolSize: 30,
-        name: 'path:// (矢量路径)',
+        name: "path:// (矢量路径)",
         data: generateData(110, 5)
       }
     ]
@@ -273,7 +273,7 @@ function initChart() {
     setOption(option);
   } catch (err) {
     // 错误处理，显示错误信息
-    console.error('初始化图表失败:', err);
+    console.error("初始化图表失败:", err);
     setOption({
       title: {
         show: true,
@@ -282,9 +282,9 @@ function initChart() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

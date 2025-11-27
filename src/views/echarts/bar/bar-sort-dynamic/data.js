@@ -10779,4 +10779,4 @@ export const staticData = [
     "United States",
     2015
   ]
-]
+];

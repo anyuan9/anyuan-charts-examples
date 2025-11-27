@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -28,18 +28,18 @@ function getOption(data) {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框
     tooltip: {
       trigger: "item",
       // 坐标轴指示器
       axisPointer: {
-        type: "cross",
-      },
+        type: "cross"
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -47,7 +47,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
@@ -56,9 +56,9 @@ function getOption(data) {
       splitLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
+      }
     },
     // 直角坐标系的 y 轴
     yAxis: {
@@ -67,9 +67,9 @@ function getOption(data) {
       splitLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
+      }
     },
     // 视觉映射
     visualMap: {
@@ -80,8 +80,8 @@ function getOption(data) {
       orient: "vertical", // 水平（'horizontal'）或者竖直（'vertical'）放置
       right: 10,
       top: "center",
-      min: min, // 允许的最小值。'min' 必须用户指定。
-      max: max, // 允许的最大值。'max' 必须用户指定。
+      min, // 允许的最小值。'min' 必须用户指定。
+      max, // 允许的最大值。'max' 必须用户指定。
       range: [min, max], // 定义了选中的范围，即高亮的范围
       calculable: true, // 是否显示拖拽用的手柄（手柄能拖拽调整选中范围）
       realtime: true, // 拖拽时，是否实时更新。如果为false则拖拽结束时，才更新视图
@@ -97,16 +97,16 @@ function getOption(data) {
       text: ["HIGH", "LOW"], // 两端的文本
       textGap: 10, // 两端文字与轴线的距离
       textStyle: {
-        color: "rgba(255, 255, 255, 0.6)",
+        color: "rgba(255, 255, 255, 0.6)"
       },
       // 选中范围中的视觉配置
       inRange: {
         color: [chartColor[0], chartColor[1]], // 定义了图形颜色映射的颜色列表，从数据最小值到最大值
-        symbolSize: [5, 10], // 定义了图形尺寸的映射范围，
+        symbolSize: [5, 10] // 定义了图形尺寸的映射范围，
       },
       // 选中范围外的视觉配置
       outOfRange: {
-        symbolSize: [3, 8],
+        symbolSize: [3, 8]
       },
       // 控制器
       controller: {
@@ -116,7 +116,7 @@ function getOption(data) {
         // outOfRange: {
         //   color: chartColor[3],
         // },
-      },
+      }
     },
     series: [
       {
@@ -125,16 +125,16 @@ function getOption(data) {
         markPoint: {
           data: [
             { type: "max", name: "最大值" },
-            { type: "min", name: "最小值" },
-          ],
+            { type: "min", name: "最小值" }
+          ]
         },
         markLine: {
-          data: [{ type: "average", name: "平均值" }],
+          data: [{ type: "average", name: "平均值" }]
         },
         name: "price-area",
-        data: seriesData,
-      },
-    ],
+        data: seriesData
+      }
+    ]
   };
 }
 
@@ -149,9 +149,9 @@ async function getData() {
         max: 5000,
         seriesData: Array.from({ length: 500 }, (_, i) => [
           Math.floor(Math.random() * 480 + 20),
-          Math.floor(Math.random() * 4800 + 200),
-        ]),
-      },
+          Math.floor(Math.random() * 4800 + 200)
+        ])
+      }
     };
 
     const option = getOption(res.data);
@@ -166,9 +166,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

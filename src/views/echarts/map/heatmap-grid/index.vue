@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,17 +10,17 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
-  const { title = "", xAxisData, yAxisData, xAxisName, yAxisName, seriesData = { name: '', value: [] } } = data;
+  const { title = "", xAxisData, yAxisData, xAxisName, yAxisName, seriesData = { name: "", value: [] } } = data;
   const min = Math.min(...seriesData.data.map(item => item[2]));
   const max = Math.max(...seriesData.data.map(item => item[2]));
   const total = seriesData.data.reduce((sum, item) => sum + item[2], 0);
-  console.log('min, max, total', seriesData);
+  console.log("min, max, total", seriesData);
 
   return {
     // 背景颜色，默认无背景
@@ -37,182 +37,182 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 直角坐标系内绘图网格
     grid: [
       // 左上，主数据
       {
-        top: '15%',
-        bottom: '30%',
-        left: '10%',
-        right: '30%',
-        containLabel: false,
+        top: "15%",
+        bottom: "30%",
+        left: "10%",
+        right: "30%",
+        containLabel: false
       },
       // 右上，行合计
       {
-        top: '15%',
-        bottom: '30%',
-        left: '75%',
-        right: '5%',
-        containLabel: false,
+        top: "15%",
+        bottom: "30%",
+        left: "75%",
+        right: "5%",
+        containLabel: false
       },
       // 左下，列合计
       {
-        top: '80%',
-        bottom: '10%',
-        left: '10%',
-        right: '30%',
-        containLabel: false,
+        top: "80%",
+        bottom: "10%",
+        left: "10%",
+        right: "30%",
+        containLabel: false
       },
       // 右下，总合计
       {
-        top: '80%',
-        bottom: '10%',
-        left: '75%',
-        right: '5%',
-        containLabel: false,
-      },
+        top: "80%",
+        bottom: "10%",
+        left: "75%",
+        right: "5%",
+        containLabel: false
+      }
     ],
     xAxis: [
       {
-        type: 'category',
+        type: "category",
         gridIndex: 0,
         name: xAxisName,
         nameGap: 0,
         nameTextStyle: {
-          align: 'center',
-          verticalAlign: 'top',
+          align: "center",
+          verticalAlign: "top",
           padding: [14, 0, 0, 0],
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: "rgba(255, 255, 255, 0.6)"
         },
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
           margin: 14,
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: "rgba(255, 255, 255, 0.4)"
         },
         splitArea: {
-          show: true,
+          show: true
         },
-        data: xAxisData,
+        data: xAxisData
       },
       {
-        type: 'category',
+        type: "category",
         gridIndex: 1,
-        position: 'top',
+        position: "top",
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
         axisLabel: {
           margin: 14,
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: "rgba(255, 255, 255, 0.4)"
         },
-        data: ['行合计'],
+        data: ["行合计"]
       },
       {
         show: false,
-        type: 'category',
-        gridIndex: 2,
+        type: "category",
+        gridIndex: 2
       },
       {
         show: false,
-        type: 'category',
-        gridIndex: 3,
-      },
+        type: "category",
+        gridIndex: 3
+      }
     ],
     yAxis: [
       {
-        type: 'category',
+        type: "category",
         gridIndex: 0,
         name: yAxisName,
         nameGap: 0,
         nameTextStyle: {
-          align: 'right',
+          align: "right",
           padding: [0, 6, 0, 0],
           fontSize: 14,
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: "rgba(255, 255, 255, 0.6)"
         },
         axisLabel: {
           margin: 14,
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: "rgba(255, 255, 255, 0.4)"
         },
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
-        data: yAxisData,
+        data: yAxisData
       },
       {
         show: false,
-        type: 'category',
-        gridIndex: 1,
+        type: "category",
+        gridIndex: 1
       },
       {
-        type: 'category',
+        type: "category",
         gridIndex: 2,
         axisLabel: {
           margin: 14,
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: "rgba(255, 255, 255, 0.4)"
         },
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
+          show: false
         },
-        data: ['列合计'],
+        data: ["列合计"]
       },
       {
-        type: 'category',
+        type: "category",
         gridIndex: 3,
         axisLabel: {
           show: false,
-          margin: 14,
+          margin: 14
         },
         axisLine: {
-          show: false,
+          show: false
         },
         axisTick: {
-          show: false,
-        },
-      },
+          show: false
+        }
+      }
     ],
     visualMap: {
-      top: '5%',
-      right: '30%',
+      top: "5%",
+      right: "30%",
       min: 0,
-      max: max,
+      max,
       padding: 0,
       calculable: true,
-      orient: 'horizontal',
+      orient: "horizontal",
       inverse: true,
       itemWidth: 18,
       itemHeight: 114,
       inRange: {
-        color: ['#99d7ff', '#007bcb'],
-        symbolSize: [100, 100],
+        color: ["#99d7ff", "#007bcb"],
+        symbolSize: [100, 100]
       },
-      text: ['高', '低'],
+      text: ["高", "低"],
       textGap: 8,
       textStyle: {
-        color: 'rgba(255, 255, 255, 0.4)',
-      },
+        color: "rgba(255, 255, 255, 0.4)"
+      }
     },
     series: [
       {
-        type: 'heatmap',
+        type: "heatmap",
         gridIndex: 0,
         xAxisIndex: 0,
         yAxisIndex: 0,
@@ -222,17 +222,17 @@ function getOption(data) {
             const v = p.value[2];
             return `${v} | ${((v / total) * 100).toFixed(2)}%`;
           },
-          color: '#333',
+          color: "#333"
         },
         itemStyle: {
           borderWidth: 2,
-          borderColor: 'rgba(255, 255, 255, 0.6)',
+          borderColor: "rgba(255, 255, 255, 0.6)"
         },
         name: seriesData.name,
-        data: seriesData.data,
+        data: seriesData.data
       },
       {
-        type: 'heatmap',
+        type: "heatmap",
         gridIndex: 1,
         xAxisIndex: 1,
         yAxisIndex: 1,
@@ -242,12 +242,12 @@ function getOption(data) {
             const v = p.value[2];
             return `${v} | ${((v / total) * 100).toFixed(2)}%`;
           },
-          color: '#333',
+          color: "#333"
         },
         itemStyle: {
           borderWidth: 2,
-          borderColor: 'rgba(255, 255, 255, 0.6)',
-          color: '#E0EAFB',
+          borderColor: "rgba(255, 255, 255, 0.6)",
+          color: "#E0EAFB"
         },
         name: seriesData.name,
         data: [
@@ -259,7 +259,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             0,
@@ -269,7 +269,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             0,
@@ -279,7 +279,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             0,
@@ -289,7 +289,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             0,
@@ -299,12 +299,12 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
-          ],
-        ],
+            }, 0)
+          ]
+        ]
       },
       {
-        type: 'heatmap',
+        type: "heatmap",
         gridIndex: 2,
         xAxisIndex: 2,
         yAxisIndex: 2,
@@ -314,12 +314,12 @@ function getOption(data) {
             const v = p.value[2];
             return `${v} | ${((v / total) * 100).toFixed(2)}%`;
           },
-          color: '#333',
+          color: "#333"
         },
         itemStyle: {
           borderWidth: 2,
-          borderColor: 'rgba(255, 255, 255, 0.6)',
-          color: '#E0EAFB',
+          borderColor: "rgba(255, 255, 255, 0.6)",
+          color: "#E0EAFB"
         },
         name: seriesData.name,
         data: [
@@ -331,7 +331,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             1,
@@ -341,7 +341,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             2,
@@ -351,7 +351,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             3,
@@ -361,7 +361,7 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
+            }, 0)
           ],
           [
             4,
@@ -371,12 +371,12 @@ function getOption(data) {
                 r += e[2];
               }
               return r;
-            }, 0),
-          ],
-        ],
+            }, 0)
+          ]
+        ]
       },
       {
-        type: 'heatmap',
+        type: "heatmap",
         gridIndex: 3,
         xAxisIndex: 3,
         yAxisIndex: 3,
@@ -386,25 +386,25 @@ function getOption(data) {
             const v = p.value[2];
             return `${v} | ${((v / total) * 100).toFixed(2)}%`;
           },
-          color: '#333',
+          color: "#333"
         },
         itemStyle: {
           borderWidth: 2,
-          borderColor: 'rgba(255, 255, 255, 0.8)',
-          color: '#E0EAFB',
+          borderColor: "rgba(255, 255, 255, 0.8)",
+          color: "#E0EAFB"
         },
         name: seriesData.name,
-        data: [[0, 0, total]],
-      },
-    ],
+        data: [[0, 0, total]]
+      }
+    ]
   };
 }
 
 async function getData() {
   try {
     // const res = await axios.get("/api/getChartData");
-    const xAxisData = ['F>24', '18<F≤24', '12<F≤18', '6<F≤12', '0<F≤6'];
-    const yAxisData = ['R≤30', '30<R≤60', '60<R≤90', '90<R≤180', 'R>180'];
+    const xAxisData = ["F>24", "18<F≤24", "12<F≤18", "6<F≤12", "0<F≤6"];
+    const yAxisData = ["R≤30", "30<R≤60", "60<R≤90", "90<R≤180", "R>180"];
     const data = xAxisData.reduce((acc, cur, i) => {
       for (let j = 0; j < yAxisData.length; j++) {
         const val = Math.trunc(Math.random() * 200);
@@ -419,13 +419,13 @@ async function getData() {
         title: "测试数据",
         xAxisData,
         yAxisData,
-        xAxisName: '到站次数(F)',
-        yAxisName: '停留时间(R)',
+        xAxisName: "到站次数(F)",
+        yAxisName: "停留时间(R)",
         seriesData: {
           name: "测试数据1",
-          data: data,
-        },
-      },
+          data
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -440,9 +440,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

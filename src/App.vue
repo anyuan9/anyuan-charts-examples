@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 import zhCn from "element-plus/es/locale/lang/zh-cn"; // Element Plus 中文包
+import { ref } from "vue";
 
 // 缓存的路由组件名称数组
 const keepAliveComponents = ref(["echarts-examples"]);

@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,22 +9,22 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 const levelConfig = [
   { label: "深睡", color: "#00F0AF", value: 1 },
   { label: "浅睡", color: "#5D8CF5", value: 2 },
   { label: "中睡", color: "#F4E344", value: 3 },
-  { label: "清醒", color: "#FFA83C", value: 4 },
+  { label: "清醒", color: "#FFA83C", value: 4 }
 ];
 
 function getOption(data) {
-  const xAxisData = [],
-    stackData = [],
-    barData = [];
+  const xAxisData = [];
+  const stackData = [];
+  const barData = [];
   data.forEach((_data) => {
     xAxisData.push(_data.time);
     stackData.push(_data.value * 1 - 1); // 比数值小1，作为底部的堆叠柱
@@ -33,8 +32,8 @@ function getOption(data) {
       value: 1,
       itemStyle: {
         color:
-          levelConfig.find((item) => item.value === _data.value)?.color || "",
-      },
+          levelConfig.find(item => item.value === _data.value)?.color || ""
+      }
     });
   });
 
@@ -50,9 +49,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     title: {
       text: "睡眠数据",
@@ -60,8 +59,8 @@ function getOption(data) {
       top: 0,
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
-      },
+        color: "rgba(255, 255, 255, 1)"
+      }
     },
     tooltip: {
       show: true,
@@ -70,7 +69,7 @@ function getOption(data) {
       padding: [12, 20],
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       formatter: (params) => {
         return `<div>${params.seriesName}</div>
@@ -81,14 +80,14 @@ function getOption(data) {
             levelConfig[params.seriesIndex - 1]?.label
           }</span>
         </div>`;
-      },
+      }
     },
     grid: {
       top: "15%",
       left: "5%",
       right: "5%",
       bottom: "10%",
-      containLabel: true,
+      containLabel: true
     },
     xAxis: {
       gridIndex: 0,
@@ -96,8 +95,8 @@ function getOption(data) {
       axisLine: {
         show: false,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.4)",
-        },
+          color: "rgba(255, 255, 255, 0.4)"
+        }
       },
       axisLabel: {
         showMinLabel: true,
@@ -105,26 +104,26 @@ function getOption(data) {
         color: "rgba(255, 255, 255, 0.6)",
         fontSize: 12,
         align: "center",
-        margin: 15,
+        margin: 15
       },
       axisTick: {
-        show: false,
+        show: false
       },
-      data: xAxisData,
+      data: xAxisData
     },
     yAxis: {
       min: 0,
       splitLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
+          color: "rgba(255, 255, 255, 0.1)"
+        }
       },
       splitArea: {
         show: true,
         areaStyle: {
-          color: ["rgba(255, 255, 255, 0.03)", "rgba(255, 255, 255, 0.08)"],
-        },
+          color: ["rgba(255, 255, 255, 0.03)", "rgba(255, 255, 255, 0.08)"]
+        }
       },
       axisLabel: {
         verticalAlign: "top",
@@ -132,15 +131,15 @@ function getOption(data) {
         color: "rgba(255, 255, 255, 0.6)",
         fontSize: 12,
         formatter: (params) => {
-          return levelConfig.find((item) => item.value === params)?.label || "";
-        },
+          return levelConfig.find(item => item.value === params)?.label || "";
+        }
       },
       axisLine: {
-        show: false,
+        show: false
       },
       axisTick: {
-        show: false,
-      },
+        show: false
+      }
     },
     series: [
       {
@@ -150,27 +149,27 @@ function getOption(data) {
         showBackground: true,
         itemStyle: {
           borderColor: "transparent",
-          color: "transparent",
+          color: "transparent"
         },
         emphasis: {
           itemStyle: {
             borderColor: "transparent",
-            color: "transparent",
-          },
+            color: "transparent"
+          }
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: stackData,
+        data: stackData
       },
       {
         name: "睡眠数据",
         type: "bar",
         stack: "stackName",
         barWidth: 4,
-        data: barData,
-      },
-    ],
+        data: barData
+      }
+    ]
   };
 }
 
@@ -187,9 +186,9 @@ async function getData() {
         return {
           name: "睡眠数据",
           time: `${hour}:${minute}`,
-          value: value,
+          value
         };
-      }),
+      })
     };
 
     const option = getOption(res.data);
@@ -204,9 +203,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

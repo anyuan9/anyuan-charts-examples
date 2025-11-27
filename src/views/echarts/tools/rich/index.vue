@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
+
 const weatherIcons = {
   cloudy: `${import.meta.env.BASE_URL}/static/images/cloudy_128.png`,
   showers: `${import.meta.env.BASE_URL}/static/images/showers_128.png`,
-  sunny: `${import.meta.env.BASE_URL}/static/images/sunny_128.png`,
+  sunny: `${import.meta.env.BASE_URL}/static/images/sunny_128.png`
 };
 
 const chartRef = ref(null);
@@ -15,9 +16,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -38,14 +39,14 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 提示框
     tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -53,77 +54,77 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'pie',
-        radius: [0, '30%'],
-        selectedMode: 'single',
+        type: "pie",
+        radius: [0, "30%"],
+        selectedMode: "single",
         label: {
-          position: 'inner',
+          position: "inner",
           fontSize: 14
         },
         labelLine: {
           show: false
         },
         name: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [],
+        data: (seriesData?.length && seriesData[0].data) || []
       },
       {
-        type: 'pie',
-        center: ['50%', '50%'],
-        radius: ['45%', '60%'],
-        selectedMode: 'single',
+        type: "pie",
+        center: ["50%", "50%"],
+        radius: ["45%", "60%"],
+        selectedMode: "single",
         labelLine: {
           length: 30
         },
         label: {
-          backgroundColor: '#F6F8FC',
-          borderColor: 'rgba(0, 0, 0, 0.6)',
+          backgroundColor: "#F6F8FC",
+          borderColor: "rgba(0, 0, 0, 0.6)",
           borderWidth: 1,
           borderRadius: 4,
           rich: {
             title: {
-              color: 'rgba(255, 255, 255, 0.5)',
-              align: 'center',
-              lineHeight: 24,
+              color: "rgba(255, 255, 255, 0.5)",
+              align: "center",
+              lineHeight: 24
             },
             titleBg: {
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              width: '100%',
-              align: 'right',
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              width: "100%",
+              align: "right",
               height: 24,
               borderRadius: [4, 4, 0, 0]
             },
             hr: {
-              width: '100%',
+              width: "100%",
               height: 0,
               borderWidth: 1,
-              borderColor: '#8C8D8E',
+              borderColor: "#8C8D8E"
             },
             name: {
-              color: '#4C5058',
+              color: "#4C5058",
               fontSize: 14,
-              fontWeight: 'bold',
-              lineHeight: 33,
+              fontWeight: "bold",
+              lineHeight: 33
             },
             value: {
-              color: '#4C5058',
+              color: "#4C5058",
               fontSize: 14,
-              fontWeight: 'bold',
+              fontWeight: "bold",
               lineHeight: 33
             },
             percent: {
-              color: '#fff',
+              color: "#fff",
               padding: [3, 4],
               borderRadius: 4,
-              backgroundColor: '#4C5058',
+              backgroundColor: "#4C5058"
             },
             sunny: {
               width: 30,
               height: 30,
-              align: 'left',
+              align: "left",
               backgroundColor: {
                 image: weatherIcons.sunny
               }
@@ -131,7 +132,7 @@ function getOption(data) {
             cloudy: {
               width: 30,
               height: 30,
-              align: 'left',
+              align: "left",
               backgroundColor: {
                 image: weatherIcons.cloudy
               }
@@ -139,11 +140,11 @@ function getOption(data) {
             showers: {
               width: 30,
               height: 30,
-              align: 'left',
+              align: "left",
               backgroundColor: {
                 image: weatherIcons.showers
               }
-            },
+            }
           },
           // formatter: [
           //   '{title|{a}}{titleBg|}',
@@ -152,19 +153,19 @@ function getOption(data) {
           // ].join('\n'),
           formatter: (params) => {
             const { seriesName, name, value, percent, data, dataIndex } = params;
-            const weatherName = dataIndex % 3 === 0 ? 'sunny' : dataIndex % 3 === 1 ? 'cloudy' : 'showers';
+            const weatherName = dataIndex % 3 === 0 ? "sunny" : dataIndex % 3 === 1 ? "cloudy" : "showers";
             return [
               `{title|${seriesName}}{titleBg|}`,
-              '{hr|}',
+              "{hr|}",
               `  {name|${name}：}${value}  {percent|${percent}%}  `,
               `  {${weatherName}|}`
-            ].join('\n')
-          },
+            ].join("\n");
+          }
         },
         name: (seriesData?.length && seriesData[1].name) || "",
-        data: (seriesData?.length && seriesData[1].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[1].data) || []
+      }
+    ]
   };
 }
 
@@ -177,30 +178,30 @@ async function getData() {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据1",
             data: Array.from({ length: 4 }, (_, i) => {
               return {
-                name: "数据1_" + i,
+                name: `数据1_${i}`,
                 value: Math.floor(Math.random() * 500 + 100),
-                selected: i === 0,
-              }
-            }),
+                selected: i === 0
+              };
+            })
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 6 }, (_, i) => {
               return {
-                name: "数据2_" + i,
-                value: Math.floor(Math.random() * 500 + 100),
-              }
-            }),
-          },
-        ],
-      },
+                name: `数据2_${i}`,
+                value: Math.floor(Math.random() * 500 + 100)
+              };
+            })
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -215,9 +216,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

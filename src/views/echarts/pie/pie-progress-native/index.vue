@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
+import { computed, defineProps, ref } from "vue";
 
 const props = defineProps({
   data: {
@@ -10,16 +10,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
 const defaultData = {
-  name: '进度',
+  name: "进度",
   value: 0,
   percent: 0, // 百分比, 大于0小于100
-  color: '#4CAF50',
-  icon: 'circle', // 'circle' | path
+  color: "#4CAF50",
+  icon: "circle", // 'circle' | path
   size: 80
-}
+};
 // const pieData = computed(() => {
 //   return {
 //     ...defaultData,
@@ -27,15 +27,15 @@ const defaultData = {
 //   }
 // })
 const pieData = ref({
-  name: '进度',
+  name: "进度",
   value: 1230,
   percent: 72.3, // 百分比, 大于0小于100
   color: "#17c1ff",
-  icon: 'circle',
+  icon: "circle",
   size: 80
-})
-const circumference = computed(() => 2 * Math.PI * 35) // 半径改为35
-const dashOffset = computed(() => circumference.value * (1 - pieData.value.percent / 100))
+});
+const circumference = computed(() => 2 * Math.PI * 35); // 半径改为35
+const dashOffset = computed(() => circumference.value * (1 - pieData.value.percent / 100));
 </script>
 
 <template>
@@ -50,8 +50,10 @@ const dashOffset = computed(() => circumference.value * (1 - pieData.value.perce
         <circle cx="40" cy="40" r="30" fill="none" stroke="rgba(197,219,255,0.3)" stroke-width="6" />
 
         <!-- 进度圆环 -->
-        <circle cx="40" cy="40" r="30" fill="none" :stroke="pieData.color" stroke-width="6" stroke-linecap="round"
-          :stroke-dasharray="circumference" :stroke-dashoffset="dashOffset" transform="rotate(-90 40 40)" />
+        <circle
+          cx="40" cy="40" r="30" fill="none" :stroke="pieData.color" stroke-width="6" stroke-linecap="round"
+          :stroke-dasharray="circumference" :stroke-dashoffset="dashOffset" transform="rotate(-90 40 40)"
+        />
 
         <!-- 中心百分比 -->
         <text v-if="showTip" x="40" y="45" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">
@@ -60,14 +62,18 @@ const dashOffset = computed(() => circumference.value * (1 - pieData.value.perce
       </svg>
       <!-- 显示图片图标 -->
       <div v-else-if="pieData.icon">
-        <img :src="pieData.icon" :style="{ width: pieData.size + 'px', height: pieData.size + 'px' }" />
+        <img :src="pieData.icon" :style="{ width: `${pieData.size}px`, height: `${pieData.size}px` }">
       </div>
     </div>
 
     <!-- 右侧文本部分 -->
     <div class="progress-info">
-      <div class="progress-name ellipsis">{{ pieData.name }}</div>
-      <div class="progress-value ellipsis" :style="{ color: pieData.color }">{{ pieData.value }}</div>
+      <div class="progress-name ellipsis">
+        {{ pieData.name }}
+      </div>
+      <div class="progress-value ellipsis" :style="{ color: pieData.color }">
+        {{ pieData.value }}
+      </div>
     </div>
   </div>
 </template>
@@ -83,7 +89,7 @@ const dashOffset = computed(() => circumference.value * (1 - pieData.value.perce
   background-color: rgba(8, 25, 66, 1);
   font-family: MicrosoftYaHeiUI;
   font-size: 24px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 400;
 }
 
@@ -103,7 +109,7 @@ const dashOffset = computed(() => circumference.value * (1 - pieData.value.perce
   .progress-value {
     font-family: DIN-Medium;
     font-size: 32px;
-    color: #FF90A7;
+    color: #ff90a7;
     font-weight: 400;
   }
 }

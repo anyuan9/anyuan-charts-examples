@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -9,9 +9,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -32,19 +32,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -57,8 +57,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -66,17 +66,17 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        name: '仪表盘',
-        type: 'gauge',
+        name: "仪表盘",
+        type: "gauge",
         z: 2,
         min: range[0],
         max: range[1],
-        center: ['50%', '60%'],
-        radius: '90%',
+        center: ["50%", "60%"],
+        radius: "90%",
         splitNumber: 10, // 刻度的间隔数量
         startAngle: 210, // 起始角度
         endAngle: -30, // 结束角度
@@ -90,23 +90,23 @@ function getOption(data) {
               colorStops: [
                 {
                   offset: 0,
-                  color: chartColor[0], // 0% 处的颜色
+                  color: chartColor[0] // 0% 处的颜色
                 },
                 {
                   offset: 1,
-                  color: chartColor[1], // 100% 处的颜色
-                },
+                  color: chartColor[1] // 100% 处的颜色
+                }
               ],
-              global: false, // 缺省为 false
-            },
-          },
+              global: false // 缺省为 false
+            }
+          }
         },
         // 仪表盘轴线
         axisLine: {
           lineStyle: {
-            color: [[1, chartColor[0] + '4d']],
-            width: 14,
-          },
+            color: [[1, `${chartColor[0]}4d`]],
+            width: 14
+          }
         },
         // 刻度
         axisTick: {
@@ -115,16 +115,16 @@ function getOption(data) {
           splitNumber: 5,
           lineStyle: {
             width: 1,
-            color: 'rgba(255, 255, 255, .3)', // 用颜色渐变函数不起作用
-          },
+            color: "rgba(255, 255, 255, .3)" // 用颜色渐变函数不起作用
+          }
         },
         // 刻度标签
         axisLabel: {
           show: false,
           distance: 15,
           fontSize: 12,
-          color: 'rgba(255, 255, 255, .3)',
-          formatter: '{value}',
+          color: "rgba(255, 255, 255, .3)",
+          formatter: "{value}"
         },
         // 分隔线
         splitLine: {
@@ -132,16 +132,16 @@ function getOption(data) {
           length: 12, // 刻度节点线长度
           lineStyle: {
             width: 2,
-            color: 'rgba(255, 255, 255, .4)', // 用颜色渐变函数不起作用
-          },
+            color: "rgba(255, 255, 255, .4)" // 用颜色渐变函数不起作用
+          }
         },
         // 指针
         pointer: {
-          show: false,
+          show: false
         },
         // 仪表盘指针样式
         itemStyle: {
-          color: 'rgba(255, 255, 255, 0.85)',
+          color: "rgba(255, 255, 255, 0.85)"
         },
         // 表盘中指针的固定点
         anchor: {
@@ -149,50 +149,50 @@ function getOption(data) {
           showAbove: false,
           size: 25,
           itemStyle: {
-            borderWidth: 10,
-          },
+            borderWidth: 10
+          }
         },
         // 仪表盘标题
         title: {
           show: true,
-          offsetCenter: [0, '50%'], // x, y，单位px
-          color: 'rgba(255, 255, 255, .6)',
-          fontSize: 34,
+          offsetCenter: [0, "50%"], // x, y，单位px
+          color: "rgba(255, 255, 255, .6)",
+          fontSize: 34
         },
         // 仪表盘详情，用于显示数据
         detail: {
-          offsetCenter: [0, '-10%'],
+          offsetCenter: [0, "-10%"],
           padding: [0, 0, 0, 0],
           fontSize: 60,
-          color: 'rgba(255, 255, 255, .85)',
+          color: "rgba(255, 255, 255, .85)",
           rich: {
             value: {
               fontSize: 60,
-              fontWeight: 'bold',
-              color: 'rgba(255, 255, 255, .85)',
+              fontWeight: "bold",
+              color: "rgba(255, 255, 255, .85)"
             },
             unit: {
               fontSize: 30,
-              color: 'rgba(255, 255, 255, .6)',
-              padding: [10, 0, 0, 5],
-            },
+              color: "rgba(255, 255, 255, .6)",
+              padding: [10, 0, 0, 5]
+            }
           },
-          formatter: value => {
-            return `{value|${value}}{unit|%}`
+          formatter: (value) => {
+            return `{value|${value}}{unit|%}`;
           }
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: seriesData,
+        data: seriesData
       },
       {
-        name: '内环装饰',
-        type: 'gauge',
+        name: "内环装饰",
+        type: "gauge",
         min: range[0],
         max: range[1],
-        center: ['50%', '60%'],
-        radius: '76%',
+        center: ["50%", "60%"],
+        radius: "76%",
         z: 4,
         splitNumber: 10,
         startAngle: 210,
@@ -202,74 +202,74 @@ function getOption(data) {
           lineStyle: {
             color: [[1, chartColor[0]]],
             width: 2,
-            opacity: 1,
-          },
+            opacity: 1
+          }
         },
         axisTick: {
-          show: false,
+          show: false
         },
         splitLine: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
         pointer: {
-          show: false,
+          show: false
         },
         detail: {
-          show: false,
+          show: false
         },
         data: [
           {
-            value: range[1],
-          },
-        ],
+            value: range[1]
+          }
+        ]
       },
       // 内圆
       {
-        type: 'pie',
-        center: ['50%', '60%'],
-        radius: '75%',
+        type: "pie",
+        center: ["50%", "60%"],
+        radius: "75%",
         z: 1,
         itemStyle: {
           color: {
-            type: 'radial',
+            type: "radial",
             x: 0.5,
             y: 0.5,
             r: 0.8,
             colorStops: [
               {
                 offset: 0,
-                color: chartColor[0] + '1a',
+                color: `${chartColor[0]}1a`
               },
               {
                 offset: 1,
-                color: chartColor[1] + '4d',
-              },
+                color: `${chartColor[1]}4d`
+              }
             ],
-            globalCoord: false, // 缺省为 false
+            globalCoord: false // 缺省为 false
           },
           label: {
-            show: false,
+            show: false
           },
           labelLine: {
-            show: false,
-          },
+            show: false
+          }
         },
         label: {
-          show: false,
+          show: false
         },
         tooltip: {
-          show: false,
+          show: false
         },
         emphasis: {
-          scale: false,
+          scale: false
         },
-        animationType: 'scale',
-        data: [100],
-      },
-    ],
+        animationType: "scale",
+        data: [100]
+      }
+    ]
   };
 }
 
@@ -283,11 +283,11 @@ async function getData() {
         range: [0, 100],
         seriesData: [
           {
-            name: '测试数据',
-            value: Math.floor(Math.random() * 80 + 10),
-          },
-        ],
-      },
+            name: "测试数据",
+            value: Math.floor(Math.random() * 80 + 10)
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -302,9 +302,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

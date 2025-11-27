@@ -1,9 +1,9 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 import { symbolUrl } from "./constant";
-import 'echarts-wordcloud'; // https://github.com/ecomfe/echarts-wordcloud
+import "echarts-wordcloud"; // https://github.com/ecomfe/echarts-wordcloud
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -12,9 +12,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 const maskImage = new Image();
@@ -38,9 +38,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -48,16 +48,16 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
         type: "wordCloud",
-        width: '100%',
-        height: '65%',
-        left: 'center',
-        top: 'center',
-        shape: 'circle', // 'circle' | 'cardioid' | 'diamond' | 'triangle-forward' | 'triangle' | 'pentagon' | 'star'
+        width: "100%",
+        height: "65%",
+        left: "center",
+        top: "center",
+        shape: "circle", // 'circle' | 'cardioid' | 'diamond' | 'triangle-forward' | 'triangle' | 'pentagon' | 'star'
         // maskImage: maskImage, // 图片遮罩，轮廓图像，白色区域将被排除在绘图文本之外。
         keepAspect: false, // 是否保持同比例缩放，默认为false
         sizeRange: [8, 60], // 字体大小范围，默认为[12,60]
@@ -68,35 +68,35 @@ function getOption(data) {
         shrinkToFit: false, // 是否允许字体缩小以适应画布范围，默认为false
         layoutAnimation: true, // 是否启用布局动画，默认为true
         textStyle: {
-          fontFamily: 'sans-serif',
-          fontWeight: 'bold',
+          fontFamily: "sans-serif",
+          fontWeight: "bold",
           // 颜色，可以是回调函数或颜色字符串
           color: () => {
-            return 'rgb(' + [
+            return `rgb(${[
               Math.round(Math.random() * 160),
               Math.round(Math.random() * 160),
               Math.round(Math.random() * 160)
-            ].join(',') + ')';
+            ].join(",")})`;
           }
         },
         emphasis: {
-          focus: 'self',
+          focus: "self",
           textStyle: {
             textShadowBlur: 10,
-            textShadowColor: '#333'
+            textShadowColor: "#333"
           }
         },
-        data: seriesData || [],
-      },
-    ],
+        data: seriesData || []
+      }
+    ]
   };
 }
 
 async function getData() {
   try {
     // const res = await axios.get("/api/getChartData");
-    var presents = [
-      '有更多经济需求',
+    const presents = [
+      "有更多经济需求",
       "娱乐活动简单",
       "社交空间单一",
       "集市设施简陋",
@@ -106,27 +106,27 @@ async function getData() {
       "菜市场利用不高",
       "主街界面封闭",
       "公共空间基本没有",
-      '空间利用率低',
+      "空间利用率低",
       "村镇缺乏活力",
       "缺乏儿童游乐空间",
       "建筑风格少特点",
       "认知度不高",
-      "优质的自然人文资源没发挥最好作用",
-    ]
+      "优质的自然人文资源没发挥最好作用"
+    ];
     const res = {
       code: "0",
       data: {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
-        seriesData: presents.map((item) => ({
+        seriesData: presents.map(item => ({
           name: item,
-          value: Math.floor(Math.random() * 500 + 100),
+          value: Math.floor(Math.random() * 500 + 100)
           // textStyle: {}
         }))
-      },
+      }
     };
 
     const option = getOption(res.data);
@@ -141,9 +141,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

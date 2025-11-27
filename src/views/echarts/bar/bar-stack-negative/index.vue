@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -33,19 +33,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -58,17 +58,17 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
       trigger: "axis",
       axisPointer: {
-        type: 'shadow',
+        type: "shadow",
         label: {
           show: true,
-          backgroundColor: '#333'
+          backgroundColor: "#333"
         }
       }
     },
@@ -78,23 +78,23 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
       type: "category",
       axisLabel: {
         fontsize: 2,
-        align: 'center',
-        color: 'rgba(255,255,255,0.3)'
+        align: "center",
+        color: "rgba(255,255,255,0.3)"
       },
       axisTick: {
         alignWithLabel: true
       },
       splitLine: {
-        show: false,
+        show: false
       },
-      data: xAxisData || [],
+      data: xAxisData || []
     },
     // 直角坐标系的 y 轴
     yAxis: {
@@ -102,7 +102,7 @@ function getOption(data) {
       axisLabel: {
         fontWeight: 10,
         fontsize: 5,
-        color: 'rgba(255,255,255,0.3)'
+        color: "rgba(255,255,255,0.3)"
       },
       axisLine: {
         show: false
@@ -110,7 +110,7 @@ function getOption(data) {
       splitLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(255,255,255,0.2)'
+          color: "rgba(255,255,255,0.2)"
         }
       }
     },
@@ -118,10 +118,10 @@ function getOption(data) {
       {
         type: "bar",
         barWidth: 10,
-        stack: '总量',
+        stack: "总量",
         itemStyle: {
           color: {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 0,
@@ -129,28 +129,28 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
           // barBorderRadius: 10,
-          barBorderRadius: [10, 10, 0, 0],
+          barBorderRadius: [10, 10, 0, 0]
         },
         name: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [],
+        data: (seriesData?.length && seriesData[0].data) || []
       },
       {
         type: "bar",
         barWidth: 10,
-        stack: '总量',
+        stack: "总量",
         itemStyle: {
           color: {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 0,
@@ -158,22 +158,22 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[1][1], // 0% 处的颜色
+                color: chartColors[1][1] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[1][0], // 100% 处的颜色
-              },
+                color: chartColors[1][0] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
+            global: false // 缺省为 false
           },
           // barBorderRadius: 10,
-          barBorderRadius: [0, 0, 10, 10],
+          barBorderRadius: [0, 0, 10, 10]
         },
         name: (seriesData?.length && seriesData[1].name) || "",
-        data: (seriesData?.length && seriesData[1].data.map(item => -item)) || [], // 取相反数，实现反向堆叠
-      },
-    ],
+        data: (seriesData?.length && seriesData[1].data.map(item => -item)) || [] // 取相反数，实现反向堆叠
+      }
+    ]
   };
 }
 
@@ -186,23 +186,21 @@ async function getData() {
         title: "测试数据",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据1",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
+              Math.floor(Math.random() * 500 + 100))
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 500 + 100))
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -217,9 +215,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

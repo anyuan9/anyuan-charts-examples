@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,13 +10,13 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
-const maxXAxisVal = 50
-const maxYAxisVal = 200
+const maxXAxisVal = 50;
+const maxYAxisVal = 200;
 function getOption(data) {
   const { title = "", seriesData = [] } = data;
 
@@ -35,39 +35,39 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     tooltip: {
-      trigger: 'item',
+      trigger: "item",
       backgroundColor: "rgba(0, 0, 0, 0.5)",
       borderColor: "transparent",
       borderWidth: 1,
       padding: [12, 20],
-      position: 'top',
+      position: "top",
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       axisPointer: {
         show: true,
-        type: 'cross',
+        type: "cross",
         lineStyle: {
-          type: 'dashed',
+          type: "dashed",
           width: 1
         }
-      },
+      }
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -80,8 +80,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -89,7 +89,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
@@ -97,9 +97,9 @@ function getOption(data) {
       splitLine: {
         show: false,
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.2)',
-        },
-      },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
+      }
     },
     // 直角坐标系的 y 轴
     yAxis: {
@@ -107,40 +107,40 @@ function getOption(data) {
       splitLine: {
         show: false,
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.2)',
-        },
-      },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
+      }
     },
     visualMap: {
-      top: 'top',
-      right: '20%',
+      top: "top",
+      right: "20%",
       min: maxYAxisVal * 0.2,
       max: maxYAxisVal,
-      text: ['HIGH', 'LOW'], // 文本，默认为数值文本
+      text: ["HIGH", "LOW"], // 文本，默认为数值文本
       dimension: 1,
       calculable: true,
       itemWidth: 18,
       itemHeight: 160,
       // padding: [6, 0],
-      orient: 'horizontal', // 水平horizontal,垂直vertical
+      orient: "horizontal", // 水平horizontal,垂直vertical
       textStyle: {
-        color: '#3259B8',
+        color: "#3259B8",
         height: 56,
         fontSize: 11,
-        lineHeight: 60,
+        lineHeight: 60
       },
       inRange: {
-        color: ['#3EACE5', '#F02FC2']
-      },
+        color: ["#3EACE5", "#F02FC2"]
+      }
     },
     series: [
       {
-        type: 'scatter',
-        symbol: 'circle',
+        type: "scatter",
+        symbol: "circle",
         name: seriesData.name || "",
-        data: seriesData.data || [],
-      },
-    ],
+        data: seriesData.data || []
+      }
+    ]
   };
 }
 
@@ -152,16 +152,16 @@ async function getData() {
       data: {
         title: "测试数据",
         seriesData: {
-          name: '测试数据1',
+          name: "测试数据1",
           data: Array.from({ length: 500 }, (_, i) => {
-            const xValue = Math.floor(Math.random() * maxXAxisVal)
-            const yValue = Math.floor(Math.random() * maxYAxisVal)
-            const symbolSize = Math.floor(Math.random() * 100)
-            const groupName = '测试数据1'
-            return [xValue, yValue, symbolSize, '散点a' + i, groupName]
-          }),
-        },
-      },
+            const xValue = Math.floor(Math.random() * maxXAxisVal);
+            const yValue = Math.floor(Math.random() * maxYAxisVal);
+            const symbolSize = Math.floor(Math.random() * 100);
+            const groupName = "测试数据1";
+            return [xValue, yValue, symbolSize, `散点a${i}`, groupName];
+          })
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -176,9 +176,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

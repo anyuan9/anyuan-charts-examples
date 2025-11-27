@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -22,7 +22,7 @@ function getOption(data) {
     xAxisName,
     yAxisName,
     seriesData,
-    markLineData,
+    markLineData
   } = data;
   return {
     // 背景颜色，默认无背景
@@ -39,9 +39,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
@@ -49,10 +49,10 @@ function getOption(data) {
       subtext: "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "2%", // title 组件离容器上侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('top', 'middle', 'bottom')
-      left: "center", // title 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
+      left: "center" // title 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -66,8 +66,8 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
@@ -78,7 +78,7 @@ function getOption(data) {
       padding: [8, 12],
       textStyle: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 1)",
+        color: "rgba(255, 255, 255, 1)"
       },
       // 坐标轴指示器
       axisPointer: {
@@ -97,19 +97,19 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: "rgba(255, 255, 255, 0)", // 0% 处的颜色
+                color: "rgba(255, 255, 255, 0)" // 0% 处的颜色
               },
               {
                 offset: 0.5,
-                color: "rgba(255, 255, 255, 0.4)", // 50% 处的颜色
+                color: "rgba(255, 255, 255, 0.4)" // 50% 处的颜色
               },
               {
                 offset: 1,
-                color: "rgba(255, 255, 255, 0)", // 100% 处的颜色
-              },
+                color: "rgba(255, 255, 255, 0)" // 100% 处的颜色
+              }
             ],
-            global: false,
-          },
+            global: false
+          }
         },
         label: {
           show: true,
@@ -117,12 +117,12 @@ function getOption(data) {
           backgroundColor: "rgba(0, 0, 0, 0.6)",
           borderColor: "rgba(0, 0, 0, 0)",
           shadowColor: "rgba(0, 0, 0, 0)",
-          shadowOffsetY: 0,
-        },
+          shadowOffsetY: 0
+        }
       },
       showContent: true, // 是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
       // 提示框浮层内容格式器 - 字符串模板
-      formatter: "{a}<br />{b0}: {c0}", // 在折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
+      formatter: "{a}<br />{b0}: {c0}" // 在折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -130,7 +130,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "5%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
@@ -139,7 +139,7 @@ function getOption(data) {
       name: xAxisName, // 坐标轴名称
       // 坐标轴名称的文字样式
       nameTextStyle: {
-        align: "center",
+        align: "center"
       },
       // 坐标轴的轴线
       axisLine: {
@@ -148,8 +148,8 @@ function getOption(data) {
         symbolSize: [10, 15],
         symbolOffset: [0, 0],
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)",
-        },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
       },
       // 坐标轴的刻度
       axisTick: {
@@ -162,8 +162,8 @@ function getOption(data) {
           fontSize: 12,
           fontWeight: 400,
           color: "#ffffff",
-          opacity: 0.4,
-        },
+          opacity: 0.4
+        }
       },
       // 坐标轴的刻度标签
       axisLabel: {
@@ -172,16 +172,16 @@ function getOption(data) {
         margin: 4, // 刻度标签与轴线之间的距离，默认值8
         fontSize: 12,
         fontWeight: 400,
-        color: "rgba(255, 255, 255, 0.4)",
+        color: "rgba(255, 255, 255, 0.4)"
       },
       // 坐标轴的分隔线
       splitLine: {
         show: false,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
+          color: "rgba(255, 255, 255, 0.1)"
+        }
       },
-      data: xAxisData || [],
+      data: xAxisData || []
     },
     // 直角坐标系的 y 轴
     yAxis: {
@@ -189,42 +189,42 @@ function getOption(data) {
       name: yAxisName,
       // 坐标轴名称的文字样式
       nameTextStyle: {
-        align: 'right',
+        align: "right",
         padding: [0, 6, 0, 0],
         fontSize: 14,
-        color: 'rgba(255, 255, 255, 0.6)',
+        color: "rgba(255, 255, 255, 0.6)"
       },
       // 坐标轴的轴线
       axisLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.2)",
-        },
+          color: "rgba(255, 255, 255, 0.2)"
+        }
       },
       // 坐标轴的刻度
       axisTick: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度标签
       axisLabel: {
         show: true,
-        color: "rgba(255, 255, 255, 0.4)",
+        color: "rgba(255, 255, 255, 0.4)"
       },
       // 坐标轴在 grid 区域中的分隔线
       splitLine: {
         lineStyle: {
           type: "dashed", // 线的类型
           color: "rgba(255, 255, 255, 0.2)",
-          fontSize: 12,
-        },
+          fontSize: 12
+        }
       },
       // 坐标轴在 grid 区域中的分隔区域
       splitArea: {
         show: true,
         areaStyle: {
-          color: ["rgba(255, 255, 255, 0.03)", "rgba(255, 255, 255, 0.08)"],
-        },
-      },
+          color: ["rgba(255, 255, 255, 0.03)", "rgba(255, 255, 255, 0.08)"]
+        }
+      }
     },
     series: [
       {
@@ -254,7 +254,7 @@ function getOption(data) {
           color: chartColor[0],
           borderWidth: 8,
           borderColor: "rgba(255, 255, 255, 0.3)",
-          opacity: 1, // 透明度
+          opacity: 1 // 透明度
         },
         // 线条样式
         lineStyle: {
@@ -270,11 +270,11 @@ function getOption(data) {
             y2: 0,
             colorStops: [
               { offset: 0, color: chartColor[0] }, // 0% 处的颜色
-              { offset: 1, color: chartColor[1] }, // 100% 处的颜色，可自定义颜色
+              { offset: 1, color: chartColor[1] } // 100% 处的颜色，可自定义颜色
             ],
-            global: false,
+            global: false
           },
-          borderColor: "rgba(0, 0, 0, .4)", // 边框颜色
+          borderColor: "rgba(0, 0, 0, .4)" // 边框颜色
         },
         // 区域填充样式
         areaStyle: {
@@ -288,20 +288,20 @@ function getOption(data) {
             y2: 1,
             colorStops: [
               { offset: 0, color: `${chartColor[0]}80` }, // 0% 处的颜色
-              { offset: 1, color: `${chartColor[0]}00` }, // 100% 处的颜色
+              { offset: 1, color: `${chartColor[0]}00` } // 100% 处的颜色
             ],
-            global: false,
+            global: false
           },
           shadowColor: `${chartColor[0]}80`, // 阴影颜色
           shadowBlur: 20, // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
-          opacity: 0.8,
+          opacity: 0.8
         },
         // 图形上的文本标签
         label: {
           show: true,
           position: "top",
           color: "rgba(255, 255, 255, 0.6)",
-          fontSize: 14,
+          fontSize: 14
         },
         // 折线端点的标签
         endLabel: {},
@@ -313,7 +313,7 @@ function getOption(data) {
         emphasis: {
           itemStyle: {
             color: chartColor[0],
-            borderColor: "rgba(255, 255, 255, 0.6)",
+            borderColor: "rgba(255, 255, 255, 0.6)"
           },
           label: {
             // position: "right",
@@ -324,8 +324,8 @@ function getOption(data) {
             padding: [2, 4],
             borderWidth: 1,
             backgroundColor: "rgba(0, 0, 0, 0.6)",
-            borderColor: "rgba(0, 0, 0, 0.8)",
-          },
+            borderColor: "rgba(0, 0, 0, 0.8)"
+          }
         },
         // 折线图的淡出状态。开启 emphasis.focus 后有效。
         blur: {},
@@ -341,7 +341,7 @@ function getOption(data) {
           lineStyle: {
             type: "dotted",
             width: 2,
-            color: `${chartColor[0]}80`,
+            color: `${chartColor[0]}80`
             // 线性渐变
             // color: {
             //   type: 'linear',
@@ -356,22 +356,22 @@ function getOption(data) {
             //   global: false
             // },
           },
-          data: markLineData || [[{ coord: ["", 0] }, { coord: ["", 0] }]],
+          data: markLineData || [[{ coord: ["", 0] }, { coord: ["", 0] }]]
         },
         // 图表标域，常用于标记图表中某个范围的数据，例如标出某段时间投放了广告。
         markArea: {
-          show: true,
+          show: true
         },
         // 本系列特定的 tooltip 设定
         tooltip: {
-          show: true,
+          show: true
         },
         // stack: "总量", // 数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
         // stackStrategy: "samesign", // 堆积数值的策略。可选值：'samesign'，'all'，'positive'，'negative'。默认值：'samesign'。
         name: (seriesData?.length && seriesData[0].name) || "",
-        data: (seriesData?.length && seriesData[0].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[0].data) || []
+      }
+    ]
   };
 }
 
@@ -386,17 +386,16 @@ async function getData() {
         yAxisName: "单位(万)",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "今日",
             data: Array.from({ length: 24 }, (_, i) =>
-              Math.floor(Math.random() * 500 + 100),
-            ),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 500 + 100))
+          }
+        ]
+      }
     };
 
     const option = getOption({
@@ -405,8 +404,8 @@ async function getData() {
       markLineData:
         res.data.seriesData[0].data.map((item, index) => [
           { coord: [res.data.xAxisData[index], item - 3] }, // 高度减3
-          { coord: [res.data.xAxisData[index], 0] },
-        ]) || [],
+          { coord: [res.data.xAxisData[index], 0] }
+        ]) || []
     });
     setOption(option);
   } catch (err) {
@@ -418,9 +417,9 @@ async function getData() {
         left: "center",
         top: "center",
         textStyle: {
-          fontSize: 20,
-        },
-      },
+          fontSize: 20
+        }
+      }
     });
   }
 }

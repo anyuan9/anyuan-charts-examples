@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,19 +10,19 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
   const { title = "", seriesData } = data;
-  const yAxisData = seriesData?.map((item) => item.name) || [];
-  let maxValue =
-    Math.max(...(seriesData?.map((item) => item.value) || [])) * 1.1;
-  let maxBarData = Array.from(
+  const yAxisData = seriesData?.map(item => item.name) || [];
+  const maxValue
+    = Math.max(...(seriesData?.map(item => item.value) || [])) * 1.1;
+  const maxBarData = Array.from(
     { length: seriesData?.length },
-    (v, k) => maxValue,
+    (v, k) => maxValue
   );
 
   return {
@@ -40,9 +40,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
@@ -53,8 +53,8 @@ function getOption(data) {
       textStyle: {
         align: "center",
         color: "#ffffff",
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -62,24 +62,24 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     xAxis: {
-      show: false,
+      show: false
     },
     yAxis: {
       type: "category",
       // 坐标轴的分隔线
       splitLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的轴线
       axisLine: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度
       axisTick: {
-        show: false,
+        show: false
       },
       // 坐标轴的刻度标签，在此标注左侧的文字信息
       axisLabel: {
@@ -95,7 +95,7 @@ function getOption(data) {
             color: "#ffffff",
             align: "center",
             padding: [0, 0],
-            backgroundColor: chartColor[0],
+            backgroundColor: chartColor[0]
             // borderRadius: 10,
           },
           icon2: {
@@ -105,7 +105,7 @@ function getOption(data) {
             color: "#ffffff",
             align: "center",
             padding: [0, 0],
-            backgroundColor: chartColor[1],
+            backgroundColor: chartColor[1]
             // borderRadius: 10,
           },
           icon3: {
@@ -115,7 +115,7 @@ function getOption(data) {
             color: "#ffffff",
             align: "center",
             padding: [0, 0],
-            backgroundColor: chartColor[2],
+            backgroundColor: chartColor[2]
             // borderRadius: 10,
           },
           icon: {
@@ -125,16 +125,16 @@ function getOption(data) {
             color: "#ffffff",
             align: "center",
             padding: [0, 0],
-            backgroundColor: chartColor[3],
+            backgroundColor: chartColor[3]
             // borderRadius: 10,
-          },
+          }
         },
         formatter: (value, index) => {
           return `{icon${index < 3 ? index + 1 : ""}|${index + 1}}`;
-        },
+        }
       },
       inverse: true, // 重要属性，倒序
-      data: yAxisData || [],
+      data: yAxisData || []
     },
     series: [
       // 内部柱状图：使用背景颜色填充
@@ -158,16 +158,16 @@ function getOption(data) {
               colorStops: [
                 {
                   offset: 0,
-                  color: colorTmp + "4d",
+                  color: `${colorTmp}4d`
                 },
                 {
                   offset: 1,
-                  color: colorTmp,
-                },
+                  color: colorTmp
+                }
               ],
-              global: false, // 缺省为 false
+              global: false // 缺省为 false
             };
-          },
+          }
         },
         label: {
           show: true,
@@ -183,15 +183,15 @@ function getOption(data) {
               fontSize: 14,
               color: "rgba(255, 255, 255, 0.8)",
               align: "left",
-              padding: [0, 0, 0, 0],
-            },
+              padding: [0, 0, 0, 0]
+            }
           },
           formatter: (params) => {
             const { name, dataIndex } = params;
             return `{name|${name}}`;
-          },
+          }
         },
-        data: seriesData,
+        data: seriesData
       },
       // 内部柱状图：使用背景图填充，形成顶部三角的效果(缺点：顶部三角形会被拉伸变形)
       {
@@ -212,7 +212,7 @@ function getOption(data) {
             const { dataIndex, value } = params;
             const colorTmp = chartColor[dataIndex % chartColor.length];
             return value > 0 ? colorTmp : "transparent";
-          },
+          }
         },
         label: {
           show: true,
@@ -226,17 +226,17 @@ function getOption(data) {
           formatter: (params) => {
             const { name, value, dataIndex } = params;
             return value;
-          },
+          }
         },
         data: seriesData.map((item) => {
           return {
             ...item,
             label: {
               offset: item.value / maxValue > 0.1 ? [-25, 2] : [30, 2], // 根据数值大小调整文字显示位置
-              formatter: "{c}%",
-            },
+              formatter: "{c}%"
+            }
           };
-        }),
+        })
       },
       {
         name: "外部",
@@ -244,7 +244,7 @@ function getOption(data) {
         barGap: "-100%",
         barWidth: 20,
         itemStyle: {
-          color: "rgba(0, 0, 0, .4)",
+          color: "rgba(0, 0, 0, .4)"
         },
         // 方案2：使用series的label显示右侧文字信息，（方案1：使用坐标轴刻度标签显示右侧文字信息，详见BarTop）
         label: {
@@ -259,14 +259,14 @@ function getOption(data) {
           formatter: (params) => {
             const { name, dataIndex } = params;
             return seriesData[dataIndex].value;
-          },
+          }
         },
         tooltip: {
-          show: false,
+          show: false
         },
-        data: maxBarData,
-      },
-    ],
+        data: maxBarData
+      }
+    ]
   };
 }
 
@@ -280,30 +280,30 @@ async function getData() {
         seriesData: [
           {
             name: "测试数据",
-            value: Math.floor(Math.random() * 20 + 200),
+            value: Math.floor(Math.random() * 20 + 200)
           },
           {
             name: "测试数据2",
-            value: Math.floor(Math.random() * 20 + 180),
+            value: Math.floor(Math.random() * 20 + 180)
           },
           {
             name: "测试数据3",
-            value: Math.floor(Math.random() * 20 + 160),
+            value: Math.floor(Math.random() * 20 + 160)
           },
           {
             name: "测试数据4",
-            value: Math.floor(Math.random() * 20 + 140),
+            value: Math.floor(Math.random() * 20 + 140)
           },
           {
             name: "测试数据5",
-            value: Math.floor(Math.random() * 20 + 120),
+            value: Math.floor(Math.random() * 20 + 120)
           },
           {
             name: "测试数据6",
-            value: 1,
-          },
-        ],
-      },
+            value: 1
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -318,9 +318,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

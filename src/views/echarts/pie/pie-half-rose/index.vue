@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
@@ -10,36 +10,36 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
   const { title = "", seriesData = {} } = data;
   seriesData?.data?.forEach((item, index) => {
     item.itemStyle = {
-      color: chartColor[index % chartColors.length],
-    }
-  })
+      color: chartColor[index % chartColors.length]
+    };
+  });
   // 添加透明色占位
   const transparentData = seriesData?.data?.map((item, index) => ({
     value: 0,
-    name: '',
+    name: "",
     itemStyle: {
-      color: 'transparent',
+      color: "transparent"
     },
     label: {
-      show: false,
+      show: false
     },
     labelLine: {
-      show: false,
-    },
-  }))
+      show: false
+    }
+  }));
 
   return {
     // 背景颜色，默认无背景
-    backgroundColor: 'rgba(8, 25, 66, 1)',
+    backgroundColor: "rgba(8, 25, 66, 1)",
     // 调色盘颜色列表，依次循环取颜色作为series的颜色
     color: chartColor,
     // 工具栏
@@ -52,30 +52,30 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     tooltip: {
-      trigger: 'item',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      borderColor: 'rgba(0, 0, 0, 0.6)',
+      trigger: "item",
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      borderColor: "rgba(0, 0, 0, 0.6)",
       borderWidth: 1,
       padding: [8, 12],
       textStyle: {
-        color: 'rgba(255, 255, 255, 1)',
+        color: "rgba(255, 255, 255, 1)"
       },
-      formatter: '{a} <br/>{b} : {c} ({d}%)',
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -83,32 +83,32 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'pie',
-        radius: ['25%', '80%'],
-        center: ['50%', '65%'],
+        type: "pie",
+        radius: ["25%", "80%"],
+        center: ["50%", "65%"],
         startAngle: 180, // 起始角度，支持范围[0, 360]
         avoidLabelOverlap: false, // 是否启用防止标签重叠策略，默认开启，圆环图这个例子中需要强制所有标签放在中心位置，可以将该值设为 false。
-        selectedMode: 'single',
-        roseType: 'area', // 是否展示成南丁格尔图，通过半径区分数据大小。可选择'radius'（半径）和'area'（面积）两种模式。
+        selectedMode: "single",
+        roseType: "area", // 是否展示成南丁格尔图，通过半径区分数据大小。可选择'radius'（半径）和'area'（面积）两种模式。
         label: {
           show: true,
-          formatter: '{c}千万元',
+          formatter: "{c}千万元"
         },
         labelLine: {
           show: true,
           length: 10,
           length2: 1,
           lineStyle: {
-            color: 'rgba(255, 255, 255, 0.6)',
-          },
+            color: "rgba(255, 255, 255, 0.6)"
+          }
         },
         data: seriesData?.data?.concat(transparentData)
-      },
-    ],
+      }
+    ]
   };
 }
 
@@ -123,10 +123,10 @@ async function getData() {
           name: "测试数据",
           data: Array.from({ length: 8 }, (_, i) => ({
             name: `测试数据${i}`,
-            value: Math.floor(Math.random() * 50 + 100 * (i + 1)),
-          })),
+            value: Math.floor(Math.random() * 50 + 100 * (i + 1))
+          }))
         }
-      },
+      }
     };
 
     const option = getOption(res.data);
@@ -141,9 +141,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

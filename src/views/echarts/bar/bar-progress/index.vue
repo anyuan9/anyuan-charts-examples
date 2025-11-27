@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
   autoTooltipLoop: false, // 是否自动循环 tooltip，默认间隔时间1500ms
-  autoChartResize: true,
+  autoChartResize: true
   // animation: {
   //   enable: true,
   //   styles: {
@@ -33,9 +33,9 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: [
@@ -43,27 +43,27 @@ function getOption(data) {
         text: title || "",
         textStyle: {
           color: "rgba(255, 255, 255, 0.6)",
-          fontSize: 32,
+          fontSize: 32
         },
         x: "center",
-        top: "55%",
+        top: "55%"
       },
       {
         text: `${seriesData.value}%`,
         textStyle: {
           color: "rgba(255, 255, 255, 0.85)",
-          fontSize: 60,
+          fontSize: 60
         },
         x: "center",
-        top: "35%",
-      },
+        top: "35%"
+      }
     ],
     // 提示框
     tooltip: {
     },
     polar: {
-      center: ['50%', '50%'],
-      radius: ['70%', '80%']
+      center: ["50%", "50%"],
+      radius: ["70%", "80%"]
     },
     angleAxis: {
       show: false,
@@ -71,24 +71,24 @@ function getOption(data) {
       startAngle: 75
     },
     radiusAxis: {
-      type: 'category',
+      type: "category",
       axisLabel: false,
       axisLine: false,
-      axisTick: false,
+      axisTick: false
     },
     series: [
       {
-        type: 'bar',
-        coordinateSystem: 'polar',
+        type: "bar",
+        coordinateSystem: "polar",
         roundCap: true, // 圆角
         showBackground: true,
         backgroundStyle: {
-          color: "rgba(66, 66, 66, .3)",
+          color: "rgba(66, 66, 66, .3)"
         },
         itemStyle: {
           // 背景颜色渐变
           color: {
-            type: 'linear',
+            type: "linear",
             x: 0,
             y: 0,
             x2: 1,
@@ -96,26 +96,26 @@ function getOption(data) {
             colorStops: [
               {
                 offset: 0,
-                color: chartColors[0][0], // 0% 处的颜色
+                color: chartColors[0][0] // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: chartColors[0][1], // 100% 处的颜色
-              },
+                color: chartColors[0][1] // 100% 处的颜色
+              }
             ],
-            global: false, // 缺省为 false
-          },
+            global: false // 缺省为 false
+          }
         },
         label: {
           show: false,
-          position: 'middle',
-          formatter: '{b}: {c}'
+          position: "middle",
+          formatter: "{b}: {c}"
         },
         emphasis: {},
         name: seriesData.name || "",
-        data: [seriesData || 0],
-      },
-    ],
+        data: [seriesData || 0]
+      }
+    ]
   };
 }
 
@@ -127,10 +127,10 @@ async function getData() {
       data: {
         title: "测试数据",
         seriesData: {
-          name: '测试数据1',
-          value: Math.floor(Math.random() * 90 + 10), // 百分比
-        },
-      },
+          name: "测试数据1",
+          value: Math.floor(Math.random() * 90 + 10) // 百分比
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -145,9 +145,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

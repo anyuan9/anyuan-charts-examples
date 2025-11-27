@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import EmptyDark from "@/components/EmptyDark/index.vue";
 import { chartColor, chartColors } from "@/views/echarts/constant";
-import EmptyDark from '@/components/EmptyDark/index.vue'
 
 const chartRef = ref(null);
 const { dataIndex, setOption, showLoading } = useECharts(chartRef, {
@@ -11,14 +11,14 @@ const { dataIndex, setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
   const { title = "", seriesData } = data;
-  const bgColor = 'rgba(8, 25, 66, 1)'
+  const bgColor = "rgba(8, 25, 66, 1)";
 
   return {
     // 背景颜色，默认无背景
@@ -35,19 +35,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -55,76 +55,76 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'pie',
-        radius: ['45%', '65%'],
-        center: ['30%', '50%'],
+        type: "pie",
+        radius: ["45%", "65%"],
+        center: ["30%", "50%"],
         // minAngle: 2, //最小的扇区角度（0 ~ 360）
         // padAngle: 10, // 方案1：饼图扇区之间的间隔角度（0 ~ 360），从 v5.5.0 开始支持
         itemStyle: {
           borderWidth: 10, // 方案2：设置边框宽度，表示中间的空格区域
-          borderColor: bgColor,
+          borderColor: bgColor
         },
         label: {
           show: false,
-          position: 'center', // 标签的位置，'outside'饼图扇区外侧，'inside'饼图扇区内部，'center'在饼图中心位置
+          position: "center", // 标签的位置，'outside'饼图扇区外侧，'inside'饼图扇区内部，'center'在饼图中心位置
           rich: {
             value: {
               fontSize: 36,
-              fontWeight: 'bold',
-              color: 'rgba(255, 255, 255, 0.8)',
-            },
+              fontWeight: "bold",
+              color: "rgba(255, 255, 255, 0.8)"
+            }
           },
-          formatter: '{value|{d}%}',
+          formatter: "{value|{d}%}"
         },
         labelLine: {
-          show: false,
+          show: false
         },
         emphasis: {
           itemStyle: {
-            borderWidth: 0,
+            borderWidth: 0
           },
           label: {
             show: true,
-            fontSize: 36,
+            fontSize: 36
           },
-          scale: false, // 鼠标移入变大
+          scale: false // 鼠标移入变大
         },
-        name: seriesData?.name || '',
-        data: seriesData?.data || [],
+        name: seriesData?.name || "",
+        data: seriesData?.data || []
       },
       // 外环阴影
       {
-        type: 'pie',
-        radius: ['62%', '70%'],
-        center: ['30%', '50%'],
+        type: "pie",
+        radius: ["62%", "70%"],
+        center: ["30%", "50%"],
         itemStyle: {
           shadowBlur: 30,
-          shadowColor: 'rgba(255, 255, 255, 0.4)',
-          color: 'rgba(255, 255, 255, 0.1)',
+          shadowColor: "rgba(255, 255, 255, 0.4)",
+          color: "rgba(255, 255, 255, 0.1)"
         },
         label: {
-          show: false,
+          show: false
         },
         tooltip: {
-          show: false,
+          show: false
         },
         emphasis: {
-          scale: false, // 鼠标移入变大
+          scale: false // 鼠标移入变大
         },
-        data: [100],
+        data: [100]
       },
       // 内环刻度线
       {
-        type: 'gauge',
-        splitNumber: 10, //刻度数量
+        type: "gauge",
+        splitNumber: 10, // 刻度数量
         min: 0,
         max: 100,
-        radius: '45%', //图表尺寸
-        center: ['30%', '50%'],
+        radius: "45%", // 图表尺寸
+        center: ["30%", "50%"],
         startAngle: 90,
         endAngle: -269.9999,
         axisLine: {
@@ -133,40 +133,40 @@ function getOption(data) {
             width: 0,
             shadowBlur: 0,
             color: [
-              [0, 'rgba(255, 255, 255, 0.3)'],
-              [1, 'rgba(255, 255, 255, 0.3)'],
-            ],
-          },
+              [0, "rgba(255, 255, 255, 0.3)"],
+              [1, "rgba(255, 255, 255, 0.3)"]
+            ]
+          }
         },
         axisTick: {
           show: true,
           lineStyle: {
-            color: 'rgba(255, 255, 255, 0.3)',
-            width: 1,
+            color: "rgba(255, 255, 255, 0.3)",
+            width: 1
           },
           length: 5,
-          splitNumber: 10,
+          splitNumber: 10
         },
         splitLine: {
-          show: false,
+          show: false
         },
         axisLabel: {
-          show: false,
+          show: false
         },
         pointer: {
           // 仪表盘指针
-          show: false,
+          show: false
         },
         detail: {
-          show: false,
-        },
-      },
-    ],
+          show: false
+        }
+      }
+    ]
   };
 }
 
 // 图例数据
-const legendData = ref([])
+const legendData = ref([]);
 async function getData() {
   try {
     // const res = await axios.get("/api/getChartData");
@@ -179,25 +179,25 @@ async function getData() {
           data: Array.from({ length: 4 }, (_, i) => {
             return {
               name: `name${i}`,
-              value: Math.floor(Math.random() * 800 + 20),
-            }
-          }),
-        },
-      },
+              value: Math.floor(Math.random() * 800 + 20)
+            };
+          })
+        }
+      }
     };
 
     // 数据总和
-    const total =
-      res.data?.seriesData?.data?.reduce((acc, item) => {
-        return acc + item.value
-      }, 0) || 0
+    const total
+      = res.data?.seriesData?.data?.reduce((acc, item) => {
+        return acc + item.value;
+      }, 0) || 0;
     legendData.value = res.data?.seriesData?.data?.map((item, index) => {
       return {
         ...item,
         color: chartColor[index % chartColor.length],
-        percent: ((item.value / total) * 100).toFixed(2) + '%',
-      }
-    }) || []
+        percent: `${((item.value / total) * 100).toFixed(2)}%`
+      };
+    }) || [];
 
     const option = getOption(res.data);
     setOption(option);
@@ -211,9 +211,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }
@@ -231,15 +231,17 @@ onMounted(() => {
     <div ref="chartRef" :style="{ width: '100%', height: '100%' }" />
 
     <div v-if="legendData.length" class="chart-legend">
-      <div v-for="(item, index) in legendData" :key="index" class="chart-legend-item"
-        :class="{ active: index === dataIndex }">
+      <div
+        v-for="(item, index) in legendData" :key="index" class="chart-legend-item"
+        :class="{ active: index === dataIndex }"
+      >
         <div class="legend-item_left">
-          <span class="icon" :style="`background: ${item.color};`"></span>
+          <span class="icon" :style="`background: ${item.color};`" />
           <span class="name">{{ item.name }}</span>
         </div>
         <div class="legend-item_right">
           <span class="value">{{ item.value }}</span>
-          <span class="divide"></span>
+          <span class="divide" />
           <span class="percent">{{ item.percent }}</span>
         </div>
       </div>
@@ -248,20 +250,27 @@ onMounted(() => {
     <div v-if="legendData.length" class="legend-wrap">
       <div v-for="(item, index) in legendData" :key="index" class="legend-item">
         <div class="legend-left">
-          <div class="legend-icon"
-            :style="{'background-image': `linear-gradient(0deg, ${chartColors[index][0]} 0%, ${chartColors[index][1]} 100%)`}">
+          <div
+            class="legend-icon"
+            :style="{ 'background-image': `linear-gradient(0deg, ${chartColors[index][0]} 0%, ${chartColors[index][1]} 100%)` }"
+          />
+          <div class="legend-text">
+            {{ item.name }}
           </div>
-          <div class="legend-text">{{ item.name }}</div>
         </div>
         <div class="legend-right">
-          <div class="legend-text legend-value ellipsis">{{ item.value }}</div>
+          <div class="legend-text legend-value ellipsis">
+            {{ item.value }}
+          </div>
           <div class="divide" />
-          <div class="legend-text">{{ item.percent }}</div>
+          <div class="legend-text">
+            {{ item.percent }}
+          </div>
         </div>
       </div>
     </div>
     <div v-else style="flex: 1">
-      <empty-dark size="sm" />
+      <EmptyDark size="sm" />
     </div>
   </div>
 </template>
@@ -305,7 +314,7 @@ onMounted(() => {
       width: 4px;
       height: 1px;
       background-color: rgba(255, 255, 255, 0.8);
-      content: '';
+      content: "";
     }
 
     &::after {
@@ -315,7 +324,7 @@ onMounted(() => {
       width: 4px;
       height: 1px;
       background-color: rgba(255, 255, 255, 0.8);
-      content: '';
+      content: "";
     }
 
     &.active {
@@ -370,7 +379,6 @@ onMounted(() => {
     }
   }
 }
-
 
 .legend-wrap {
   position: absolute;

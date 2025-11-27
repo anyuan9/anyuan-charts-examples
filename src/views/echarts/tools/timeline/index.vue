@@ -7,9 +7,9 @@
  * @Date: 2025-06-16 08:50:19
  -->
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -18,9 +18,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -37,7 +37,7 @@ function getOption(data) {
       title: {
         text: title || "",
         top: "5%",
-        left: "2%",
+        left: "2%"
       },
       // 时间轴（timeline）组件
       timeline: {
@@ -53,23 +53,23 @@ function getOption(data) {
         symbolRotate: 0, // timeline标记的旋转角度（而非弧度）。正值表示逆时针旋转，默认为0
         // 『控制按钮』的样式。『控制按钮』包括：『播放按钮』、『前进按钮』、『后退按钮』。
         controlStyle: {
-          position: "left",
+          position: "left"
         },
         // 进度条中的线条，拐点，标签的样式。
         progress: {
           lineStyle: {},
           itemStyle: {},
-          label: {},
+          label: {}
         },
         // 轴线样式
         lineStyle: {
           color: "rgba(0, 0, 0, 0.2)", // timeline线的颜色
-          width: 2, // timeline线的宽度，默认为2
+          width: 2 // timeline线的宽度，默认为2
         },
         // timeline 图形样式
         itemStyle: {
           borderColor: "rgba(255, 255, 255, 0.2)", // timeline图形的边框颜色
-          borderWidth: 2, // timeline图形的边框宽度，默认为2
+          borderWidth: 2 // timeline图形的边框宽度，默认为2
         },
         // 『当前项』（checkpoint）的图形样式
         checkpointStyle: {
@@ -83,10 +83,10 @@ function getOption(data) {
           {
             value: "2023",
             tooltip: {
-              formatter: "{b} GDP达到一个高度",
+              formatter: "{b} GDP达到一个高度"
             },
             symbol: "diamond",
-            symbolSize: 16,
+            symbolSize: 16
           },
           "2024",
           "2025",
@@ -94,12 +94,12 @@ function getOption(data) {
             value: "2026",
             tooltip: {
               formatter: (params) => {
-                return params.name + "GDP达到又一个高度";
-              },
+                return `${params.name}GDP达到又一个高度`;
+              }
             },
             symbol: "diamond",
-            symbolSize: 18,
-          },
+            symbolSize: 18
+          }
         ],
         // 轴的文本标签
         label: {
@@ -108,13 +108,13 @@ function getOption(data) {
           // formatter: '{value} 年'
           // 方式2：使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
           formatter: (value, index) => {
-            return value + " 年";
-          },
-        },
+            return `${value} 年`;
+          }
+        }
       },
       // 提示框
       tooltip: {
-        trigger: "axis",
+        trigger: "axis"
       },
       // 直角坐标系内绘图网格
       grid: {
@@ -122,35 +122,35 @@ function getOption(data) {
         left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
         right: "5%",
         bottom: "100",
-        containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+        containLabel: true // grid 区域是否包含坐标轴的刻度标签
       },
       // 直角坐标系的 x 轴
       xAxis: [
         {
           type: "category",
-          data: xAxisData || [],
-        },
+          data: xAxisData || []
+        }
       ],
       // 直角坐标系的 y 轴
       yAxis: {
-        type: "value",
+        type: "value"
       },
       series: [
         {
           type: "bar",
           barWidth: 20,
-          name: (seriesData?.length && seriesData[0].name) || "",
+          name: (seriesData?.length && seriesData[0].name) || ""
         },
         {
           type: "line",
           smooth: true, // 是否平滑曲线
           // 线条样式
           lineStyle: {
-            width: 2,
+            width: 2
           },
-          name: (seriesData?.length && seriesData[1].name) || "",
-        },
-      ],
+          name: (seriesData?.length && seriesData[1].name) || ""
+        }
+      ]
     },
     // 特定时间点的配置
     options: [
@@ -159,50 +159,50 @@ function getOption(data) {
         title: { text: `${time[0]}${title}` },
         series: [
           { data: seriesData[0].data[0] },
-          { data: seriesData[1].data[0] },
-        ],
+          { data: seriesData[1].data[0] }
+        ]
       },
       // 第二个时间点的配置
       {
         title: { text: `${time[1]}${title}` },
         series: [
           { data: seriesData[0].data[1] },
-          { data: seriesData[1].data[1] },
-        ],
+          { data: seriesData[1].data[1] }
+        ]
       },
       // 第三个时间点的配置
       {
         title: { text: `${time[2]}${title}` },
         series: [
           { data: seriesData[0].data[2] },
-          { data: seriesData[1].data[2] },
-        ],
+          { data: seriesData[1].data[2] }
+        ]
       },
       // 第四个时间点的配置
       {
         title: { text: `${time[3]}${title}` },
         series: [
           { data: seriesData[0].data[3] },
-          { data: seriesData[1].data[3] },
-        ],
+          { data: seriesData[1].data[3] }
+        ]
       },
       // 第五个时间点的配置
       {
         title: { text: `${time[4]}${title}` },
         series: [
           { data: seriesData[0].data[4] },
-          { data: seriesData[1].data[4] },
-        ],
+          { data: seriesData[1].data[4] }
+        ]
       },
       // 第六个时间点的配置
       {
         title: { text: `${time[5]}${title}` },
         series: [
           { data: seriesData[0].data[5] },
-          { data: seriesData[1].data[5] },
-        ],
-      },
-    ],
+          { data: seriesData[1].data[5] }
+        ]
+      }
+    ]
   };
 }
 
@@ -216,57 +216,45 @@ async function getData() {
         time: ["2021", "2022", "2023", "2024", "2025", "2026"],
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ),
         seriesData: [
           {
             name: "测试数据1",
             data: [
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
-            ],
+                Math.floor(Math.random() * 500 + 100))
+            ]
           },
           {
             name: "测试数据2",
             data: [
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
+                Math.floor(Math.random() * 500 + 100)),
               Array.from({ length: 24 }, (_, i) =>
-                Math.floor(Math.random() * 500 + 100),
-              ),
-            ],
-          },
-        ],
-      },
+                Math.floor(Math.random() * 500 + 100))
+            ]
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -281,9 +269,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

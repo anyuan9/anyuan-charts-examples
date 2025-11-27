@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
-import { Bottom } from "@element-plus/icons-vue";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -11,9 +10,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -28,11 +27,11 @@ function getOption(data) {
     title: {
       text: title || "",
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 提示框
     tooltip: {
-      show: true,
+      show: true
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -40,7 +39,7 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 单轴
     singleAxis: [
@@ -61,48 +60,48 @@ function getOption(data) {
         splitNumber: 12, // 坐标轴的分割段数，可选值：数值，默认为5。在类目轴中无效。
         // 坐标轴轴线
         axisLine: {
-          show: true,
+          show: true
         },
         // 坐标轴刻度
         axisTick: {
-          show: true,
+          show: true
         },
         // 坐标轴次刻度
         minorTick: {},
         // 坐标轴刻度标签
         axisLabel: {
           interval: 0,
-          fontSize: 18,
+          fontSize: 18
         },
         // 坐标轴在 grid 区域中的分隔线
         splitLine: {
-          show: true,
+          show: true
         },
         // 坐标轴在 grid 区域中的次分隔线
         minorSplitLine: {},
         // 坐标轴在 grid 区域中的分隔区域，默认不显示
         splitArea: {
-          show: false,
+          show: false
         },
         // 坐标轴指示器
         axisPointer: {
-          show: false,
+          show: false
         },
         nameGap: 20, // 坐标轴名称与轴线之间的距离，默认为15
         nameRotate: 0, // 坐标轴名字旋转，默认为0，不旋转
         nameLocation: "end", // 坐标轴名称显示位置，可选值：'start'、'middle'、'end'
         // 坐标轴名称的文字样式。
         nameTextStyle: {
-          fontSize: 18,
+          fontSize: 18
         },
         // 坐标轴名字的截断
         nameTruncate: {
           maxWidth: 80, // 截断文本的最大长度，超过此长度会被截断
-          ellipsis: "...", // 超过最大长度时显示的文本，默认为...
+          ellipsis: "..." // 超过最大长度时显示的文本，默认为...
         },
         name: (seriesData?.length && seriesData[0].name) || "", // 坐标轴名称，默认为空
-        data: xAxisData,
-      },
+        data: xAxisData
+      }
     ],
     series: [
       {
@@ -113,9 +112,9 @@ function getOption(data) {
         symbolSize: (val) => {
           return val[1] * 4;
         },
-        data: (seriesData?.length && seriesData[0].data) || [],
-      },
-    ],
+        data: (seriesData?.length && seriesData[0].data) || []
+      }
+    ]
   };
 }
 
@@ -128,25 +127,25 @@ async function getData() {
         title: "单轴散点图",
         xAxisData: Array.from(
           { length: 24 },
-          (_, i) => `${i.toString().padStart(2, "0")}:00`,
+          (_, i) => `${i.toString().padStart(2, "0")}:00`
         ), // ['00:00', '01:00']
         seriesData: [
           {
             name: "测试数据1",
             data: Array.from({ length: 24 }, (_, i) => [
               i,
-              Math.floor(Math.random() * 9 + 1),
-            ]), // [[0, 7],[1, 4]]
+              Math.floor(Math.random() * 9 + 1)
+            ]) // [[0, 7],[1, 4]]
           },
           {
             name: "测试数据2",
             data: Array.from({ length: 24 }, (_, i) => [
               i,
-              Math.floor(Math.random() * 9 + 1),
-            ]),
-          },
-        ],
-      },
+              Math.floor(Math.random() * 9 + 1)
+            ])
+          }
+        ]
+      }
     };
 
     const option = getOption(res.data);
@@ -161,9 +160,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

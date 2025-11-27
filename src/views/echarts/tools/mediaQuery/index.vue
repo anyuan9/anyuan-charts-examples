@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
 
 const chartRef = ref(null);
 const { setOption, showLoading } = useECharts(chartRef, {
@@ -10,13 +9,13 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
-  const { title = "", seriesData=[] } = data;
+  const { title = "", seriesData = [] } = data;
 
   return {
     baseOption: {
@@ -27,161 +26,161 @@ function getOption(data) {
           dataView: { show: true, readOnly: false },
           magicType: {
             show: true,
-            type: ['pie', 'funnel'],
+            type: ["pie", "funnel"]
           },
           restore: { show: true },
-          saveAsImage: { show: true },
-        },
+          saveAsImage: { show: true }
+        }
       },
       title: {
-        text: '南丁格尔玫瑰图',
-        subtext: '纯属虚构',
-        x: 'center',
+        text: "南丁格尔玫瑰图",
+        subtext: "纯属虚构",
+        x: "center"
       },
       tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        trigger: "item",
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
       legend: {
-        data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8'],
+        data: ["rose1", "rose2", "rose3", "rose4", "rose5", "rose6", "rose7", "rose8"]
       },
       calculable: true,
       series: [
         {
-          name: '半径模式',
-          type: 'pie',
-          roseType: 'radius',
+          name: "半径模式",
+          type: "pie",
+          roseType: "radius",
           label: {
-            show: false,
+            show: false
           },
           labelLine: {
-            show: false,
+            show: false
           },
           emphasis: {
             label: {
-              show: true,
+              show: true
             },
             labelLine: {
-              show: true,
-            },
+              show: true
+            }
           },
           data: [
-            { value: 10, name: 'rose1' },
-            { value: 5, name: 'rose2' },
-            { value: 15, name: 'rose3' },
-            { value: 25, name: 'rose4' },
-            { value: 20, name: 'rose5' },
-            { value: 35, name: 'rose6' },
-            { value: 30, name: 'rose7' },
-            { value: 40, name: 'rose8' },
-          ],
+            { value: 10, name: "rose1" },
+            { value: 5, name: "rose2" },
+            { value: 15, name: "rose3" },
+            { value: 25, name: "rose4" },
+            { value: 20, name: "rose5" },
+            { value: 35, name: "rose6" },
+            { value: 30, name: "rose7" },
+            { value: 40, name: "rose8" }
+          ]
         },
         {
-          name: '面积模式',
-          type: 'pie',
-          roseType: 'area',
+          name: "面积模式",
+          type: "pie",
+          roseType: "area",
           data: [
-            { value: 10, name: 'rose1' },
-            { value: 5, name: 'rose2' },
-            { value: 15, name: 'rose3' },
-            { value: 25, name: 'rose4' },
-            { value: 20, name: 'rose5' },
-            { value: 35, name: 'rose6' },
-            { value: 30, name: 'rose7' },
-            { value: 40, name: 'rose8' },
-          ],
-        },
-      ],
+            { value: 10, name: "rose1" },
+            { value: 5, name: "rose2" },
+            { value: 15, name: "rose3" },
+            { value: 25, name: "rose4" },
+            { value: 20, name: "rose5" },
+            { value: 35, name: "rose6" },
+            { value: 30, name: "rose7" },
+            { value: 40, name: "rose8" }
+          ]
+        }
+      ]
     },
     media: [
       // 定义 media query 的规则。
       {
         option: {
           legend: {
-            right: 'center',
+            right: "center",
             bottom: 0,
-            orient: 'horizontal',
+            orient: "horizontal"
           },
           series: [
             {
-              radius: [20, '50%'],
-              center: ['25%', '50%'],
+              radius: [20, "50%"],
+              center: ["25%", "50%"]
             },
             {
-              radius: [30, '50%'],
-              center: ['75%', '50%'],
-            },
-          ],
-        },
+              radius: [30, "50%"],
+              center: ["75%", "50%"]
+            }
+          ]
+        }
       },
       {
         query: {
-          minAspectRatio: 1,
+          minAspectRatio: 1
         },
         option: {
           legend: {
-            right: 'center',
+            right: "center",
             bottom: 0,
-            orient: 'horizontal',
+            orient: "horizontal"
           },
           series: [
             {
-              radius: [20, '50%'],
-              center: ['25%', '50%'],
+              radius: [20, "50%"],
+              center: ["25%", "50%"]
             },
             {
-              radius: [30, '50%'],
-              center: ['75%', '50%'],
-            },
-          ],
-        },
+              radius: [30, "50%"],
+              center: ["75%", "50%"]
+            }
+          ]
+        }
       },
       {
         query: {
-          maxAspectRatio: 1,
+          maxAspectRatio: 1
         },
         option: {
           legend: {
-            right: 'center',
+            right: "center",
             bottom: 0,
-            orient: 'horizontal',
+            orient: "horizontal"
           },
           series: [
             {
-              radius: [20, '50%'],
-              center: ['50%', '30%'],
+              radius: [20, "50%"],
+              center: ["50%", "30%"]
             },
             {
-              radius: [30, '50%'],
-              center: ['50%', '70%'],
-            },
-          ],
-        },
+              radius: [30, "50%"],
+              center: ["50%", "70%"]
+            }
+          ]
+        }
       },
       {
         query: {
-          maxWidth: 500,
+          maxWidth: 500
         },
         option: {
           legend: {
             right: 10,
-            top: '15%',
-            orient: 'vertical',
+            top: "15%",
+            orient: "vertical"
           },
           series: [
             {
-              radius: [20, '50%'],
-              center: ['50%', '30%'],
+              radius: [20, "50%"],
+              center: ["50%", "30%"]
             },
             {
-              radius: [30, '50%'],
-              center: ['50%', '75%'],
-            },
-          ],
-        },
-      },
-    ],
-  }
+              radius: [30, "50%"],
+              center: ["50%", "75%"]
+            }
+          ]
+        }
+      }
+    ]
+  };
 }
 
 async function getData() {
@@ -191,8 +190,8 @@ async function getData() {
       code: "0",
       data: {
         title: "测试数据",
-        seriesData: [],
-      },
+        seriesData: []
+      }
     };
 
     const option = getOption(res.data);
@@ -207,9 +206,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

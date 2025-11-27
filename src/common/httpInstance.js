@@ -9,9 +9,9 @@ function createInstance() {
   // 请求拦截器
   instance.interceptors.request.use(
     // 发送之前
-    (config) => config,
+    config => config,
     // 发送失败
-    (error) => Promise.reject(error),
+    error => Promise.reject(error)
   );
   // 响应拦截器（可根据具体业务作出相应的调整）
   instance.interceptors.response.use(
@@ -97,7 +97,7 @@ function createInstance() {
       }
       ElMessage.error(error.message);
       return Promise.reject(error);
-    },
+    }
   );
   return instance;
 }
@@ -113,14 +113,14 @@ function createRequest(instance) {
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         "Content-Type": "application/json",
-        [CSRF_HEADER]: CSRF_TOKEN,
+        [CSRF_HEADER]: CSRF_TOKEN
       },
       // 请求体
       data: {},
       // 请求超时
       timeout: 30 * 1000,
       // 跨域请求时是否携带 Cookies
-      withCredentials: true,
+      withCredentials: true
     };
     // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
     const mergeConfig = merge(defaultConfig, config);

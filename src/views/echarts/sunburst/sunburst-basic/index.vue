@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
 import { data } from "./data";
 
 const chartRef = ref(null);
@@ -11,9 +11,9 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 function getOption(data) {
@@ -34,19 +34,19 @@ function getOption(data) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -59,12 +59,12 @@ function getOption(data) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
-      trigger: "axis",
+      trigger: "axis"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -72,13 +72,13 @@ function getOption(data) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     series: [
       {
-        type: 'sunburst',
-        center: ['50%', '50%'],
-        radius: [0, '90%'],
+        type: "sunburst",
+        center: ["50%", "50%"],
+        radius: [0, "90%"],
         clockwise: true, // 控制扇形块是否顺时针排序，默认为true
         startAngle: 90, // 控制扇形块顺时针排序的起始角度，默认为90
         // 多层配置
@@ -88,10 +88,10 @@ function getOption(data) {
           },
           {
             // 最靠内测的第一层配置
-            radius: ['15%', '30%'], // 从 v5.2.0 开始支持。当前层的内半径和外半径，注意其它层的内外半径不会因为该层的改变自适应。
+            radius: ["15%", "30%"], // 从 v5.2.0 开始支持。当前层的内半径和外半径，注意其它层的内外半径不会因为该层的改变自适应。
             // 文本标签的样式
             label: {
-              rotate: 'tangential'
+              rotate: "tangential"
             },
             // 标签的视觉引导线配置
             labelLine: {
@@ -112,18 +112,18 @@ function getOption(data) {
             // 选中状态配置
             select: {
 
-            },
-          },
-          {
-            radius: ['32%', '70%'],
-            label: {
-              align: 'right',
             }
           },
           {
-            radius: ['75%', '85%'],
+            radius: ["32%", "70%"],
             label: {
-              position: 'outside',
+              align: "right"
+            }
+          },
+          {
+            radius: ["75%", "85%"],
+            label: {
+              position: "outside",
               padding: 3,
               silent: false
             },
@@ -131,23 +131,23 @@ function getOption(data) {
               borderWidth: 3
             },
             emphasis: {
-              focus: 'ancestor'
-            },
+              focus: "ancestor"
+            }
           }
         ],
         // 每个扇形块的文本标签的样式。
         label: {
-          rotate: 'radial', // 如果是 number 类型，则表示标签的旋转角，从 -90 度到 90 度，正值是逆时针。字符串 'radial' 表示径向旋转、'tangential' 表示切向旋转。
-          position: 'inside', // 标签的位置。可以通过内置的语义声明位置：支持：top / left / right / bottom / inside（默认值） / insideLeft / insideRight / insideTop / insideBottom / insideTopLeft / insideBottomLeft / insideTopRight / insideBottomRight；也可以用一个数组表示相对的百分比或者绝对像素值表示标签相对于图形包围盒左上角的位置，例如[10, 10], ['50%', '50%']。
+          rotate: "radial", // 如果是 number 类型，则表示标签的旋转角，从 -90 度到 90 度，正值是逆时针。字符串 'radial' 表示径向旋转、'tangential' 表示切向旋转。
+          position: "inside", // 标签的位置。可以通过内置的语义声明位置：支持：top / left / right / bottom / inside（默认值） / insideLeft / insideRight / insideTop / insideBottom / insideTopLeft / insideBottomLeft / insideTopRight / insideBottomRight；也可以用一个数组表示相对的百分比或者绝对像素值表示标签相对于图形包围盒左上角的位置，例如[10, 10], ['50%', '50%']。
           distance: 5, // 标签与扇形块的距离，默认为5
-          formatter: '{b}: {c} ({d}%)', // 标签内容格式器，支持字符串模板和回调函数两种形式，字符串模板与 'formatter' 通用，详见文档。回调函数的参数为：
+          formatter: "{b}: {c} ({d}%)", // 标签内容格式器，支持字符串模板和回调函数两种形式，字符串模板与 'formatter' 通用，详见文档。回调函数的参数为：
           // {b}: 数据项名称
           // {c}: 数据项值
-          color: '#fff', // 标签字体颜色，默认为 '#fff'
+          color: "#fff", // 标签字体颜色，默认为 '#fff'
           fontSize: 12, // 标签字体大小，默认为 12
-          backgroundColor: 'transparent',
-          borderColor: 'transparent', // 文字块边框颜色，如果设置为 'inherit'，则为视觉映射得到的颜色，如系列色。
-          borderWidth: 0, // 文字块边框宽度，默认为 0
+          backgroundColor: "transparent",
+          borderColor: "transparent", // 文字块边框颜色，如果设置为 'inherit'，则为视觉映射得到的颜色，如系列色。
+          borderWidth: 0 // 文字块边框宽度，默认为 0
         },
         // 标签的视觉引导线配置
         labelLine: {
@@ -160,17 +160,17 @@ function getOption(data) {
           // rotate: 0, // 标签旋转角度
           // align: 'center', // 标签水平对齐方式。可以设置'left', 'center', 'right'。
           // verticalAlign: 'middle', // 标签垂直对齐方式。可以设置'top', 'middle', 'bottom'。
-          fontSize: 12, // 标签字体大小
+          fontSize: 12 // 标签字体大小
         },
         // 扇形块的样式
         itemStyle: {
-          borderColor: 'transparent', // 图形的描边颜色。默认为'white'，支持的颜色格式同 color，不支持回调函数。
+          borderColor: "transparent", // 图形的描边颜色。默认为'white'，支持的颜色格式同 color，不支持回调函数。
           borderWidth: 2,
-          borderRadius: 2,
+          borderRadius: 2
         },
         // 高亮状态配置
         emphasis: {
-          focus: 'ancestor', // 在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。支持如下配置：
+          focus: "ancestor", // 在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。支持如下配置：
           // 'none' 不淡出其它图形，默认使用该配置。
           // 'self' 只聚焦（不淡出）当前高亮的数据的图形。
           // 'series' 聚焦当前高亮的数据所在的系列的所有图形。
@@ -179,7 +179,7 @@ function getOption(data) {
           // 'relative' 聚焦所有子孙和祖先节点。（从 v5.6.0 开始支持）
           label: {},
           labelLine: {},
-          itemStyle: {},
+          itemStyle: {}
         },
         // 淡出状态配置
         blur: {
@@ -195,13 +195,12 @@ function getOption(data) {
         sort: (a, b) => {
           if (a.depth === 1) {
             return b.getValue() - a.getValue();
-          }
-          else {
+          } else {
             return a.dataIndex - b.dataIndex;
           }
-        },
-      },
-    ],
+        }
+      }
+    ]
   };
 }
 
@@ -214,9 +213,9 @@ async function getData() {
         title: "测试数据",
         seriesData: {
           name: "测试数据1",
-          data: data
-        },
-      },
+          data
+        }
+      }
     };
 
     const option = getOption(res.data);
@@ -231,9 +230,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }

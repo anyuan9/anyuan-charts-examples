@@ -1,3 +1,94 @@
+<script setup>
+import { vue } from "@codemirror/lang-vue";
+import { oneDark } from "@codemirror/theme-one-dark";
+import { useClipboard } from "@vueuse/core";
+import { computed, defineAsyncComponent, onMounted, reactive, shallowRef } from "vue";
+import CodeMirror from "vue-codemirror6";
+import { useRoute, useRouter } from "vue-router";
+
+// 从路由参数获取组件路径
+const route = useRoute();
+const router = useRouter();
+const pathQuery = computed(() => {
+  return {
+    component: route.query.component,
+    name: route.query.name,
+    title: route.query.title
+  };
+});
+function handleBack() {
+  if (window.history.length > 1) {
+    router.go(-1);
+  } else {
+    // 没有历史记录时，跳转到首页
+    const fallbackRoute = { path: "/" };
+    router.push(fallbackRoute);
+  }
+}
+
+const previewState = reactive({ status: "loading", error: null });
+const sourceState = reactive({ state: "loading", error: null, code: "" });
+
+const dynamicComponent = shallowRef(null);
+const extensions = [
+  vue(),
+  // html(),
+  // javascript(),
+  oneDark
+];
+
+const { copy, copied, isSupported } = useClipboard();
+async function handleCopy(e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  if (!isSupported.value) {
+    console.log("浏览器不支持剪贴板功能");
+    return;
+  }
+
+  try {
+    await copy(sourceState.code);
+  } catch (err) {
+    console.error("复制错误:", err);
+  }
+}
+
+onMounted(async () => {
+  if (!pathQuery.value.component) {
+    console.log("未指定组件路径");
+    return;
+  }
+
+  try {
+    previewState.status = "loading";
+
+    // 动态加载组件
+    dynamicComponent.value = defineAsyncComponent(() =>
+      import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue`)
+    );
+    previewState.status = "success";
+  } catch (err) {
+    previewState.status = "error";
+    previewState.error = `组件加载失败: ${err.message}`;
+  }
+
+  try {
+    sourceState.state = "loading";
+    // 获取源代码: 使用Vite的raw导入 (推荐)
+    const module = await import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue?raw`);
+    sourceState.code = module.default;
+
+    sourceState.state = "success";
+  } catch (error) {
+    sourceState.state = "error";
+    sourceState.error = `源代码加载失败: ${err.message}`;
+  }
+});
+</script>
+
 <template>
   <div class="code-viewer-container">
     <!-- 左侧：组件预览 -->
@@ -19,11 +110,19 @@
             />
           </svg>
         </div>
-        <h2 class="title">{{ pathQuery.title }}</h2>
-        <h3 class="name">{{ pathQuery.name }}</h3>
+        <h2 class="title">
+          {{ pathQuery.title }}
+        </h2>
+        <h3 class="name">
+          {{ pathQuery.name }}
+        </h3>
       </div>
-      <div v-if="previewState.status === 'loading'" class="status-message loading">加载组件中...</div>
-      <div v-else-if="previewState.status === 'error'" class="status-message error">{{ previewState.error }}</div>
+      <div v-if="previewState.status === 'loading'" class="status-message loading">
+        加载组件中...
+      </div>
+      <div v-else-if="previewState.status === 'error'" class="status-message error">
+        {{ previewState.error }}
+      </div>
       <component v-else :is="dynamicComponent" />
     </div>
 
@@ -31,103 +130,20 @@
     <div class="source-wrap">
       <div>
         <h2>源代码</h2>
-        <button class="copy-btn" @click="handleCopy">复制代码</button>
+        <button class="copy-btn" @click="handleCopy">
+          复制代码
+        </button>
       </div>
-      <div v-if="sourceState.state === 'loading'" class="status-message">加载源代码中...</div>
-      <div v-else-if="sourceState.state === 'error'" class="status-message error">{{ sourceState.error }}</div>
+      <div v-if="sourceState.state === 'loading'" class="status-message">
+        加载源代码中...
+      </div>
+      <div v-else-if="sourceState.state === 'error'" class="status-message error">
+        {{ sourceState.error }}
+      </div>
       <CodeMirror v-else v-model="sourceState.code" :extensions="extensions" readonly />
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, reactive, computed, onMounted, shallowRef, defineAsyncComponent } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useClipboard } from '@vueuse/core'
-import CodeMirror from 'vue-codemirror6'
-import { vue } from '@codemirror/lang-vue'
-import { oneDark } from '@codemirror/theme-one-dark'
-
-// 从路由参数获取组件路径
-const route = useRoute()
-const router = useRouter();
-const pathQuery = computed(() => {
-  return {
-    component: route.query.component,
-    name: route.query.name,
-    title: route.query.title,
-  }
-})
-function handleBack() {
-  if (window.history.length > 1) {
-    router.go(-1)
-  } else {
-    router.push(fallbackRoute)
-  }
-}
-
-const previewState = reactive({ status: 'loading', error: null })
-const sourceState = reactive({ state: 'loading', error: null, code: '' })
-
-const dynamicComponent = shallowRef(null)
-const extensions = [
-  vue(),
-  // html(),
-  // javascript(),
-  oneDark
-]
-
-const { copy, copied, isSupported } = useClipboard()
-async function handleCopy(e) {
-  if (e) {
-    e.stopPropagation()
-    e.preventDefault()
-  }
-
-  if (!isSupported.value) {
-    console.log('浏览器不支持剪贴板功能')
-    return
-  }
-
-  try {
-    await copy(sourceState.code)
-  } catch (err) {
-    console.error('复制错误:', err)
-  }
-}
-
-onMounted(async () => {
-  if (!pathQuery.value.component) {
-    error.value = '未指定组件路径'
-    return
-  }
-
-  try {
-    previewState.status = 'loading'
-
-    // 动态加载组件
-    dynamicComponent.value = defineAsyncComponent(() =>
-      import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue`)
-    )
-    previewState.status = 'success'
-  } catch (err) {
-    previewState.status = 'error'
-    previewState.error = `组件加载失败: ${err.message}`
-  }
-
-  try {
-    sourceState.state = 'loading'
-    // 获取源代码: 使用Vite的raw导入 (推荐)
-    const module = await import(/* @vite-ignore */ `./${pathQuery.value.component}/index.vue?raw`)
-    sourceState.code = module.default
-
-    sourceState.state = 'success'
-  } catch (error) {
-    sourceState.state = 'error'
-    sourceState.error = `源代码加载失败: ${err.message}`
-  }
-})
-</script>
 
 <style lang="scss" scoped>
 .code-viewer-container {

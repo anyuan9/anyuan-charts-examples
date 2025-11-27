@@ -1,29 +1,29 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount, defineProps, nextTick } from "vue";
-import { useECharts } from '@anyuan/utils';
-import { chartColor, chartColors } from "@/views/echarts/constant";
-import { staticData } from './data.js'
+import { useECharts } from "@anyuan/utils";
+import { nextTick, onMounted, ref } from "vue";
+import { chartColor } from "@/views/echarts/constant";
+import { staticData } from "./data.js";
 
 const countryColor = {
-  Australia: '#00008b',
-  Canada: '#f00',
-  China: '#ffde00',
-  Cuba: '#002a8f',
-  Finland: '#003580',
-  France: '#ed2939',
-  Germany: '#000',
-  Iceland: '#003897',
-  India: '#f93',
-  Japan: '#bc002d',
-  'North Korea': '#024fa2',
-  'South Korea': '#626815',
-  'New Zealand': '#00247d',
-  Norway: '#ef2b2d',
-  Poland: '#dc143c',
-  Russia: '#d52b1e',
-  Turkey: '#e30a17',
-  'United Kingdom': '#00137d',
-  'United States': '#b22234'
+  "Australia": "#00008b",
+  "Canada": "#f00",
+  "China": "#ffde00",
+  "Cuba": "#002a8f",
+  "Finland": "#003580",
+  "France": "#ed2939",
+  "Germany": "#000",
+  "Iceland": "#003897",
+  "India": "#f93",
+  "Japan": "#bc002d",
+  "North Korea": "#024fa2",
+  "South Korea": "#626815",
+  "New Zealand": "#00247d",
+  "Norway": "#ef2b2d",
+  "Poland": "#dc143c",
+  "Russia": "#d52b1e",
+  "Turkey": "#e30a17",
+  "United Kingdom": "#00137d",
+  "United States": "#b22234"
 };
 
 const chartRef = ref(null);
@@ -33,13 +33,13 @@ const { setOption, showLoading } = useECharts(chartRef, {
   animation: {
     enable: true,
     styles: {
-      transition: "all 2s",
-    },
-  },
+      transition: "all 2s"
+    }
+  }
 });
 
 let option = {};
-const updateFrequency = 2000
+const updateFrequency = 2000;
 function getOption(data, startYear) {
   const { title = "", seriesData } = data;
 
@@ -58,19 +58,19 @@ function getOption(data, startYear) {
         saveAsImage: {},
         // 动态类型切换
         magicType: {
-          type: ["line", "bar", "stack"],
-        },
-      },
+          type: ["line", "bar", "stack"]
+        }
+      }
     },
     // 标题
     title: {
       text: title || "",
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 20,
+        fontSize: 20
       },
       top: "5%",
-      left: "2%",
+      left: "2%"
     },
     // 图例(series内容需要配置name属性)
     legend: {
@@ -83,12 +83,12 @@ function getOption(data, startYear) {
       // 图例文字的样式
       textStyle: {
         color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     // 提示框
     tooltip: {
-      trigger: "axis",
+      trigger: "axis"
     },
     // 直角坐标系内绘图网格
     grid: {
@@ -96,22 +96,22 @@ function getOption(data, startYear) {
       left: "5%", // grid 组件离容器左侧的距离，可取值：相对于容器高宽的百分比('20%')、像素值(20)、或者自动对齐值('left', 'center', 'right')
       right: "5%",
       bottom: "2%",
-      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+      containLabel: true // grid 区域是否包含坐标轴的刻度标签
     },
     // 直角坐标系的 x 轴
     xAxis: {
-      max: 'dataMax',
+      max: "dataMax",
       axisLabel: {
         formatter: (val) => {
-          return Math.round(val) + '';
+          return `${Math.round(val)}`;
         }
       },
       splitLine: {
         show: true,
         lineStyle: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.1)"
+        }
+      }
     },
     // 直角坐标系的 y 轴
     yAxis: {
@@ -135,46 +135,46 @@ function getOption(data, startYear) {
     graphic: {
       elements: [
         {
-          type: 'text',
+          type: "text",
           right: 160,
           bottom: 60,
           z: 100,
           style: {
             text: startYear,
-            font: 'bolder 80px monospace',
-            fill: 'rgba(100, 100, 100, 0.25)'
-          },
+            font: "bolder 80px monospace",
+            fill: "rgba(100, 100, 100, 0.25)"
+          }
         }
       ]
     },
     animationDuration: 0,
     animationDurationUpdate: updateFrequency,
-    animationEasing: 'linear',
-    animationEasingUpdate: 'linear',
+    animationEasing: "linear",
+    animationEasingUpdate: "linear",
     series: [
       {
         type: "bar",
         barWidth: 12,
         realtimeSort: true,
-        seriesLayoutBy: 'column',
+        seriesLayoutBy: "column",
         encode: {
           x: 0,
           y: 3
         },
         itemStyle: {
           color: (param) => {
-            return countryColor[param.data[3]] || '#5470c6';
+            return countryColor[param.data[3]] || "#5470c6";
           }
         },
         label: {
           show: true,
           precision: 1,
           valueAnimation: true,
-          position: 'right',
-          fontFamily: 'monospace',
-        },
-      },
-    ],
+          position: "right",
+          fontFamily: "monospace"
+        }
+      }
+    ]
   };
 
   return option;
@@ -199,20 +199,20 @@ async function getData() {
         title: "测试数据",
         seriesData: {
           name: "测试数据1",
-          data: staticData,
-        },
-      },
+          data: staticData
+        }
+      }
     };
 
     const data = res.data.seriesData.data;
-    const startIndex = 1 // dataset数据的第一个元素是
+    const startIndex = 1; // dataset数据的第一个元素是
     const yearsSet = new Set();
     data.forEach((item, index) => {
       if (index > 0) {
-        yearsSet.add(item[4])
-        item.color = chartColor[index % chartColor.length]
+        yearsSet.add(item[4]);
+        item.color = chartColor[index % chartColor.length];
       }
-    })
+    });
     const years = Array.from(yearsSet);
     const option = getOption(res.data, years[startIndex]);
     setOption(option);
@@ -224,7 +224,6 @@ async function getData() {
         }, (i - startIndex) * updateFrequency);
       })(index);
     });
-
   } catch (err) {
     console.error(err);
     setOption({
@@ -235,9 +234,9 @@ async function getData() {
         top: "center",
         textStyle: {
           fontSize: 16,
-          color: "rgba(255, 255, 255, 0.6)",
-        },
-      },
+          color: "rgba(255, 255, 255, 0.6)"
+        }
+      }
     });
   }
 }
